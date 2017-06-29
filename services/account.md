@@ -88,6 +88,7 @@ Get your SparkPost account information, including subscription status and quota 
                 "created": "2015-01-11T08:00:00.000Z",
                 "updated": "2015-02-11T08:00:00.000Z",
                 "status": "active",
+                "status_reason_code": "",
                 "subscription": {
                     "code": "bronze1",
                     "name": "Bronze",
