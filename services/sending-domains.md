@@ -29,6 +29,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |shared_with_subaccounts | boolean | Whether this domain can be used by subaccounts | no | Defaults to `false`.  Only available to domains belonging to a master account.|
 |is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains belonging to a master account, with cname_status of "valid".<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
 |creation_time	| string | Datetime the domain was created | no | Read only. Format: YYYY-MM-DDTHH:MM:SS+-HH:MM|
+|delegated | boolean | Whether this domain was delegated to the customer | no | Defaults to `false`. Read only. Will not be present if false. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span>  |
 
 ### DKIM Attributes
 
@@ -65,12 +66,11 @@ Detailed status for this sending domain is described in a JSON object with the f
 
 These are the valid request options for verifying a Sending Domain:
 
-<div class="alert alert-info"><strong>Note</strong>: CNAME and Email-based domain verification is available for SparkPost accounts only.</div>
 
 | Field         | Type     | Description                           | Required  | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
 |dkim_verify | boolean | Request verification of DKIM record | no | |
-|cname_verify | boolean | Request verification of CNAME record | no | CNAME verification is a pre-requisite for the domain to be used as a bounce domain.  See the [verify endpoint](#sending-domains-verify-post).<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
+|cname_verify | boolean | Request verification of CNAME record | no | CNAME verification is a pre-requisite for the domain to be used as a bounce domain.  See the [verify endpoint](#sending-domains-verify-post). |
 |spf_verify | boolean | Request verification of SPF record | no | <span class="label label-danger"><strong>Deprecated</strong></span> |
 |postmaster_at_verify | boolean | Request an email with a verification link to be sent to the sending domain's postmaster@ mailbox. | no | |
 |abuse_at_verify | boolean | Request an email with a verification link to be sent to the sending domain's abuse@ mailbox. | no | |
@@ -413,7 +413,7 @@ The verify resource operates differently depending on the provided request field
   * Including the fields `dkim_verify`, `cname_verify`, and/or `spf_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
   * Including the fields `postmaster_at_verify` and/or `abuse_at_verify` in the request results in an email sent to the specified sending domain's postmaster@ and/or abuse@ mailbox where a verification link can be clicked.
   * Including the fields `postmaster_at_token` and/or `abuse_at_token` in the request initiates a check of the provided token(s) against the stored token(s) for the specified sending domain.
-
+-
 **DKIM** public key verification requires the following:
   * A valid DKIM record must be in the DNS for the sending domain being verified.
   * The record must use the sending domain's public key in the `p=` tag.
@@ -427,7 +427,8 @@ For example, here is what a DKIM record might look like for domain *mail<span></
 |scph1015._domainkey.mail.example.com | TXT | v=DKIM1; k=rsa; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA5GNADCBiQKBgQCzMTqqPX9jry+nKZjqYhKt5CP4+vBoEpf24POjc5ubWJQnZmY0wdBXawskxC7mBekUlAjOcsbZIhnFt+2asb1XTyLcTjGyqMvVcoUou6olzfMnfB06W9awRahQrrs9E0LZ4hYKSBDTm3MvoJo004+dNpTSnTlGqMyOoBuiD6KX8QIDAQAB |
 
 **CNAME** verification requires the following:
-  * A valid CNAME record in DNS with value `sparkpostmail.com`
+  * <strong>SparkPost</strong> A valid CNAME record in DNS with value `sparkpostmail.com`
+  * <span class="label label-warning"><strong>Enterprise</strong></span> A valid CNAME record in DNS with value `<public_tenant_id>.mail.e.sparkpost.com`
 
 An example CNAME record for domain *mail<span></span>.example.com*:
 
@@ -437,7 +438,6 @@ An example CNAME record for domain *mail<span></span>.example.com*:
 
 With the CNAME record in place and verified via "cname_verify":true, the domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a CNAME-verified bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts, your TAM will handle bounce domain verification for you.</div><br>
 
 
 **SPF** verification requires the following:
