@@ -20,7 +20,7 @@ With a tracking domain you can replace the domain part of the link. So if your t
 
 <div class="alert alert-info"><strong>Note</strong>: Use of a tracking domain requires modification of your DNS records to include a CNAME record.</div>
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost, only HTTP is supported on tracking domains since SparkPost does not issue SSL certificates for customer domains. As a result, <tt>port</tt> should be set to <tt>80</tt> and <tt>secure</tt> to <tt>false</tt> when creating your tracking domain.</div>
+<div class="alert alert-info"><strong>Note</strong>: For SparkPost, in order to use HTTPS on tracking domains follow <a href="https://www.sparkpost.com/docs/tech-resources/enabling-https-engagement-tracking-on-sparkpost/">this guide</a>. When HTTPS is used, <tt>port</tt> should be set to <tt>443</tt> and <tt>secure</tt> to <tt>true</tt> during creation of your tracking domain.</div>
 
 ## Using Postman
 
