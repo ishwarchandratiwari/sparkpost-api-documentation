@@ -430,14 +430,19 @@ For example, here is what a DKIM record might look like for domain *mail<span></
   * <strong>SparkPost</strong> A valid CNAME record in DNS with value `sparkpostmail.com`
   * <span class="label label-warning"><strong>Enterprise</strong></span> A valid CNAME record in DNS with value `<public_tenant_id>.mail.e.sparkpost.com`
 
-An example CNAME record for domain *mail<span></span>.example.com*:
+An example CNAME record for a <strong>SparkPost</strong> customer with domain *mail<span></span>.example.com*:
 
 | Hostname         | Type     | Value                           |
 |------------------------|:-:       |---------------------------------------|
 |mail<span></span>.example.com | CNAME | sparkpostmail<span></span>.com |
 
-With the CNAME record in place and verified via "cname_verify":true, the domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a CNAME-verified bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
+An example CNAME record for a <strong>SparkPost Enterprise</strong> customer with domain *mail<span></span>.example.com*:
 
+| Hostname         | Type     | Value                           |
+|------------------------|:-:       |---------------------------------------|
+|mail<span></span>.example.com | CNAME | <public_tenant_id>.mail.e.sparkpost.com |
+
+With the CNAME record in place and verified via "cname_verify":true, the domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a CNAME-verified bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
 
 
 **SPF** verification requires the following:
