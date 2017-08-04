@@ -28,7 +28,7 @@ Get your SparkPost account information, including subscription status and quota 
 | created | string | ISO date account was created | |
 | updated | string | ISO date account details were last updated | |
 | status | string | account status - `active` | |
-| service_level | string | account service level: `priority`, `standard`, `premium`, `enterprise` or `regulated`) | Defaults to null |
+| service_level | string | account service level: `priority`, `standard`, `premium`, `enterprise` or `regulated`) | |
 | subscription | object | current subscription details | (see [Subscription Properties](#header-subscription-properties) section) |
 | pending_subscription | object | pending subscription details | (see [Subscription Properties](#header-subscription-properties) section) |
 | options | object | account-level tracking settings | (see [Options Properties](#header-options-properties) section) |
