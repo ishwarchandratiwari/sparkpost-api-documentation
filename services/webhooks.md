@@ -27,6 +27,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | target            | string | URL of the target to which to POST event batches | yes |  When a webhook is created or updated with a change to this property, a test POST request is sent to the given URL. The target URL must accept the connection and respond with HTTP 200; otherwise, your request to the Webhook API will fail with HTTP 400, and the requested change will not be applied.<br />example: `http://client.example.com/example-webhook` |
 | events            | array  | Array of event types this webhook will receive | yes | Use the Webhooks Events endpoint to list the available event types.<br />example: `["delivery", "injection", "open", "click"]`|
 | active            | boolean | Reserved for future use | no | Defaults to true |
+| custom_headers    | JSON   | Object of custom headers to be used during POST requests to target | no | example: `{"x-api-key" : "abcd"}` |
 | auth_type         | string | Type of authentication to be used during POST requests to target | no | examples: `none`, `basic`, `oauth2` |
 | auth_request_details | JSON | Object containing details needed to request authorization credentials, as necessary | no | example: `{ "url": "https://oauth.myurl.com/tokens", "body": { "client_id": "<oauth client id>", "client_secret": "<oauth client secret>" }}`|
 | auth_credentials         | JSON | Object containing credentials needed to make authorized POST requests to target | no | examples: `{ "access_token": "<oauth token>", expires_in: 3600 }`, `{ "username": "basicauthuser", "password": "mypassword" }` |
@@ -88,6 +89,9 @@ As described in "Webhooks Object Properties", webhook creation entails a test PO
         {
           "name": "Example webhook",
           "target": "http://client.example.com/example-webhook",
+          "custom_headers": {
+          	"x-api-key" : "abcd"
+          },
           "auth_type": "oauth2",
           "auth_request_details": {
             "url": "http://client.example.com/tokens",
@@ -175,6 +179,9 @@ As described in "Webhooks Object Properties", webhook creation entails a test PO
                 "expires_in": 3600
               },
               "auth_token": "",
+              "custom_headers": {
+                "x-api-key" : "abcd"
+              },
               "active": true,
               "links": [
                 {
@@ -239,6 +246,9 @@ Retrieve details about a webhook by specifying its id in the URI path.
               "auth_token": "",
               "last_successful": "2014-08-01 16:09:15",
               "last_failure": "2014-06-01 15:15:45",
+              "custom_headers": {
+                "x-api-key" : "abcd"
+              },
               "active": true,
               "links": [
                 {
@@ -356,7 +366,10 @@ As described in "Webhooks Object Properties", a change to the `target` value ent
             "rejection",
             "delay"
           ],
-          "auth_type": "none"
+          "auth_type": "none",
+          "custom_headers": {
+            "x-api-key" : "abcd"
+          }
         }
         ```
 
