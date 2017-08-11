@@ -83,7 +83,7 @@ On success, the API returns a `results` JSON object along with HTTP 200.  On fai
 |part|string| For substitution errors, identifies the MIME part where the error occurred | `"text"`, `"html"`, `"Header:Subject"`, `"text/plain"` |
 |line|number| For substitution errors, identifies the line number within the MIME part identified by the `part` JSON field | `4` |
 
-## Create and List [/templates]
+## Create [/templates]
 
 ### Create a Template [POST]
 
@@ -247,14 +247,17 @@ Fully formed email_rfc822 content may be provided instead of the `text`, `html`,
           }
         }
 
+## List [/templates]
+
 ### List all Templates [GET]
 
 Lists the most recent version of each template in your account. Each template object in the list will have the following fields:
 
-- id: Unique template ID
-- name: Template name
-- published: Published state of the template (true = published, false = draft)
-- description: Template description
+- id: Unique template ID.
+- name: Template name.
+- published: Published state of the template (true = published, false = draft).
+- description: Template description.
+- last_update_time: The time the template was last updated.
 
 + Request
 
@@ -278,6 +281,51 @@ Lists the most recent version of each template in your account. Each template ob
               "name" : "daily",
               "published" : false,
               "description" : ""
+            }
+          ]
+        }
+
+## List [/templates{?draft,shared}]
+
+### List Templates selectively [GET]
+
+Lists the most recent version of each draft shared template in your account. Each template object in the list will have the following fields:
+
+- id: Unique template ID.
+- name: Template name.
+- published: Published state of the template (true = published, false = draft).
+- description: Template description.
+- last_update_time: The time the template was last updated.
+- shared_with_subaccounts: Whether the template is shared with sub-accounts.
+
++ Parameters
+    + draft (optional, boolean, `true`) ...If true, returns the most recent draft template.  If false, returns the most recent published template.  If not provided, returns the most recent template version regardless of draft or published.
+    + shared = `false` (optional, boolean, `true`) ...If true, returns only shared templates. If false, returns shared and non-shared templates.
+
++ Request
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Response 200 (application/json)
+
+        {
+          "results" : [
+            {
+              "id" : "summer_sale",
+              "name" : "Summer Sale!",
+              "published" : false,
+              "description" : "",
+              "shared_with_subaccount" : true
+            },
+            {
+              "id" : "daily",
+              "name" : "daily",
+              "published" : false,
+              "description" : "",
+              "shared_with_subaccount" : true
             }
           ]
         }
