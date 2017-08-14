@@ -274,13 +274,15 @@ Lists the most recent version of each template in your account. Each template ob
               "id" : "summer_sale",
               "name" : "Summer Sale!",
               "published" : true,
-              "description" : ""
+              "description" : "",
+              "last_update_time": "2017-08-11T12:12:12+00:00"
             },
             {
               "id" : "daily",
               "name" : "daily",
               "published" : false,
-              "description" : ""
+              "description" : "",
+              "last_update_time": "2017-08-10T14:15:16+00:00"
             }
           ]
         }
@@ -299,8 +301,8 @@ Lists the most recent version of each draft shared template in your account. Eac
 - shared_with_subaccounts: Whether the template is shared with sub-accounts.
 
 + Parameters
-    + draft (optional, boolean, `true`) ...If true, returns the most recent draft template.  If false, returns the most recent published template.  If not provided, returns the most recent template version regardless of draft or published.
-    + shared = `false` (optional, boolean, `true`) ...If true, returns only shared templates. If false, returns shared and non-shared templates.
+    + draft (optional, boolean, `true`) ...If true, returns the most recent draft template.  If false, returns the most recent published template.  When not provided, returns the most recent template version regardless of draft or published.
+    + shared (optional, boolean, `true`) ...If true, returns only shared templates. If false, returns only non-shared templates.  When not provided, returns both shared and non-shared templates.
 
 + Request
 
@@ -314,17 +316,19 @@ Lists the most recent version of each draft shared template in your account. Eac
         {
           "results" : [
             {
-              "id" : "summer_sale",
-              "name" : "Summer Sale!",
+              "id" : "fall_sale",
+              "name" : "Fall Sale!",
               "published" : false,
               "description" : "",
+              "last_update_time": "2017-08-10T14:15:16+00:00",
               "shared_with_subaccount" : true
             },
             {
-              "id" : "daily",
-              "name" : "daily",
+              "id" : "weekly",
+              "name" : "weekly",
               "published" : false,
               "description" : "",
+              "last_update_time": "2017-08-08T16:15:26+00:00",
               "shared_with_subaccount" : true
             }
           ]
