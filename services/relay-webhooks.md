@@ -32,7 +32,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | esme_address | string | ESME address binding associated with this webhook    | yes, when protocol is "SMPP" | <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> Please speak with your TAM to create an ESME address. |
 
 ## Custom HTTP Headers Properties
-The custom headers JSON object allows you to add up to five custom headers to your relay webhook. The custom_headers object may only be up to 3,000 bytes in size, and must be formatted as an object with keys as strings or numbers. Headers already used by SparkPost will not be allowed SparkPost may also disallow some HTTP headers for security reasons.
+The custom headers JSON object allows you to add up to five custom headers to your relay webhook. The custom_headers object may only be up to 3,000 bytes in size, and must be formatted as an object with keys as strings or numbers. Headers already used by SparkPost will not be allowed, and SparkPost may also disallow some HTTP headers for security reasons.
 
 **Adding Custom Headers**
 
