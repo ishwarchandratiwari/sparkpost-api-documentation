@@ -287,7 +287,7 @@ Lists the most recent version of each template in your account. Each template ob
           ]
         }
 
-## List [/templates{?draft,shared}]
+## List [/templates{?draft,shared_with_subaccounts}]
 
 ### List Templates selectively [GET]
 
@@ -302,7 +302,7 @@ Lists the most recent version of each draft shared template in your account. Eac
 
 + Parameters
     + draft (optional, boolean, `true`) ...If true, returns the most recent draft template.  If false, returns the most recent published template.  When not provided, returns the most recent template version regardless of draft or published.
-    + shared (optional, boolean, `true`) ...If true, returns only shared templates. If false, returns only non-shared templates.  When not provided, returns both shared and non-shared templates.
+    + shared_with_subaccounts (optional, boolean, `true`) ...If true, returns only shared templates. If false, returns only non-shared templates.  When not provided, returns both shared and non-shared templates.
 
 + Request
 
