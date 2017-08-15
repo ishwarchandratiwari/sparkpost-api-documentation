@@ -21,7 +21,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | target    | string | URL of the target to which to POST relay batches | yes | example: `https://webhooks.customer.example/replies` |
 | auth_token | string | Authentication token to present in the X-MessageSystems-Webhook-Token header of POST requests to target | no | Use this token in your target application to confirm that data is coming from the Relay Webhooks API. example: `5ebe2294ecd0e0f08eab7690d2a6ee69` |
 | match     | object | Restrict which inbound messages will be relayed to the target | yes | See [Match Object Properties](#header-match-object-properties). example: `"match": { "protocol": "SMTP", "domain": "replies.customer.example" }` |
-| custom_headers | JSON | Object of custom headers to be used during POST requests to target | no | See [Custom Header Properties](#header-custom-headers-properties). example: `"custom_headers": { "x-api-key" : "abcd" }` |
+| custom_headers | JSON | Object of custom HTTP headers to be used during POST requests to target | no | See [Custom HTTP Header Properties](#header-custom-http-headers-properties). example: `"custom_headers": { "x-api-key" : "abcd" }` |
 
 ## Match Object Properties
 
@@ -31,11 +31,12 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | domain    | string | Inbound domain associated with this webhook             | yes, when protocol is "SMTP" | To create an inbound domain for your account, please use the Inbound Domains API. |
 | esme_address | string | ESME address binding associated with this webhook    | yes, when protocol is "SMPP" | <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> Please speak with your TAM to create an ESME address. |
 
-## Custom Headers Properties
-The custom headers JSON object allows you to add up to five custom headers to your relay webhook. The custom_headers object may only be up to 3000 bytes in size, and must be formatted as an object with keys as strings or numbers. Headers already used by SparkPost will not be allowed.
+## Custom HTTP Headers Properties
+The custom headers JSON object allows you to add up to five custom headers to your relay webhook. The custom_headers object may only be up to 3,000 bytes in size, and must be formatted as an object with keys as strings or numbers. Headers already used by SparkPost will not be allowed SparkPost may also disallow some HTTP headers for security reasons.
 
 **Adding Custom Headers**
 
+When creating (POST) or updating (PUT) a Relay Webhook:
 ```json
 {
   "custom_headers": {
@@ -47,6 +48,7 @@ The custom headers JSON object allows you to add up to five custom headers to yo
 
 **Removing Custom Headers**
 
+When updating (PUT) a Relay Webhook:
 ```json
 {
   "custom_headers": {}
