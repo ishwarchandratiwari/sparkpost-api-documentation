@@ -83,7 +83,7 @@ On success, the API returns a `results` JSON object along with HTTP 200.  On fai
 |part|string| For substitution errors, identifies the MIME part where the error occurred | `"text"`, `"html"`, `"Header:Subject"`, `"text/plain"` |
 |line|number| For substitution errors, identifies the line number within the MIME part identified by the `part` JSON field | `4` |
 
-## Create [/templates]
+## Create and List [/templates]
 
 ### Create a Template [POST]
 
@@ -247,17 +247,19 @@ Fully formed email_rfc822 content may be provided instead of the `text`, `html`,
           }
         }
 
-## List [/templates]
+### List all Templates [GET /templates]
 
-### List all Templates [GET]
+Lists the most recent version of each template in your account.
 
-Lists the most recent version of each template in your account. Each template object in the list will have the following fields:
-
+Each template object in the list will have the following fields:
 - id: Unique template ID.
 - name: Template name.
 - published: Published state of the template (true = published, false = draft).
 - description: Template description.
 - last_update_time: The time the template was last updated.
+
+Additional, templates owned by the Master subaccount will have the following field:
+- shared_with_subaccounts: Whether the template is shared with subaccounts.
 
 + Request
 
@@ -275,29 +277,33 @@ Lists the most recent version of each template in your account. Each template ob
               "name" : "Summer Sale!",
               "published" : true,
               "description" : "",
-              "last_update_time": "2017-08-11T12:12:12+00:00"
+              "last_update_time": "2017-08-11T12:12:12+00:00",
+              "shared_with_subaccount" : true
             },
             {
               "id" : "daily",
               "name" : "daily",
               "published" : false,
               "description" : "",
-              "last_update_time": "2017-08-10T14:15:16+00:00"
+              "last_update_time": "2017-08-10T14:15:16+00:00",
+              "shared_with_subaccount" : false
+
             }
           ]
         }
 
-## List [/templates{?draft,shared_with_subaccounts}]
+### List Templates selectively [GET /templates{?draft,shared_with_subaccounts}]
 
-### List Templates selectively [GET]
+Lists the most recent version of each shared draft template to which you have access.
 
-Lists the most recent version of each draft shared template in your account. Each template object in the list will have the following fields:
-
+Each template object in the list will have the following fields:
 - id: Unique template ID.
 - name: Template name.
 - published: Published state of the template (true = published, false = draft).
 - description: Template description.
 - last_update_time: The time the template was last updated.
+
+Additional, templates owned by the Master subaccount will have the following field:
 - shared_with_subaccounts: Whether the template is shared with sub-accounts.
 
 + Parameters
