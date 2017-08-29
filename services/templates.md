@@ -314,7 +314,7 @@ If the template was used for message generation, the result will also include a 
             "id" : "summer_sale",
             "name" : "Summer Sale!",
             "description" : "",
-            "published" : true,
+            "published" : false,
             "last_update_time": "2014-05-22T15:12:59+00:00",
             "last_use": "2014-06-02T08:15:30+00:00",
 

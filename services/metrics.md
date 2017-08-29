@@ -3432,7 +3432,7 @@ Provides deliverability metrics, specific to delay events, grouped by the domain
               "count_raw_clicked": 456
             },
             {
-              "link_name": "http://www.test.com/buy/our/stuff/now",
+              "link_name": "Raw URL",
               "count_clicked": 123,
               "count_raw_clicked": 456
             }
@@ -3477,8 +3477,7 @@ Provides deliverability metrics, specific to delay events, grouped by the domain
 
 ### Engagement Details [GET]
 
-Provides deliverability metrics, specific to engagement events (clicks/opens), grouped by the link
-name (or URL if no link name exists).
+Provides deliverability metrics, specific to engagement events (clicks/opens), grouped by the link name (or URL if no link name exists). To name the links in your messages, [read about the `data-msys-link-name` HTML attribute here](/api/substitutions-reference.html#header-link-names).
 
 + Parameters
     + from (required, datetime, `2014-07-11T09:00`) ... Datetime in format of YYYY-MM-DDTHH:MM

@@ -107,7 +107,7 @@ Note: Once these processes have started, they will watch for changes and re-rend
 
 1. Push your changes to the API docs dev repo on GitHub:
     ```sh
-    git push origin -b your-branch-name
+    git push origin your-branch-name
     ```
 
 1. Open a pull request in the [API docs dev repo here](https://github.com/SparkPost/sparkpost-api-documentation-DEV/compare) comparing your branch to the `master` branch.
