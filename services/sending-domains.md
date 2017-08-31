@@ -27,7 +27,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |generate_dkim | boolean | Whether to generate a DKIM keypair on creation | no | Defaults to `true` |
 |dkim_key_length | number | Size, in bits, of the DKIM private key to be generated  | no | This option only applies if generate_dkim is 'true'. Private key size defaults to 1024.<br/><span class="label label-info"><strong>Note</strong></span> public keys for private keys longer than 1024 bits will be longer that 255 characters.  Because of this, the public key `TXT` record in DNS will need to contain multiple strings, see [RFC 7208, section 3.3](https://tools.ietf.org/html/rfc7208#section-3.3) for an example of how the SPF spec addresses this.|
 |shared_with_subaccounts | boolean | Whether this domain can be used by subaccounts | no | Defaults to `false`.  Only available to domains belonging to a master account.|
-|is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains belonging to a master account, with cname_status of "valid".<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
+|is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains belonging to a master account, with cname_status or mx_status (<a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> only) of "valid".<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
 |creation_time	| string | Datetime the domain was created | no | Read only. Format: YYYY-MM-DDTHH:MM:SS+-HH:MM|
 |delegated | boolean | Whether this domain was delegated to SparkPost by the customer | no | Defaults to `false`. Read only. Will not be present if false. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span>  |
 
@@ -53,9 +53,10 @@ Detailed status for this sending domain is described in a JSON object with the f
 
 | Field         | Type     | Description                           | Default   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
-|ownership_verified | boolean | Whether domain ownership has been verified |false |Read only. This field will return `true` if any of dkim_status, cname_status, spf_status, abuse_at_status, or postmaster_at_status are `true` or ownership has been verified previously.|
+|ownership_verified | boolean | Whether domain ownership has been verified |false |Read only. This field will return `true` if any of dkim_status, cname_status, mx_status, spf_status, abuse_at_status, or postmaster_at_status are `true` or ownership has been verified previously.|
 |dkim_status | string | Verification status of DKIM configuration |unverified|Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
 |cname_status | string | Verification status of CNAME configuration |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
+|mx_status | string | Verification status of MX configuration |unverified |<a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
 |spf_status | string | Verification status of SPF configuration |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.  <span class="label label-danger"><strong>Deprecated</strong></span>|
 |abuse_at_status | string | Verification status of abuse@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
 |postmaster_at_status | string | Verification status of postmaster@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
@@ -210,7 +211,7 @@ We allow any given domain (including its subdomains) to only be used by a single
              ]
            }
 
-## List [/sending-domains{?ownership_verified,dkim_status,cname_status,abuse_at_status,postmaster_at_status,compliance_status,is_default_bounce_domain}]
+## List [/sending-domains{?ownership_verified,dkim_status,cname_status,mx_status,abuse_at_status,postmaster_at_status,compliance_status,is_default_bounce_domain}]
 
 ### List all Sending Domains [GET]
 
@@ -220,6 +221,7 @@ List an overview of all sending domains in the system.  By default, all domains 
     + ownership_verified (optional, boolean, `true`) ... Ownership verified flag.  Valid values are `true` or `false`.  If not provided, returns a list of all domains regardless of ownership verification.
     + dkim_status (optional, string, `valid`) ... DKIM status filter.  Valid values are `valid`, `invalid`, `unverified`, or `pending`.  If not provided, returns a list of all domains regardless of DKIM status.
     + cname_status (optional, string, `valid`) ... CNAME status filter.  Valid values are `valid`, `invalid`, `unverified`, or `pending`.  If not provided, returns a list of all domains regardless of CNAME status.
+    + mx_status (optional, string, `valid`) ... MX status filter.  Valid values are `valid`, `invalid`, `unverified`, or `pending`.  If not provided, returns a list of all domains regardless of MX status.
     + abuse_at_status (optional, string, `unverified`) ... abuse@ status filter.  Valid values are `valid`, `invalid`, `unverified`, or `pending`.  If not provided, returns a list of all domains regardless of abuse@ status.
     + postmaster_at_status (optional, string, `unverified`) ... postmaster@ status filter.  Valid values are `valid`, `invalid`, `unverified`, or `pending`.  If not provided, returns a list of all domains regardless of postmaster@ status.
     + compliance_status (optional, string, `valid`) ... compliance status filter.  Valid values are `valid`, `blocked`, or `pending`.  If not provided, returns a list of all domains regardless of compliance status.
@@ -245,6 +247,7 @@ List an overview of all sending domains in the system.  By default, all domains 
                         "abuse_at_status": "unverified",
                         "dkim_status": "valid",
                         "cname_status": "valid",
+                        "mx_status": "unverified",
                         "compliance_status": "valid",
                         "postmaster_at_status": "unverified"
                     },
@@ -259,6 +262,7 @@ List an overview of all sending domains in the system.  By default, all domains 
                         "abuse_at_status": "unverified",
                         "dkim_status": "valid",
                         "cname_status": "valid",
+                        "mx_status": "unverified",
                         "compliance_status": "valid",
                         "postmaster_at_status": "unverified"
                     },
@@ -295,6 +299,7 @@ Retrieve a sending domain by specifying its domain name in the URI path.  The re
                     "abuse_at_status": "pending",
                     "dkim_status": "pending",
                     "cname_status": "pending",
+                    "mx_status": "unverified",
                     "compliance_status": "pending",
                     "postmaster_at_status": "pending"
                 },
@@ -442,7 +447,6 @@ An example CNAME record for a <strong>SparkPost Enterprise</strong> customer wit
 |------------------------|:-:       |---------------------------------------|
 |mail<span></span>.example.com | CNAME | foo.mail.e.sparkpost<span></span>.com |
 
-With the CNAME record in place and verified via "cname_verify":true, the domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a CNAME-verified bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
 
 
 **SPF** verification requires the following:
@@ -451,6 +455,16 @@ With the CNAME record in place and verified via "cname_verify":true, the domain 
   * The record must contain `v=spf1`.
   * The record must contain `include:sparkpostmail.com`.
   * The record must use either `~all` or `-all`.
+
+
+**Using a Sending Domain as a Bounce Domain**
+<div>If a customer has either or the following:</div>
+* A CNAME record in place and verified via "cname_verify":true
+* <span class="label label-warning"><strong>Enterprise</strong></span> An MX verified domain
+
+the  domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
+
+<div class="alert alert-warning"><strong>Note</strong>: MX verification is available to <strong>Enterprise</strong> customers only. There is no way to initiate MX verification through the /verify endpoint. Please contact your TAM if you want to verify your domain with MX</div>
 
 The domain's `status` object is returned on success.
 
@@ -479,6 +493,7 @@ The domain's `status` object is returned on success.
                 },
                 "dkim_status": "valid",
                 "cname_status": "unverified",
+                "mx_status": "unverified",
                 "compliance_status": "pending",
                 "spf_status": "unverified",
                 "abuse_at_status": "unverified",
@@ -508,6 +523,7 @@ The domain's `status` object is returned on success.
                 },
                 "dkim_status": "unverified",
                 "cname_status": "valid",
+                "mx_status": "unverified",
                 "compliance_status": "pending",
                 "spf_status": "unverified",
                 "abuse_at_status": "unverified",
@@ -535,6 +551,7 @@ The domain's `status` object is returned on success.
                 "compliance_status": "valid",
                 "dkim_status": "unverified",
                 "cname_status": "unverified",
+                "mx_status": "unverified",
                 "abuse_at_status": "unverified",
                 "postmaster_at_status": "unverified"
             }
@@ -560,6 +577,7 @@ The domain's `status` object is returned on success.
                 "compliance_status": "valid",
                 "dkim_status": "unverified",
                 "cname_status": "unverified",
+                "mx_status": "unverified",
                 "abuse_at_status": "unverified",
                 "postmaster_at_status": "valid"
             }
@@ -585,6 +603,7 @@ The domain's `status` object is returned on success.
                 "compliance_status": "valid",
                 "dkim_status": "unverified",
                 "cname_status": "unverified",
+                "mx_status": "unverified",
                 "abuse_at_status": "unverified",
                 "postmaster_at_status": "unverified"
             }
