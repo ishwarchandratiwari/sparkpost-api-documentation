@@ -41,7 +41,7 @@ The DKIM key configuration is described in a JSON object with the following fiel
 
 | Field         | Type     | Description                           | Required   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
-|signing_domain| string | Signing Domain Identifier (SDID) | no | <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> This will be used in the `d=` field of the DKIM Signature. If `signing_domain` is not specified, or is set to the empty string (""), then the Sending Domain will be used as the signing domain.<br/>By default, SparkPost uses the Sending Domain as the signing domain. |
+|signing_domain| string | Signing Domain Identifier (SDID) | no |This will be used in the `d=` field of the DKIM Signature. If `signing_domain` is not specified, or is set to the empty string (""), then the Sending Domain will be used as the signing domain.<br/>By default, SparkPost uses the Sending Domain as the signing domain. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span> |
 |private | string | DKIM private key | yes | The private key will be used to create the DKIM Signature.|
 |public | string |DKIM public key  | yes | The public key will be retrieved from DNS of the sending domain.|
 |selector | string |DomainKey selector | yes | The DomainKey selector will be used to indicate the DKIM public key location.|
@@ -56,7 +56,7 @@ Detailed status for this sending domain is described in a JSON object with the f
 |ownership_verified | boolean | Whether domain ownership has been verified |false |Read only. This field will return `true` if any of dkim_status, cname_status, mx_status, spf_status, abuse_at_status, or postmaster_at_status are `true` or ownership has been verified previously.|
 |dkim_status | string | Verification status of DKIM configuration |unverified|Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
 |cname_status | string | Verification status of CNAME configuration |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
-|mx_status | string | Verification status of MX configuration |unverified |<a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
+|mx_status | string | Verification status of MX configuration |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.<br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span> |
 |spf_status | string | Verification status of SPF configuration |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.  <span class="label label-danger"><strong>Deprecated</strong></span>|
 |abuse_at_status | string | Verification status of abuse@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
 |postmaster_at_status | string | Verification status of postmaster@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
@@ -460,7 +460,7 @@ An example CNAME record for a <strong>SparkPost Enterprise</strong> customer wit
 **Using a Sending Domain as a Bounce Domain**
 <div>If a customer has either or the following:</div>
 * A CNAME record in place and verified via "cname_verify":true
-* <span class="label label-warning"><strong>Enterprise</strong></span> An MX verified domain
+* An MX verified domain (<span class="label label-warning"><strong>Enterprise</strong></span> only)
 
 the  domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
 
