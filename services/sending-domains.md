@@ -458,7 +458,7 @@ An example CNAME record for a <strong>SparkPost Enterprise</strong> customer wit
 
 
 **Using a Sending Domain as a Bounce Domain**
-<div>If a customer has either or the following:</div>
+<div>If a customer has either of the following:</div>
 * A CNAME record in place and verified via "cname_verify":true
 * An MX verified domain (<span class="label label-warning"><strong>Enterprise</strong></span> only)
 
