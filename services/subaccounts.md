@@ -16,6 +16,7 @@ The following APIs have subaccount support:
 * [Sending Domains](sending-domains.html)
 * [Suppression List](suppression-list.html)
 * [SMTP API](smtp-api.html)
+* [Templates](templates.html)
 * [Transmissions](transmissions.html)
 * [Tracking Domains](tracking-domains.html)
 * [Webhooks](webhooks.html)
@@ -83,7 +84,7 @@ Endpoint for retrieving a list of your subaccounts. This endpoint only returns i
 
 Provisions a new subaccount and an initial subaccount API key. Subaccount API keys are only allowed very specific grants, which are limited to: `smtp/inject`, `sending_domains/manage`, `tracking_domains/view`, `tracking_domains/manage`, `message_events/view`, `suppression_lists/manage`, `transmissions/view`, `transmissions/modify`, `webhooks/modify`, and `webhooks/view`.
 
-Subaccounts are allowed to send mail using the SMTP protocol or Transmissions API, retrieve sending statistics via the Message Events API, manage their Sending Domains, manage their Suppression List.
+Subaccounts are allowed to send mail using the SMTP protocol or Transmissions API, retrieve sending statistics via the Message Events API, manage their Sending Domains, manage their Suppression List, manage their Templates.
 
 <div class="alert alert-info"><strong>Note</strong>: Stored recipients lists and stored templates are currently not supported for subaccounts sending mail using the Transmissions API.</div>
 

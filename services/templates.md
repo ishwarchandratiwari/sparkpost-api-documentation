@@ -23,6 +23,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |name |string  |Editable display name  | At a minimum, id or name is required upon creation.   |The name does not have to be unique.  Maximum length - 1024 bytes   |
 |description |string  |Detailed description of the template  |no    | Maximum length - 1024 bytes |
 |options |JSON |JSON object in which template options are defined|no| For a full description, see the [Options Attributes](#header-options-attributes).|
+|shared_with_subaccounts | boolean | Whether this template can be used by subaccounts | no | Defaults to `false`.  Only available to templates  belonging to a master account.|
 
 
 ### Content Attributes
@@ -125,6 +126,7 @@ Fully formed email_rfc822 content may be provided instead of the `text`, `html`,
         ```
         {
             "name" : "Summer Sale!",
+            "shared_with_subaccounts": false,
 
             "content": {
                 "from": "marketing@bounces.company.example",
@@ -150,6 +152,18 @@ Fully formed email_rfc822 content may be provided instead of the `text`, `html`,
               "description" : "Unconfigured or unverified sending domain.",
               "code" : "7001",
               "message" : "Invalid domain"
+            }
+          ]
+        }
+
++ Response 400 (application/json)
+
+        {
+          "errors" : [
+            {
+              "description" : "Subaccounts cannot set the shared_with_subaccounts flag",
+              "code" : "1200",
+              "message" : "invalid params"
             }
           ]
         }
@@ -182,6 +196,7 @@ Fully formed email_rfc822 content may be provided instead of the `text`, `html`,
           "name" : "Summer Sale!",
           "published" : true,
           "description": "Template for a Summer Sale!",
+          "shared_with_subaccounts": false,
           "options": {
             "open_tracking" : false,
             "click_tracking" : true
@@ -443,6 +458,7 @@ The body of the PUT request should contain the `"published": true` field as show
             "open_tracking": true
           },
           "name" : "A new name!",
+          "shared_with_subaccounts": true,
           "content": {
             "from": {
               "email": "marketing@bounces.company.example",
