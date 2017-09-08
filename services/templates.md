@@ -247,14 +247,19 @@ Fully formed email_rfc822 content may be provided instead of the `text`, `html`,
           }
         }
 
-### List all Templates [GET]
+### List all Templates [GET /templates]
 
-Lists the most recent version of each template in your account. Each template object in the list will have the following fields:
+Lists the most recent version of each template in your account.
 
-- id: Unique template ID
-- name: Template name
-- published: Published state of the template (true = published, false = draft)
-- description: Template description
+Each template object in the list will have the following fields:
+- id: Unique template ID.
+- name: Template name.
+- published: Published state of the template (true = published, false = draft).
+- description: Template description.
+- last_update_time: The time the template was last updated.
+
+Additional, templates owned by the Master subaccount will have the following field:
+- shared_with_subaccounts: Whether the template is shared with subaccounts.
 
 + Request
 
@@ -271,13 +276,66 @@ Lists the most recent version of each template in your account. Each template ob
               "id" : "summer_sale",
               "name" : "Summer Sale!",
               "published" : true,
-              "description" : ""
+              "description" : "",
+              "last_update_time": "2017-08-11T12:12:12+00:00",
+              "shared_with_subaccount" : true
             },
             {
               "id" : "daily",
               "name" : "daily",
               "published" : false,
-              "description" : ""
+              "description" : "",
+              "last_update_time": "2017-08-10T14:15:16+00:00",
+              "shared_with_subaccount" : false
+
+            }
+          ]
+        }
+
+### List Templates selectively [GET /templates{?draft,shared_with_subaccounts}]
+
+Lists the most recent version of each shared draft template to which you have access.
+
+Each template object in the list will have the following fields:
+- id: Unique template ID.
+- name: Template name.
+- published: Published state of the template (true = published, false = draft).
+- description: Template description.
+- last_update_time: The time the template was last updated.
+
+Additional, templates owned by the Master subaccount will have the following field:
+- shared_with_subaccounts: Whether the template is shared with sub-accounts.
+
++ Parameters
+    + draft (optional, boolean, `true`) ...If true, returns the most recent draft template.  If false, returns the most recent published template.  When not provided, returns the most recent template version regardless of draft or published.
+    + shared_with_subaccounts (optional, boolean, `true`) ...If true, returns only shared templates. If false, returns only non-shared templates.  When not provided, returns both shared and non-shared templates.
+
++ Request
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Response 200 (application/json)
+
+        {
+          "results" : [
+            {
+              "id" : "fall_sale",
+              "name" : "Fall Sale!",
+              "published" : false,
+              "description" : "",
+              "last_update_time": "2017-08-10T14:15:16+00:00",
+              "shared_with_subaccount" : true
+            },
+            {
+              "id" : "weekly",
+              "name" : "weekly",
+              "published" : false,
+              "description" : "",
+              "last_update_time": "2017-08-08T16:15:26+00:00",
+              "shared_with_subaccount" : true
             }
           ]
         }
