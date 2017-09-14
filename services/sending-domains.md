@@ -59,8 +59,8 @@ Detailed status for this sending domain is described in a JSON object with the f
 |spf_status | string | Verification status of SPF configuration |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.  <span class="label label-danger"><strong>Deprecated</strong></span>|
 |abuse_at_status | string | Verification status of abuse@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
 |postmaster_at_status | string | Verification status of postmaster@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
-|verification_mailbox_status | string | Verification status of <verificaiton_mailbox>@mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
-|verification_mailbox | string | Verification mailbox email address local part | |Read only. This field will only be returned if it was set on a prior POST to verify a sending domain using verification_mailbox.|
+|verification_mailbox_status | string | Verification status of nominated anyone@ mailbox |unverified |Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
+|verification_mailbox | string | Nominated anyone@ verification mailbox email address local part | |Read only. This field will only be returned if it was set on a prior POST to verify a sending domain using verification_mailbox.|
 |compliance_status | string | Compliance status | | Valid values are `pending`, `valid`, or `blocked`.|
 
 ### Verify Attributes
@@ -73,11 +73,11 @@ These are the valid request options for verifying a Sending Domain:
 |dkim_verify | boolean | Request verification of DKIM record | no | |
 |cname_verify | boolean | Request verification of CNAME record | no | CNAME verification is a pre-requisite for the domain to be used as a bounce domain.  See the [verify endpoint](#sending-domains-verify-post). |
 |spf_verify | boolean | Request verification of SPF record | no | <span class="label label-danger"><strong>Deprecated</strong></span> |
-|verification_mailbox_verify | boolean | Request an email with a verification link to be sent to the sending domain's {verification_mailbox}@ mailbox. | no | The verification_mailbox is specified in the verification_mailbox field.  The mailbox can be any valid mailbox for the domain other than "postmaster" or "abuse".  Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
-|verification_mailbox | string | The verification mailbox email address local part to be used when requesting email with a verification link be sent to the sending domain's {verification_mailbox}@ mailbox. | no | Required if "verification_mailbox_verify" = true. Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
+|verification_mailbox_verify | boolean | Request an email with a verification link to be sent to a nominated mailbox on the sending domain. | no | The nominated mailbox is specified in the verification_mailbox field.  The mailbox can be any valid mailbox for the domain other than "postmaster" or "abuse".  Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
+|verification_mailbox | string | The nominated mailbox email address local part to be used when requesting email with a verification link be sent. | no | Required if "verification_mailbox_verify" = true. Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
 |postmaster_at_verify | boolean | Request an email with a verification link to be sent to the sending domain's postmaster@ mailbox. | no | |
 |abuse_at_verify | boolean | Request an email with a verification link to be sent to the sending domain's abuse@ mailbox. | no | |
-|verification_mailbox_token | string | A token retrieved from the verification link contained in the {verification_mailbox}@ verification email. | no | <br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
+|verification_mailbox_token | string | A token retrieved from the verification link contained in the verification email. | no | <br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
 |postmaster_at_token | string | A token retrieved from the verification link contained in the postmaster@ verification email. | no | |
 |abuse_at_token | string | A token retrieved from the verification link contained in the abuse@ verification email. | no | |
 
@@ -252,7 +252,7 @@ List an overview of all sending domains in the system.  By default, all domains 
                         "compliance_status": "valid",
                         "postmaster_at_status": "unverified",
                         "verification_mailbox_status": "valid",
-                        "verification_mailbox": "anyemail_localpart"
+                        "verification_mailbox": "susan.calvin"
                     },
                     "shared_with_subaccounts": false,
                     "is_default_bounce_domain" : false
@@ -298,12 +298,12 @@ Retrieve a sending domain by specifying its domain name in the URI path.  The re
                 "tracking_domain": "click.example1.com",
                 "status": {
                     "ownership_verified": false,
-                    "spf_status": "pending",
-                    "abuse_at_status": "pending",
-                    "dkim_status": "pending",
-                    "cname_status": "pending",
+                    "spf_status": "unverified",
+                    "abuse_at_status": "unverified",
+                    "dkim_status": "unverified",
+                    "cname_status": "unverified",
                     "compliance_status": "pending",
-                    "postmaster_at_status": "pending",
+                    "postmaster_at_status": "unverified",
                     "verification_mailbox_status": "unverified"
                 },
                 "dkim": {
@@ -420,9 +420,9 @@ Delete an existing sending domain.
 The verify resource operates differently depending on the provided request fields:
   * Including the fields `dkim_verify`, `cname_verify`, and/or `spf_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
   * Including the fields `postmaster_at_verify` and/or `abuse_at_verify` in the request results in an email sent to the specified sending domain's postmaster@ and/or abuse@ mailbox where a verification link can be clicked.
-  * Including the fields `verification_mailbox_verify` and `verification_mailbox` in the request results in an email sent to the specified sending domain's {verification_mailbox}@ where a verification link can be clicked.
+  * Including the fields `verification_mailbox_verify` and `verification_mailbox` in the request results in an email sent to the specified mailbox where a verification link can be clicked.
   * Including the fields `verification_mailbox_token` and/or `postmaster_at_token` and/or `abuse_at_token` in the request initiates a check of the provided token(s) against the stored token(s) for the specified sending domain.
--
+
 **DKIM** public key verification requires the following:
   * A valid DKIM record must be in the DNS for the sending domain being verified.
   * The record must use the sending domain's public key in the `p=` tag.
@@ -578,7 +578,7 @@ The domain's `status` object is returned on success.
             }
         }
 
-+ Request Initiate {verification_mailbox}@ email (application/json)
++ Request Initiate anyone@ email (application/json)
 
     + Headers
 
@@ -588,7 +588,7 @@ The domain's `status` object is returned on success.
         ```
         {
             "verification_mailbox_verify": true,
-            "verification_mailbox": "anyemail_localpart"
+            "verification_mailbox": "susan.calvin"
         }
         ```
 
@@ -603,11 +603,11 @@ The domain's `status` object is returned on success.
                 "abuse_at_status": "unverified",
                 "postmaster_at_status": "unverified",
                 "verification_mailbox_status": "unverified",
-                "verification_mailbox": "anyemail_localpart"
+                "verification_mailbox": "susan.calvin"
             }
         }
 
-+ Request Verify {verification_mailbox}@ correct token (application/json)
++ Request Verify anyone@ correct token (application/json)
 
     + Headers
 
@@ -631,11 +631,11 @@ The domain's `status` object is returned on success.
                 "abuse_at_status": "unverified",
                 "postmaster_at_status": "unverified",
                 "verification_mailbox_status": "valid",
-                "verification_mailbox": "anyemail_localpart"
+                "verification_mailbox": "susan.calvin"
             }
         }
 
-+ Request Initiate {verification_mailbox}@ email missing verification_mailbox (application/json)
++ Request Initiate anyone@ email without verification_mailbox (application/json)
 
     + Headers
 
@@ -660,7 +660,7 @@ The domain's `status` object is returned on success.
            ]
         }
 
-+ Request Initiate {verification_mailbox}@ email verification_mailbox set to postmaster (application/json)
++ Request Initiate anyone@ email with verification_mailbox set to postmaster (application/json)
 
     + Headers
 
