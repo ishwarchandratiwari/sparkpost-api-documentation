@@ -461,7 +461,7 @@ An example CNAME record for a <strong>SparkPost Enterprise</strong> customer wit
 * A CNAME record in place and verified via "cname_verify":true
 * An MX verified domain (<span class="label label-warning"><strong>Enterprise</strong></span> only)
 
-the  domain will be eligible to be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
+ Eligible domains may be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).
 
 The domain's `status` object is returned on success.
 
