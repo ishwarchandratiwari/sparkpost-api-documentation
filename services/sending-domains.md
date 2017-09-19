@@ -457,7 +457,7 @@ An example CNAME record for a <strong>SparkPost Enterprise</strong> customer wit
 **MX** verification is available to <strong>Enterprise</strong> customers only. There is no way to initiate MX verification through the /verify endpoint. Please contact your TAM if you want to verify your domain with MX.</div>
 
 **Using a Sending Domain as a Bounce Domain**
-<div>A Sending Domain is eligible to be a Bounce domain if one of the following conditions is met:</div>
+<div>A Sending Domain is eligible to be used as a Bounce Domain if one of the following conditions is met:</div>
 * A CNAME record in place and verified via "cname_verify":true
 * An MX verified domain (<span class="label label-warning"><strong>Enterprise</strong></span> only)
 
