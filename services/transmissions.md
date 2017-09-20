@@ -4,9 +4,11 @@ description: Use the transmissions API to send a batch of messages through Spark
 # Group Transmissions
 <a name="transmissions-api"></a>
 
-A transmission is a collection of messages belonging to the same campaign.  It is also known as a mailing.  The Transmissions API provides the means to create and manage transmissions - to send messages.  Messages in the transmissions are generated and sent to a specified list of recipients using a specified message template. The recipient list can be a stored list created using the Recipient Lists API, or it can be created "inline" as part of a transmission.  Similarly, the message template can be a stored template created using the Templates API, or it can be created "inline" as part of a transmission.  Messages are generated for the transmission for all specified recipients using the message template and performing substitution of data as necessary.
+A transmission is a collection of messages belonging to the same campaign. It is also known as a mailing. The Transmissions API provides the means to create and manage transmissions - to send messages.
 
-In addition, engagement tracking options can be set in the transmission to track message opens and clicks.
+SparkPost generates and sends the messages from your transmissions using a list of recipients and a message template. You can [store a recipient list](recipient-lists.html), or you can include recipients "inline" with your transmission request. Similarly, you can [store your message template](templates.html) or include it "inline" with your transmission request. SparkPost then sends a unique message to each recipient using the specified template. You may also choose to personalise your messages by including substitution variables in your transmissions. You can [learn about templates and substitution here](substitutions-reference.html).  Finally, you can enable engagement tracking in your transmissions to track message opens and clicks.
+
+For details on how to get the best out of SparkPost Transmission, see [this support article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
 
 ## Using Postman
 
