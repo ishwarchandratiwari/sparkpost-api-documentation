@@ -42,6 +42,7 @@ Get your SparkPost account information, including subscription status and quota 
 | name       | string  | Name of the plan |
 | effective_date | string | ISO date of when this subscription has been or will be effective |
 | self_serve | boolean | `true` if the subscription can be managed through the UI |
+| type | string | Type of subscription. Values include `aws` and `manual`. |
 
 #### Options Properties
 
@@ -94,7 +95,8 @@ Get your SparkPost account information, including subscription status and quota 
                     "code": "bronze1",
                     "name": "Bronze",
                     "plan_volume": 10000,
-                    "self_serve": "true"
+                    "self_serve": "true",
+                    "type": "manual"
                 },
                 "pending_subscription": {
                     "code": "gold1",
