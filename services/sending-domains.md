@@ -421,6 +421,7 @@ The verify resource operates differently depending on the provided request field
   * Including the fields `dkim_verify`, `cname_verify`, and/or `spf_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
   * Including the fields `postmaster_at_verify` and/or `abuse_at_verify` in the request results in an email sent to the specified sending domain's postmaster@ and/or abuse@ mailbox where a verification link can be clicked.
   * Including the fields `verification_mailbox_verify` and `verification_mailbox` in the request results in an email sent to the specified mailbox where a verification link can be clicked.
+  * For `postmaster_at_verify`, `abuse_at_verify` and `verification_mailbox_verify` ownership verification, if the request is made a 2nd time another email will be sent with a new verification link. If the link in the previously sent message is subsequently clicked it will not verify domain ownership. However, if the link in the most recent email is clicked it will verify domain ownership. 
   * Including the fields `verification_mailbox_token` and/or `postmaster_at_token` and/or `abuse_at_token` in the request initiates a check of the provided token(s) against the stored token(s) for the specified sending domain.
 
 **DKIM** public key verification requires the following:
@@ -686,6 +687,31 @@ The domain's `status` object is returned on success.
            ]
         }
 
++ Request Initiate anyone@ email for sending domain with a DMARC policy (application/json)
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+    + Body
+
+        ```
+        {
+            "verification_mailbox_verify": true,
+            "verification_mailbox": "denis.ritchie"
+        }
+        ```
+
++ Response 400 (application/json; charset=utf-8)
+
+        {
+           "errors": [
+              {
+                 "message": "Domain not allowed",
+                 "description": "Verification by address is not available for Sending Domains with a DMARC policy",
+                 "code": "7003"
+              }
+           ]
+        }
 
 + Request Verify abuse@ incorrect token (application/json)
 
