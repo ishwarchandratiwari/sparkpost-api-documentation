@@ -104,6 +104,10 @@ Get your SparkPost account information, including subscription status and quota 
                     "plan_volume": 10000,
                     "self_serve": "true"
                 },
+                "support": {
+                    "online": true,
+                    "phone": false
+                },
                 "pending_subscription": {
                     "code": "gold1",
                     "name": "Gold",
