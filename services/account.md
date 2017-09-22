@@ -68,7 +68,7 @@ Get your SparkPost account information, including subscription status and quota 
 | start | string | ISO date when this period started |
 | end | string | ISO date when this period ends |
 
-#### Support Properties
+#### Support Properties
 
 | Property | Type    | Description                           |
 |----------|---------|---------------------------------------|
