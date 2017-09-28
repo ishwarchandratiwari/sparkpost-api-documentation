@@ -33,6 +33,7 @@ Get your SparkPost account information, including subscription status and quota 
 | pending_subscription | object | pending subscription details | (see [Subscription Properties](#header-subscription-properties) section) |
 | options | object | account-level tracking settings | (see [Options Properties](#header-options-properties) section) |
 | usage | object | account quota usage details | Specify 'include=usage' in query string to include usage info (see [Usage Properties](#header-usage-properties) section) |
+| support | object | Support entitlement details | See [Support Properties](#header-support-properties)|
 
 #### Subscription Properties
 
@@ -67,6 +68,13 @@ Get your SparkPost account information, including subscription status and quota 
 | start | string | ISO date when this period started |
 | end | string | ISO date when this period ends |
 
+#### Support Properties
+
+| Property | Type    | Description                           |
+|----------|---------|---------------------------------------|
+| phone    | boolean | account is entitled to phone support  |
+| online   | boolean | account is entitled to online support |
+
 + Request
 
     + Headers
@@ -95,6 +103,10 @@ Get your SparkPost account information, including subscription status and quota 
                     "name": "Bronze",
                     "plan_volume": 10000,
                     "self_serve": "true"
+                },
+                "support": {
+                    "online": true,
+                    "phone": false
                 },
                 "pending_subscription": {
                     "code": "gold1",
