@@ -100,8 +100,8 @@ Get your SparkPost account information, including subscription status and quota 
                 "status": "active",
                 "status_reason_code": "",
                 "subscription": {
-                    "code": "bronze1",
-                    "name": "Bronze",
+                    "code": "500K-0817",
+                    "name": "500K",
                     "plan_volume": 10000,
                     "self_serve": "true",
                     "type": "manual"
@@ -111,8 +111,8 @@ Get your SparkPost account information, including subscription status and quota 
                     "phone": false
                 },
                 "pending_subscription": {
-                    "code": "gold1",
-                    "name": "Gold",
+                    "code": "2.5M-0817",
+                    "name": "2.5M",
                     "effective_date": "2015-04-11T00:00:00.000Z"
                 },
                 "options": {

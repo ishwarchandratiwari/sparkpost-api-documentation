@@ -6,7 +6,7 @@ description: Manage sending domains, which are used to indicate who an email is 
 
 A sending domain is a domain that is used to indicate who an email is from via the "From:" header. Using a custom sending domain enables you to control what recipients see as the From value in their email clients. DNS records can be configured for a sending domain, which allows recipient mail servers to authenticate your messages. The Sending Domains API provides the means to create, list, retrieve, update, and verify a custom sending domain.
 
-<div class="alert alert-danger"><strong>For maximum deliverability</strong>, we recommend <a href="sending-domains.html#sending-domains-verify-post">configuring and verifying</a> both DKIM and CNAME DNS records for each sending domain. This is an easy way to help mailbox providers authenticate and differentiate your email from other senders using SparkPost.</div>
+<div class="alert alert-danger"><strong>For maximum deliverability</strong>, we recommend <a href="sending-domains.html#sending-domains-verify-post">configuring</a> DKIM for your sending domains <em>and</em> <a href="https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/">configuring a bounce domain</a> on corresponding subdomains. This is an easy way to help mailbox providers authenticate and differentiate your email from other senders using SparkPost.</div>
 
 <div class="alert alert-info"><strong>Note</strong>: When adding a sending domain to your account, the domain must be verified within two weeks or it will be removed from your account.</div>
 
@@ -466,9 +466,9 @@ An example CNAME record for a <strong>SparkPost Enterprise</strong> customer wit
 
 **MX** verification is available to <strong>Enterprise</strong> customers only. There is no way to initiate MX verification through the /verify endpoint. Please contact your TAM if you want to verify your domain with MX.</div>
 
-**Using a Sending Domain as a Bounce Domain**
-<div>A Sending Domain is eligible to be used as a Bounce Domain if one of the following conditions is met:</div>
-* A CNAME record in place and verified via "cname_verify":true
+#### Using a Sending Domain as a Bounce Domain
+A Sending Domain is eligible to be used as a Bounce Domain if one of the following conditions is met:
+* A CNAME record in place and verified via ``"cname_verify":true`
 * An MX verified domain (<span class="label label-warning"><strong>Enterprise</strong></span> only)
 
  Eligible domains may be used as a bounce domain by including it as part of the transmission return_path or SMTP MAIL FROM email address. Bounce domains are used to report bounces, which are emails that were rejected from the recipient server. By adding a bounce domain to your account, you can customize the address that is used for the `Return-Path` header, which is the destination for out of band (OOB) bounces.  For additional details on CNAME-verification, please see this [support article](https://www.sparkpost.com/docs/tech-resources/custom-bounce-domain/).

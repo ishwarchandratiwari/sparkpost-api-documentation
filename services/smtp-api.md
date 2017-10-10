@@ -4,7 +4,12 @@ description: Use the X-MSYS-API header to customize options for messages sent vi
 # Group SMTP API
 <a name="smtp-api"></a>
 
-You can use the `X-MSYS-API` header in your SMTP messages to specify a campaign id, metadata, tags, IP pool, CC, BCC, and archive recipient lists and disable open and/or click tracking. See [SMTP Relay Endpoints](index.html#header-smtp-relay-endpoints) for the SMTP client configuration needed to use SparkPost as an SMTP relay.
+The SparkPost SMTP API offers an SMTP relay service with extended features available through the `X-MSYS-API` custom header. See [SMTP Relay Endpoints](index.html#header-smtp-relay-endpoints) for the SMTP client configuration needed to use SparkPost as an SMTP relay.
+
+For details on how to get the best out of SMTP delivery through SparkPost, see [this support article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
+
+## Using The X-MSYS-API Custom Header
+You can use the `X-MSYS-API` header in your SMTP messages to specify a campaign id, metadata, tags, IP pool, CC, BCC, and archive recipient lists and disable open and/or click tracking. 
 
 <div class="alert alert-info"><strong>Note</strong>: To use this option you should be familiar with how to encode options as JSON strings, as the value of the header field is a JSON object that specifies the relevant options</div>
 
