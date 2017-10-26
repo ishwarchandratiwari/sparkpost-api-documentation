@@ -889,9 +889,7 @@ Once message generation has been initiated, all messages in the transmission wil
 
 ## Retrieve and Delete [/transmissions/{id}]
 
-### Retrieve a Transmission [GET]
-
-<div class="alert alert-warning">This endpoint is <strong>deprecated</strong> and will be removed in due course. For alternatives, <a href="https://www.sparkpost.com/blog/upcoming-api-transmission-endpoint-changes/">see this article</a>.</div>
+### Retrieve a Scheduled Transmission [GET]
 
 Retrieve the details about a scheduled transmission by specifying its ID in the URI path. 
 
@@ -1062,9 +1060,7 @@ Delete all transmissions of a campaign by specifying Campaign ID in the URI path
 
 ## List [/transmissions{?campaign_id,template_id}]
 
-### List all Transmissions [GET]
-
-<div class="alert alert-warning">This endpoint is deprecated and will be removed in due course. For alternatives, <a href="https://www.sparkpost.com/blog/upcoming-api-transmission-endpoint-changes/">see this article</a>.</div>
+### List All Scheduled Transmissions [GET]
 
 List an array of live transmission summary objects.  A transmission summary object contains `id`, `state`, `template_id`, `campaign_id` and `description` fields. 
 
