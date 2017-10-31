@@ -68,7 +68,7 @@ Detailed status for this tracking domain is described in a JSON object with the 
 
 Create a tracking domain. A tracking domain cannot be set as the default until it is verified.
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost customers, only the domain is required in the POST request body. The values for <tt>port</tt> (80) and <tt>secure</tt> (false) are not configurable.</div>
+<div class="alert alert-info"><strong>Note</strong>: The value for <tt>port</tt> is not configurable by SparkPost customers. <tt>port</tt> will be 80 for Non-Secure and 443 for Secure.</div>
 
 + Request (application/json)
 
@@ -312,7 +312,7 @@ Update the attributes of an existing tracking domain.  A tracking domain cannot 
 set as the default until it is verified.  If a tracking domain is set to the default,
 and there is already a default domain, the default is changed.
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost customers, <tt>port</tt> (80) and <tt>secure</tt> (false) cannot be updated since they are not configurable.</div>
+<div class="alert alert-info"><strong>Note</strong>: <tt>port</tt> is not configurable by SparkPost customers.</div>
 
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
@@ -425,7 +425,7 @@ Initiate a check against the CNAME DNS record for the specified tracking domain.
         {
             "results": {
               "verified": true,
-              "cname_status": "valid",
+              "cname_status": "",
               "compliance_status": "valid"
             }
         }
@@ -440,6 +440,34 @@ Initiate a check against the CNAME DNS record for the specified tracking domain.
                   "code": "1600",
                   "message": "resource not found",
                   "description": "Resource not found: example.domain.com"
+                }
+              ]
+            }
+
++ Response 500 (application/json)
+
+  + Body
+
+            {
+              "errors": [
+                {
+                  "code": "1502",
+                  "message": "server resources unavailable",
+                  "description": "Unable to reach http://test.messagesystems.com:80. Please verify that your redirect is functioning."
+                }
+              ]
+            }
+
++ Response 500 (application/json)
+
+  + Body
+
+            {
+              "errors": [
+                {
+                  "code": "1502",
+                  "message": "server resources unavailable",
+                  "description": "Unknown error while verifying domain http://test.messagesystems.com:80. Please ensure that your tracking domain has already been created."
                 }
               ]
             }
