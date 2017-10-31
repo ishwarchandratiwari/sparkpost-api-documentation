@@ -895,9 +895,9 @@ Retrieve the details about a scheduled transmission by specifying its ID in the 
 
 The response for a transmission using an inline template will include `"template_id":"inline"`.  Inline templates cannot be specifically queried.
 
-<div class="alert alert-info"><strong>Note</strong>: Data on these transmissions will only be available for up to 24 hours after their generation time.</div>
+<div class="alert alert-info"><strong>Note</strong>: Data on these transmissions will only be available for up to 24 hours after their submission time.</div>
 
-<div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions are not included.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions cannot be retrieved.</div>
 
 + Parameters
     + id (required, number, `11714265276872`) ... ID of the transmission
@@ -1066,9 +1066,9 @@ List an array of live transmission summary objects.  A transmission summary obje
 
 By default, the list includes transmissions for all campaigns and templates.  Use the `template_id` parameter to filter by template and `campaign_id` to filter by campaign. The summary for transmissions using an inline template will include `"template_id": "inline"`.  Transmissions using inline templates cannot be filtered with `template_id`.
 
-<div class="alert alert-info"><strong>Note</strong>: Data on these transmissions will only be available for up to 24 hours after their generation time.</div>
+<div class="alert alert-info"><strong>Note</strong>: Data on these transmissions will only be available for up to 24 hours after their submission time.</div>
 
-<div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions are not included.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions cannot be retrieved.</div>
 
 
 + Parameters
