@@ -407,7 +407,7 @@ Delete an existing tracking domain.
 ## Verify [/tracking-domains/{domain}/verify]
 
 ### Verify a Tracking Domain [POST]
-Initiate a check against the CNAME DNS record for the specified tracking domain. The domain's `status` object is returned on success.
+Initiate a check against the configured redirect for the specified tracking domain. The domain's `status` object is returned on success.
 
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
