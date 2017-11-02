@@ -33,7 +33,9 @@ Definitions for terms found in Metrics API
 |`count_delivered_first` | Messages delivered on the first attempt|
 |`count_delivered_subsequent` | Messages delivered that required more than one delivery attempt|
 |`count_rendered` | Total renderings of a message|
+|`count_initial_rendered` | Total initial renderings of a message|
 |`count_unique_rendered` | Total number of messages that were rendered at least once|
+|`count_unique_initial_rendered` | Total number of messages that were initally rendered at least once|
 |`count_unique_confirmed_opened` | Total number of messages that were rendered or had at least one link selected|
 |`count_clicked` | Total number of times that links were selected across all messages|
 |`count_unique_clicked` | Total number of messages which had at least one link selected one or more times|
