@@ -457,17 +457,3 @@ Initiate a check against the configured redirect for the specified tracking doma
                 }
               ]
             }
-
-+ Response 400 (application/json)
-
-  + Body
-
-            {
-              "errors": [
-                {
-                  "code": "1404",
-                  "message": "request to remote endpoint failed",
-                  "description": "Unknown error while verifying domain http://test.messagesystems.com:80. Please ensure that your tracking domain has already been created."
-                }
-              ]
-            }
