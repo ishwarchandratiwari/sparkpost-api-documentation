@@ -33,8 +33,8 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | Field   | Type   | Description | Required | Notes |
 |------------|--------|-------------|----------|-------|
 | domain | string | Name of the tracking domain | yes | Example: `example.domain.com` |
-| port | integer | Determines the port to be used when constructing the tracking URL | no | Example: `8080` |
-| secure | boolean | Should the tracking URL should use https? | no | If `false` (the default), http will be used.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> customers may set `"secure": true` to use https |
+| port | integer | Determines the port to be used when constructing the tracking URL (This value is not configurable by SparkPost customers.) | no | Example: `8080` |
+| secure | boolean | Should the tracking URL should use https? | no | If `false` (the default), http will be used.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"></span></a>  |
 | default | boolean | Should the default tracking domain be used when not explicitly set | no | There can only be one default domain. Defaults to `false`. |
 | status | JSON object| JSON object containing status details, including whether this domain's ownership has been verified  | no | Read only. For a full description, see the [Status Attributes](#header-status-attributes).|
 
@@ -68,7 +68,7 @@ Detailed status for this tracking domain is described in a JSON object with the 
 
 Create a tracking domain. A tracking domain cannot be set as the default until it is verified.
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost customers, only the domain is required in the POST request body. The values for <tt>port</tt> (80) and <tt>secure</tt> (false) are not configurable.</div>
+<div class="alert alert-info"><strong>Note</strong>: The value for <tt>port</tt> is not configurable by SparkPost customers. <tt>port</tt> will be 80 for Non-Secure and 443 for Secure.</div>
 
 + Request (application/json)
 
@@ -312,7 +312,7 @@ Update the attributes of an existing tracking domain.  A tracking domain cannot 
 set as the default until it is verified.  If a tracking domain is set to the default,
 and there is already a default domain, the default is changed.
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost customers, <tt>port</tt> (80) and <tt>secure</tt> (false) cannot be updated since they are not configurable.</div>
+<div class="alert alert-info"><strong>Note</strong>: <tt>port</tt> is not configurable by SparkPost customers.</div>
 
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
@@ -407,7 +407,7 @@ Delete an existing tracking domain.
 ## Verify [/tracking-domains/{domain}/verify]
 
 ### Verify a Tracking Domain [POST]
-Initiate a check against the CNAME DNS record for the specified tracking domain. The domain's `status` object is returned on success.
+Initiate a check against the configured redirect for the specified tracking domain. The domain's `status` object is returned on success.
 
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
@@ -425,7 +425,7 @@ Initiate a check against the CNAME DNS record for the specified tracking domain.
         {
             "results": {
               "verified": true,
-              "cname_status": "valid",
+              "cname_status": "",
               "compliance_status": "valid"
             }
         }
@@ -440,6 +440,20 @@ Initiate a check against the CNAME DNS record for the specified tracking domain.
                   "code": "1600",
                   "message": "resource not found",
                   "description": "Resource not found: example.domain.com"
+                }
+              ]
+            }
+
++ Response 400 (application/json)
+
+  + Body
+
+            {
+              "errors": [
+                {
+                  "code": "1404",
+                  "message": "request to remote endpoint failed",
+                  "description": "Unable to reach http://test.messagesystems.com:80. Please verify that your redirect is functioning."
                 }
               ]
             }
