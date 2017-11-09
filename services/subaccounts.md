@@ -21,7 +21,7 @@ The following APIs have subaccount support:
 * [Tracking Domains](tracking-domains.html)
 * [Webhooks](webhooks.html)
 
-<div class="alert alert-info"><strong>Note</strong>: all subaccount-level transmissions must use <tt>inline</tt> recipients. Stored recipient lists are not support for subaccounts.</div>
+<div class="alert alert-info"><strong>Note</strong>: all subaccount-level transmissions must use <tt>inline</tt> recipients. Stored recipient lists are not supported for subaccounts.</div>
 
 ### Terminology
 * Master Account - This refers to a Service Provider and their data
