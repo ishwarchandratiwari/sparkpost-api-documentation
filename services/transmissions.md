@@ -889,13 +889,15 @@ Once message generation has been initiated, all messages in the transmission wil
 
 ## Retrieve and Delete [/transmissions/{id}]
 
-### Retrieve a Transmission [GET]
+### Retrieve a Scheduled Transmission [GET]
 
-<div class="alert alert-warning">This endpoint is <strong>deprecated</strong> and will be removed in due course. For alternatives, <a href="https://www.sparkpost.com/blog/upcoming-api-transmission-endpoint-changes/">see this article</a>.</div>
-
-Retrieve the details about a transmission by specifying its ID in the URI path.
+Retrieve the details about a scheduled transmission by specifying its ID in the URI path. 
 
 The response for a transmission using an inline template will include `"template_id":"inline"`.  Inline templates cannot be specifically queried.
+
+<div class="alert alert-info"><strong>Note</strong>: Only multi-recipient transmissions that have been submitted or completed within the last 24 hours are returned.</div>
+
+<div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions cannot be retrieved.</div>
 
 + Parameters
     + id (required, number, `11714265276872`) ... ID of the transmission
@@ -1058,17 +1060,16 @@ Delete all transmissions of a campaign by specifying Campaign ID in the URI path
 
 ## List [/transmissions{?campaign_id,template_id}]
 
-### List all Transmissions [GET]
+### List All Scheduled Transmissions [GET]
 
-<div class="alert alert-warning">This endpoint is deprecated and will be removed in due course. For alternatives, <a href="https://www.sparkpost.com/blog/upcoming-api-transmission-endpoint-changes/">see this article</a>.</div>
-
-List an array of live transmission summary objects.  A transmission summary object contains `id`, `state`, `template_id`, `campaign_id` and `description` fields. The list contains only multi-recipient transmissions in `submitted` or `generating` state or that have `completed` within the last 24 hours.
+List an array of live transmission summary objects.  A transmission summary object contains `id`, `state`, `template_id`, `campaign_id` and `description` fields. 
 
 By default, the list includes transmissions for all campaigns and templates.  Use the `template_id` parameter to filter by template and `campaign_id` to filter by campaign. The summary for transmissions using an inline template will include `"template_id": "inline"`.  Transmissions using inline templates cannot be filtered with `template_id`.
 
-<div class="alert alert-info"><strong>Note</strong>: single recipient transmissions are not listed.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only multi-recipient transmissions that have been submitted or completed within the last 24 hours are returned.</div>
 
-<div class="alert alert-info"><strong>Note</strong>: transmissions in `completed` state are removed from the list after 24 hours.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions cannot be retrieved.</div>
+
 
 + Parameters
   + campaign_id (optional, string,`thanksgiving`) ... ID of the campaign used by the transmissions
