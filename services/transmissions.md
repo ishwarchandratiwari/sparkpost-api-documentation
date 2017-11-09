@@ -895,7 +895,7 @@ Retrieve the details about a scheduled transmission by specifying its ID in the 
 
 The response for a transmission using an inline template will include `"template_id":"inline"`.  Inline templates cannot be specifically queried.
 
-<div class="alert alert-info"><strong>Note</strong>: Only multi-recipient transmissions in <cite>submitted</cite> or <cite>generating</cite> state or that have completed within the last 24 hours are returned.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only multi-recipient transmissions that have been submitted or completed within the last 24 hours are returned.</div>
 
 <div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions cannot be retrieved.</div>
 
@@ -1066,7 +1066,7 @@ List an array of live transmission summary objects.  A transmission summary obje
 
 By default, the list includes transmissions for all campaigns and templates.  Use the `template_id` parameter to filter by template and `campaign_id` to filter by campaign. The summary for transmissions using an inline template will include `"template_id": "inline"`.  Transmissions using inline templates cannot be filtered with `template_id`.
 
-<div class="alert alert-info"><strong>Note</strong>: Only multi-recipient transmissions in <cite>submitted</cite> or <cite>generating</cite> state or that have completed within the last 24 hours are returned.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only multi-recipient transmissions that have been submitted or completed within the last 24 hours are returned.</div>
 
 <div class="alert alert-info"><strong>Note</strong>: Only scheduled transmissions are returned by this endpoint. Immediate transmissions cannot be retrieved.</div>
 
