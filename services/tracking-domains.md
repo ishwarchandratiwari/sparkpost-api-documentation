@@ -33,7 +33,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | Field   | Type   | Description | Required | Notes |
 |------------|--------|-------------|----------|-------|
 | domain | string | Name of the tracking domain | yes | Example: `example.domain.com` |
-| port | integer | Determines the port to be used when constructing the tracking URL (This value is not configurable by SparkPost customers.) | no | Example: `8080` |
+| port | integer | Determines the port to be used when constructing the tracking URL (This value is not configurable by SparkPost customers.) | no | Read only. |
 | secure | boolean | Should the tracking URL should use https? | no | If `false` (the default), http will be used.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"></span></a>  |
 | default | boolean | Should the default tracking domain be used when not explicitly set | no | There can only be one default domain. Defaults to `false`. |
 | status | JSON object| JSON object containing status details, including whether this domain's ownership has been verified  | no | Read only. For a full description, see the [Status Attributes](#header-status-attributes).|
@@ -42,14 +42,11 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 
 Upon creation of a tracking domain, the values for port and secure are set according to the following table:
 
-| port (input) | secure (input) | port (value) | secure (value) |
-|--------|--------|--------|--------|
-| provided value | provided value | provided value | provided value |
-| not provided | not provided | 80 | false |
-| not provided | false | 80 | false |
-| not provided | true | 443 | true |
-| 443 | not provided | 443 | true |
-| provided value (not 443) | not provided | provided valued | false |
+| secure (input) | port (value) | secure (value) |
+|--------|--------|--------|
+| not provided | 80 | false |
+| false | 80 | false |
+| true | 443 | true |
 
 ### Status Attributes
 
@@ -80,7 +77,6 @@ Create a tracking domain. A tracking domain cannot be set as the default until i
 
             {
               "domain": "example.domain.com",
-              "port": 80,
               "secure": false,
               "default": false
             }
@@ -213,7 +209,6 @@ Create a tracking domain. A tracking domain cannot be set as the default until i
 
 Retrieve a list of all tracking domains.
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost customers, <tt>port</tt> (80) and <tt>secure</tt> (false) are not returned since they are not configurable.</div>
 
 + Request
 
@@ -229,7 +224,7 @@ Retrieve a list of all tracking domains.
             {
               "results": [
                 {
-                  "port": 8080,
+                  "port": 443,
                   "domain": "example.domain.com",
                   "secure": true,
                   "default": true,
@@ -260,8 +255,6 @@ Retrieve a list of all tracking domains.
 
 Retrieve an existing tracking domain.
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost customers, <tt>port</tt> (80) and <tt>secure</tt> (false) are not returned since they are not configurable.</div>
-
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
 
@@ -279,7 +272,7 @@ Retrieve an existing tracking domain.
 
             {
               "results": {
-                "port": 8080,
+                "port": 443,
                 "domain": "example.domain.com",
                 "secure": true,
                 "default": true,
@@ -327,7 +320,6 @@ and there is already a default domain, the default is changed.
 
         ```
         {
-            "port"    : 80,
             "secure"  : true,
             "default" : true
         }
