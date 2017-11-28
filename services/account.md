@@ -49,8 +49,9 @@ Get your SparkPost account information, including subscription status and quota 
 
 | Property   | Type    | Description |
 |------------|---------|-------------|
-| smtp_tracking_default | boolean  | account-level default for SMTP engagement tracking |
-| rest_tracking_default | boolean  | account-level default for REST API engagement tracking |
+| smtp_tracking_default       | boolean  | account-level default for SMTP engagement tracking |
+| rest_tracking_default       | boolean  | account-level default for REST API engagement tracking |
+| initial_open_pixel_tracking | boolean | account-level default for Initial Open tracking |
 
 #### Usage Properties
 
@@ -153,10 +154,11 @@ Update your SparkPost account information and account-level options.
 
 | Property   | Type    | Description |
 |------------|---------|-------------|
-| smtp_tracking_default | boolean  | set to `true` to turn on SMTP engagement tracking by default |
-| rest_tracking_default | boolean  | set to `false` to turn off REST API engagement tracking by default |
-| transactional_unsub   | boolean  | set to `true` to include `List-Unsubscribe` header for all transactional messages by default |
-| transactional_default | boolean  | set to `true` to send messages as transactional by default |
+| smtp_tracking_default       | boolean | set to `true` to turn on SMTP engagement tracking by default |
+| rest_tracking_default       | boolean | set to `false` to turn off REST API engagement tracking by default |
+| transactional_unsub         | boolean | set to `true` to include `List-Unsubscribe` header for all transactional messages by default |
+| transactional_default       | boolean | set to `true` to send messages as transactional by default |
+| initial_open_pixel_tracking | boolean | set to `false` to exclude Initial Open tracking pixel from top of emails |
 
 + Request
 
