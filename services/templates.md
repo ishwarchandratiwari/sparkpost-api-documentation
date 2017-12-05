@@ -24,6 +24,8 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |description |string  |Detailed description of the template  |no    | Maximum length - 1024 bytes |
 |options |JSON |JSON object in which template options are defined|no| For a full description, see the [Options Attributes](#header-options-attributes).|
 |shared_with_subaccounts | boolean | Whether this template can be used by subaccounts | no | Defaults to `false`.  Only available to templates  belonging to a master account.|
+|has_draft | boolean | Whether the template has a draft version | read-only | |
+|has_published | boolean | Whether the template has a published version | read-only | |
 
 
 ### Content Attributes
@@ -272,6 +274,8 @@ Each template object in the list will have the following fields:
 - published: Published state of the template (true = published, false = draft).
 - description: Template description.
 - last_update_time: The time the template was last updated.
+- has_draft: flag indicating whether the template has a draft version.
+- has_published: flag indicating whether the template has a published version.
 
 Additional, templates owned by the Master subaccount will have the following field:
 - shared_with_subaccounts: Whether the template is shared with subaccounts.
@@ -292,6 +296,8 @@ Additional, templates owned by the Master subaccount will have the following fie
               "name" : "Summer Sale!",
               "published" : true,
               "description" : "",
+              "has_draft": true,
+              "has_published": false,
               "last_update_time": "2017-08-11T12:12:12+00:00",
               "shared_with_subaccount" : true
             },
@@ -300,6 +306,8 @@ Additional, templates owned by the Master subaccount will have the following fie
               "name" : "daily",
               "published" : false,
               "description" : "",
+              "has_draft": true,
+              "has_published": true,
               "last_update_time": "2017-08-10T14:15:16+00:00",
               "shared_with_subaccount" : false
 
@@ -341,6 +349,8 @@ Additional, templates owned by the Master subaccount will have the following fie
               "name" : "Fall Sale!",
               "published" : false,
               "description" : "",
+              "has_draft": true,
+              "has_published": true,
               "last_update_time": "2017-08-10T14:15:16+00:00",
               "shared_with_subaccount" : true
             },
@@ -349,6 +359,8 @@ Additional, templates owned by the Master subaccount will have the following fie
               "name" : "weekly",
               "published" : false,
               "description" : "",
+              "has_draft": true,
+              "has_published": true,
               "last_update_time": "2017-08-08T16:15:26+00:00",
               "shared_with_subaccount" : true
             }
@@ -388,6 +400,8 @@ For a master account owned template **only**, the results will include the `shar
             "id" : "summer_sale",
             "name" : "Summer Sale!",
             "description" : "",
+            "has_draft": true,
+            "has_published": true,
             "published" : false,
             "shared_with_subaccounts" : false,
             "last_update_time": "2014-05-22T15:12:59+00:00",
