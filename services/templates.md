@@ -297,7 +297,7 @@ Additional, templates owned by the Master subaccount will have the following fie
               "published" : true,
               "description" : "",
               "has_draft": true,
-              "has_published": false,
+              "has_published": true,
               "last_update_time": "2017-08-11T12:12:12+00:00",
               "shared_with_subaccount" : true
             },
