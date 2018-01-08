@@ -12,7 +12,6 @@ var matchdep = require('matchdep')
         'smtp-api.md',
         'ab-testing.md',
         'account.md',
-        'bounce-domains.md',
         'inbound-domains.md',
         'ip-pools.md',
         'metrics.md',
