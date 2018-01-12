@@ -12,7 +12,6 @@ var matchdep = require('matchdep')
         'smtp-api.md',
         'ab-testing.md',
         'account.md',
-        'bounce-domains.md',
         'inbound-domains.md',
         'ip-pools.md',
         'metrics.md',
@@ -75,7 +74,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         aglio: {
             build: {
-                files: services.reduce(_md2html, {})
+                //Adds bounce-domains.md so that it will be built
+                files: services.concat(['bounce-domains.md']).reduce(_md2html, {})
             },
           options: {
             themeTemplate: 'templates/<%= grunt.option("aglioTemplate") %>/index.jade',
@@ -133,7 +133,8 @@ module.exports = function(grunt) {
 
         copy: {
             fixup_nav: {
-                src: services.map(htmlFile),
+                //Adds bounce-domains.md so that it will have a navigation bar
+                src: services.concat(['bounce-domains.md']).map(htmlFile),
                 dest: './',
                 options: {
                     process: function(content, srcpath) {
@@ -312,7 +313,8 @@ module.exports = function(grunt) {
     ]);
 
     // runs api-blueprint-validator on individual blueprint files
-    grunt.registerTask('test', 'Validates individual blueprint files', services.map(function(s) {
+    //Adds bounce-domains.md so that it will be validated
+    grunt.registerTask('test', 'Validates individual blueprint files', services.concat(['bounce-domains.md']).map(function(s) {
         return 'shell:test:' + s;
     }));
 
