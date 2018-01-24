@@ -2,44 +2,71 @@ title: Subaccounts
 description: Manage subaccounts, a way for service providers to provision and manage customers.
 
 # Group Subaccounts
-Subaccounts are a way for service providers to provision and manage their customers separately from each other and to provide assets and reporting data.
+Subaccounts are a way for service providers to provision and manage their customers separately from each other and to extract subaccount reporting data.
 
-## Introduction
+<!-- Using explicit header tags to avoid an explosion of submenus in the nav -->
+<h4>Terminology</h4>
+* Master Account - A service provider's top-level account
+* Subaccounts - An end customer account managed by a master account
 
-With the introduction of subaccounts, some of the APIs are now able to store and retrieve information at a more granular level.
-Subaccounts are a way for service providers to provision and manage their customers separately from each other and to provide assets and reporting data.
+### Service Provider Role
 
-The following APIs have subaccount support:
+A service provider is a SparkPost account holder who manages one or more subaccounts on behalf of an end customer, business unit or other self-contained organization. Subaccounts offer self-contained authentication, configuration, sending capability, tracking, reporting and reputation, all managed under a single master account.
 
-* [Metrics](metrics.html) <span class="label label-info"><strong>Note</strong></span> Not available for Subaccount API keys
+<h4>Managing Subaccounts</h4>
+Service providers can create and manage subaccounts using the `/api/v1/subaccounts` API endpoints described below. Each subaccount can be assigned its own API key during provisioning or later on. The subaccount holder may then use a subaccount API key to assume control of the subaccount.
+
+Service providers can also use a master account API key to cause any supporting SparkPost API call to act on behalf of a subaccount. To achieve this, include an `X-MSYS-SUBACCOUNT` HTTP header in your request containing the subaccount ID in question.
+
+<span class="label label-info">Example</span> On a GET request to `/api/v1/sending-domains`, setting `X-MSYS-SUBACCOUNT: 123` will only return sending domains which belong to subaccount `123`.
+
+<span class="label label-info">Example</span> The same applies to data management, setting `X-MSYS-SUBACCOUNT: 123` on a POST request to `/api/v1/sending-domains` will create a sending domain belonging to subaccount `123`.
+
+The `X-MSYS-SUBACCOUNT` header is not required, but if provided, must be a number.
+
+<h4>Managing The Master Account</h4>
+The service provider can also continue to use their master account as normal.
+
+* Setting `X-MSYS-SUBACCOUNT: 0` will retrieve or manage master account data only
+* For GET requests, omitting `X-MSYS-SUBACCOUNT` will result in master account and subaccount data in the response.
+    * Subaccount data will have the key `subaccount_id` in the response object.
+* For POST/PUT/DELETE requests, omitting `X-MSYS-SUBACCOUNT` will result in the same behavior as setting `X-MSYS-SUBACCOUNT` to `0`.
+
+<span class="label label-info">Note</span> The Metrics and Message Events API endpoints do not use `X-MSYS-SUBACCOUNT`. Instead, setting the query parameter `subaccounts` to `0` will return only master account reporting data.
+
+<h4>Sharing Master Account Resources</h4>
+They may also choose to share certain resources with all subaccounts by setting the `shared_with_subaccounts` field on the resource in question. The resources that support subaccount sharing are:
+
+* [Sending domains](sending-domains.html)
+* [Templates](templates.html)
+
+### End Customer Role
+
+The end customer owns a subaccount and has a subaccount API key issued by the master account holder for use with the SparkPost API. This API key can be used [in the normal way for authentication](index.html#header-authentication) with any API endpoint that supports subaccounts.
+
+Any API request made with a subaccount API key will affect only resources accessible by that subaccount.
+
+<span class="label label-info">Example</span> Transmission requests using a subaccount API key can use only sending domains on that subaccount and those shared by the master account.
+
+<span class="label label-info">Example</span> Suppression list requests will act on the subaccount's own suppression list only.
+
+### Endpoints With Subaccount Support
+
+The following API endpoints have subaccount support:
+
+* [Metrics](metrics.html)
+    * Only available to master account API keys, using the `subaccounts` query parameter.
 * [Message Events](message-events.html)
 * [Sending Domains](sending-domains.html)
 * [Suppression List](suppression-list.html)
 * [SMTP API](smtp-api.html)
 * [Templates](templates.html)
 * [Transmissions](transmissions.html)
+    * Subaccount transmissions do not support stored recipient lists. Only inline recipients are accepted.
 * [Tracking Domains](tracking-domains.html)
 * [Webhooks](webhooks.html)
-
-<div class="alert alert-info"><strong>Note</strong>: all subaccount-level transmissions must use <tt>inline</tt> recipients. Stored recipient lists are not supported for subaccounts.</div>
-
-### Terminology
-* Master Account - This refers to a Service Provider and their data
-* Subaccounts - This refers to a Service Provider's customer(s), and that customer's data
-
-### Managing subaccount data as a Service Provider
-* Master Accounts can set the `X-MSYS-SUBACCOUNT` HTTP header with the ID of their subaccount to manage subaccount data on their behalf
-  * For example, on a GET request to `/api/v1/sending-domains`, setting `X-MSYS-SUBACCOUNT` to `123` will only return sending domains which belong to Subaccount `123`
-  * The same applies to data management, setting `X-MSYS-SUBACCOUNT` to `123` on a POST request to `/api/v1/sending-domains` will create a sending domain belonging to Subaccount `123`
-* `X-MSYS-SUBACCOUNT` is not required, but if provided, must be a number
-
-### Managing master account data as a Service Provider
-* Setting `X-MSYS-SUBACCOUNT` to `0` will retrieve or manage Master Account data only
-* For POST/PUT/DELETE requests, omitting `X-MSYS-SUBACCOUNT` will result in the same behavior as setting `X-MSYS-SUBACCOUNT` to `0`
-    * When creating, updating, or deleting a webhook, `X-MSYS-SUBACCOUNT` must be set explicitly. Omitting the `X-MSYS-SUBACCOUNT` header will create a webhook for the entire account, while setting `X-MSYS-SUBACCOUNT` to `0` will create a webhook for the Master Account only.
-* For GET requests, omitting `X-MSYS-SUBACCOUNT` will result in Master Account and Subaccount data in the response
-  * Subaccount data will have the key `subaccount_id` in the response object
-* Metrics and Message Events APIs do not use `X-MSYS-SUBACCOUNT`. Instead, setting the query parameter `subaccounts` to `0` will return only Master Account reporting data
+    * Omitting the `X-MSYS-SUBACCOUNT` header will create a webhook for the master _and all_ subaccounts.
+    * Setting `X-MSYS-SUBACCOUNT: 0` will create a webhook for the master account only.
 
 ## Subaccounts Collection [/subaccounts]
 
