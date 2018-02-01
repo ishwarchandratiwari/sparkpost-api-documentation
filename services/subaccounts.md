@@ -16,13 +16,11 @@ A service provider is a SparkPost account holder who manages one or more subacco
 <h4>Managing Subaccounts</h4>
 Service providers can create and manage subaccounts using the `/api/v1/subaccounts` API endpoints described below. Each subaccount can be assigned its own API key during provisioning or later on. The subaccount holder may then use a subaccount API key to assume control of the subaccount.
 
-Service providers can also use a master account API key to cause any supporting SparkPost API call to act on behalf of a subaccount. To achieve this, include an `X-MSYS-SUBACCOUNT` HTTP header in your request containing the subaccount ID in question.
+Service providers can also use a master account API key to cause any supporting SparkPost API call to act on behalf of a subaccount. To achieve this, include an `X-MSYS-SUBACCOUNT` HTTP header in your request containing the _numeric_ subaccount ID in question.
 
 <span class="label label-info">Example</span> On a GET request to `/api/v1/sending-domains`, setting `X-MSYS-SUBACCOUNT: 123` will only return sending domains which belong to subaccount `123`.
 
 <span class="label label-info">Example</span> The same applies to data management, setting `X-MSYS-SUBACCOUNT: 123` on a POST request to `/api/v1/sending-domains` will create a sending domain belonging to subaccount `123`.
-
-The `X-MSYS-SUBACCOUNT` header is not required, but if provided, must be a number.
 
 <h4>Managing The Master Account</h4>
 The service provider can also continue to use their master account as normal.
@@ -57,6 +55,7 @@ The following API endpoints have subaccount support:
 * [Metrics](metrics.html)
     * Only available to master account API keys, using the `subaccounts` query parameter.
 * [Message Events](message-events.html)
+    * Available to both master and subaccount API keys. The master account can filter message events by subaccount using the `subaccounts` query parameter.
 * [Sending Domains](sending-domains.html)
 * [Suppression List](suppression-list.html)
 * [SMTP API](smtp-api.html)
