@@ -232,7 +232,7 @@ Update an existing subaccount's information. You can update the following inform
 | ------- | ---------- | ------ | -------------------------------------------------- | ----- |
 | name    | no         | string | User friendly identifier for a specific subaccount |       |
 | status  | no         | string | Status of the account                              | Value is one of `active`, `suspended`, or `terminated` |
-| ip_pool       | no         | string  | The ID of an IP Pool in which to restrict this subaccount's mail deliveries. | If the supplied `ip_pool` is an empty string or not present, this subaccount may use any of the account's IP Pools.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: IPs are managed through your TAM. |
+| ip_pool       | no         | string  | The ID of an IP Pool in which to restrict this subaccount's mail deliveries. | If the supplied `ip_pool` is an empty string or not present, this subaccount may use any of the account's IP Pools.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: please consult with your TAM on IP management. |
 
 + Request (application/json)
 
