@@ -96,7 +96,7 @@ Subaccounts are allowed to send mail using the SMTP protocol or Transmissions AP
 | key_label     | no         | string  | User friendly identifier for the initial subaccount api key               | Required if `setup_api_key` is true.                                                                                                                                                              |
 | key_grants    | no         | Array   | List of grants to give to the initial subaccount api key                  | Required if `setup_api_key` is true. Valid values are `smtp/inject`, `sending_domains/manage`, `tracking_domains/view`, `tracking_domains/manage`, `message_events/view`, `suppression_lists/manage`, `transmissions/view`, `transmissions/modify`, `webhooks/view`, and `webhooks/modify` |
 | key_valid_ips | no         | Array   | List of IP's that the initial subaccount api key can be used from         | If the supplied `key_valid_ips` is an empty array, the api key is usable by any IP address                                                                    |
-| ip_pool       | no         | string  | The ID of the default IP Pool assigned to this subaccount's transmissions | If the supplied `ip_pool` is an empty string or not present, no default `ip_pool` will be assigned<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: IPs are managed through your TAM. |
+| ip_pool       | no         | string  | The ID of an IP Pool in which to restrict this subaccount's mail deliveries. | If the supplied `ip_pool` is an empty string or not present, this subaccount may use any of the account's IP Pools.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: please consult with your TAM on IP management. |
 | setup_api_key | no         | boolean | Whether or not to create an API key for the subaccount                    | An API key can be created a later time. Defaults to true. |
 
 + Request (application/json)
@@ -232,7 +232,7 @@ Update an existing subaccount's information. You can update the following inform
 | ------- | ---------- | ------ | -------------------------------------------------- | ----- |
 | name    | no         | string | User friendly identifier for a specific subaccount |       |
 | status  | no         | string | Status of the account                              | Value is one of `active`, `suspended`, or `terminated` |
-| ip_pool | no         | string | The ID of the default IP Pool assigned to this subaccount's transmissions | If the supplied `ip_pool` is an empty string, it will clear any currently specified `ip_pool` |
+| ip_pool       | no         | string  | The ID of an IP Pool in which to restrict this subaccount's mail deliveries. | If the supplied `ip_pool` is an empty string or not present, this subaccount may use any of the account's IP Pools.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: please consult with your TAM on IP management. |
 
 + Request (application/json)
 
