@@ -12,6 +12,7 @@ SparkPost presents a unified core API to all customers with a few noted exceptio
 | Endpoint   | Use for |
 |------------|---------|
 | `https://api.sparkpost.com/api/v1` | SparkPost and SparkPost Premium |
+| `https://api.eu.sparkpost.com/api/v1` | SparkPost and SparkPost Premium EU |
 | `https://api.sparkpost.com/api/labs` | SparkPost Labs |
 | `https://yourdomain.api.e.sparkpost.com/api/v1` | SparkPost Enterprise API |
 
@@ -75,7 +76,7 @@ To use SparkPost as an SMTP relay you need to point your SMTP client (or local M
 <a name="header-sparkpost-enterprise-smtp-endpoint"></a>
 <div class="alert alert-info"><strong>Note</strong>: SparkPost Enterprise customers should contact their Technical Account Manager for SMTP details.</div>
 
-* Host: smtp.sparkpostmail.com
+* Host: smtp.sparkpostmail.com or smtp.eu.sparkpostmail.com (SparkPost EU)
 * Port: 587 or 2525
 * Encryption: STARTTLS
 * Authentication: AUTH LOGIN
