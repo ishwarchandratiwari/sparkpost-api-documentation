@@ -47,7 +47,7 @@ The sandbox domain `sparkpostbox.com` is available to allow each account to send
 ### Options Attributes
 | Field         | Type     | Description                           | Required   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
-|start_time | string | Delay generation of messages until this datetime.  For additional information, see [Scheduled Transmissions](#header-scheduled-transmissions). |no - defaults to immediate generation | Format YYYY-MM-DDTHH:MM:SS+-HH:MM. Example: `2017-02-11T08:00:00-04:00`.|
+|start_time | string | Delay generation of messages until this datetime.  For additional information, see [Scheduled Transmissions](#header-scheduled-transmissions).  **Not available in SparkPost EU.** |no - defaults to immediate generation | Format YYYY-MM-DDTHH:MM:SS+-HH:MM. Example: `2017-02-11T08:00:00-04:00`.|
 |open_tracking|boolean| Whether open tracking is enabled for this transmission| no |If not specified, the setting at template level is used, or defaults to true. |
 |click_tracking|boolean| Whether click tracking is enabled for this transmission| no |If not specified, the setting at template level is used, or defaults to true. |
 |transactional|boolean|Whether message is [transactional](https://www.sparkpost.com/resources/infographics/email-difference-transactional-vs-commercial-emails/) for unsubscribe and suppression purposes<br/><span class="label label-info"><strong>Note</strong></span> no `List-Unsubscribe` header is included in transactional messages. | no | If not specified, the setting at template level is used, or defaults to false. |
@@ -148,6 +148,8 @@ The following recipients attribute is used when specifying a stored recipient li
 |list_id | string  | Identifier of the stored recipient list to use | yes | Specify this field when using a stored recipient list. |
 
 ### Scheduled Transmissions
+**Not available in SparkPost EU.**
+
 Use the `options.start_time` attribute to delay generation of messages.  The scheduled time cannot be greater than 31 days from the time of submission.  If the scheduled time does not pass validation, the transmission is not accepted.  Transmissions with a scheduled time in the past _are_ accepted and undergo immediate generation.
 
 ## Create [/transmissions{?num_rcpt_errors}]
@@ -175,6 +177,7 @@ Create a transmission using a stored recipients list by specifying the `list_id`
 Create a transmission using a stored template by specifying the `template_id` in the `content` attribute.  The `use_draft_template` field is optional and indicates whether to use a draft version or the published version of the template when generating messages.
 
 #### Scheduling Transmissions
+**Not available in SparkPost EU.**
 
 Create a scheduled transmission to be generated and sent at a future time by specifying `start_time` in the `options` attribute.
 
@@ -890,6 +893,7 @@ Once message generation has been initiated, all messages in the transmission wil
 ## Retrieve and Delete [/transmissions/{id}]
 
 ### Retrieve a Scheduled Transmission [GET]
+**Not available in SparkPost EU.**
 
 Retrieve the details about a scheduled transmission by specifying its ID in the URI path. 
 
@@ -958,6 +962,7 @@ The response for a transmission using an inline template will include `"template
             }
 
 ### Delete a Transmission [DELETE]
+**Not available in SparkPost EU.**
 
 Delete a transmission by specifying its ID in the URI path.
 
@@ -1061,6 +1066,7 @@ Delete all transmissions of a campaign by specifying Campaign ID in the URI path
 ## List [/transmissions{?campaign_id,template_id}]
 
 ### List All Scheduled Transmissions [GET]
+**Not available in SparkPost EU.**
 
 List an array of live transmission summary objects.  A transmission summary object contains `id`, `state`, `template_id`, `campaign_id` and `description` fields. 
 
