@@ -130,7 +130,7 @@ We allow any given domain (including its subdomains) to only be used by a single
             "dkim": {
               "public": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+W6scd3XWwvC/hPRksfDYFi3ztgyS9OSqnnjtNQeDdTSD1DRx/xFar2wjmzxp2+SnJ5pspaF77VZveN3P/HVmXZVghr3asoV9WBx/uW1nDIUxU35L4juXiTwsMAbgMyh3NqIKTNKyMDy4P8vpEhtH1iv/BrwMdBjHDVCycB8WnwIDAQAB",
               "selector": "scph0316",
-              "signing_domain": "",
+              "signing_domain": "example1.com",
               "headers": "from:to:subject:date"
             }
           }
@@ -185,7 +185,7 @@ We allow any given domain (including its subdomains) to only be used by a single
             "dkim": {
               "public": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+W6scd3XWwvC/hPRksfDYFi3ztgyS9OSqnnjtNQeDdTSD1DRx/xFar2wjmzxp2+SnJ5pspaF77VZveN3P/HVmXZVghr3asoV9WBx/uW1nDIUxU35L4juXiTwsMAbgMyh3NqIKTNKyMDy4P8vpEhtH1iv/BrwMdBjHDVCycB8WnwIDAQAB",
               "selector": "scph0316",
-              "signing_domain": "",
+              "signing_domain": "example1.com",
               "headers": "from:to:subject:date"
             }
           }
