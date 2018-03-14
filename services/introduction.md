@@ -7,6 +7,8 @@ SparkPost presents a unified core API to all customers with a few noted exceptio
 * Features not available to SparkPost Enterprise customers are marked **Not available on SparkPost Enterprise**
 * Features available only to SparkPost Enterprise customers are marked **SparkPost Enterprise customers only**.
 
+In addition, SparkPost is available in multiple regions. "SparkPost" refers to the SparkPost service hosted in North America. "SparkPost EU" refers to the SparkPost serviced hosted in Western Europe. [SparkPost](https://app.sparkpost.com/) and [SparkPost EU](https://app.eu.sparkpost.com/) operate independently. An account created with SparkPost cannot be used with SparkPost EU, and vice-versa. Customers may use accounts in both regions.
+
 ## API Endpoints
 
 | Endpoint   | Use for |
@@ -30,7 +32,7 @@ SparkPost presents a unified core API to all customers with a few noted exceptio
 
 ## Authentication
 * To authenticate with the APIs, specify the "Authorization" header with each request. The value of the Authorization header must be a valid API key or basic auth with the API key as username and an empty password.
-* Administrators can [generate an API key](https://app.sparkpost.com/account/credentials). Please take care to record and safeguard your API keys at all times. You cannot retrieve an API key after it has been created.
+* Administrators can [generate an API key](https://app.sparkpost.com/account/credentials) ([EU](https://app.eu.sparkpost.com/account/credentials)). Please take care to record and safeguard your API keys at all times. You cannot retrieve an API key after it has been created.
 * For examples of supplying the Authorization header, refer to the cURL example below or any of the individual API request examples.
 
 ## API examples
@@ -89,7 +91,7 @@ To use SparkPost as an SMTP relay you need to point your SMTP client (or local M
 
 <div class="alert alert-info"><strong>Note</strong>: Port 2525 is provided as an alternate port for cases where port 587 is blocked (such as a Google Compute Engine environment).</div>
 
-The SMTP relay optionally supports advanced API features using the [SMTP API](smtp-api.html).  To create an API key, login to your SparkPost [Account Credentials](https://app.sparkpost.com/account/credentials) page.
+The SMTP relay optionally supports advanced API features using the [SMTP API](smtp-api.html).  To create an API key, login to your SparkPost [Account Credentials](https://app.sparkpost.com/account/credentials) page ([EU](https://app.eu.sparkpost.com/account/credentials)).
 
 ## SMTP Security
 
