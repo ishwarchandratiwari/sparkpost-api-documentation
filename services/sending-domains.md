@@ -445,7 +445,7 @@ For example, here is what a DKIM record might look like for domain *mail<span></
 <div class="alert alert-warning"><strong>Note</strong>: SPF sending domain verification is deprecated. You can use DKIM, CNAME, and/or email to verify your sending domain. We recommend using DKIM since it has authentication benefits.</div>
   * A valid SPF record must be in the DNS for the sending domain being verified.
   * The record must contain `v=spf1`.
-  * The record must contain `include:sparkpostmail.com` or `include:eu.sparkpostmail.com` (SparkPost EU).
+  * The record must contain `include:sparkpostmail.com` (SparkPost) or `include:eu.sparkpostmail.com` (SparkPost EU).
   * The record must use either `~all` or `-all`.
 
 **CNAME** verification requires the following:

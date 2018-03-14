@@ -18,9 +18,9 @@ With a tracking domain you can replace the domain part of the link. So if your t
 <a href="http://example.domain.com/e/nInKCLCf9wnO2brop7RTsg...">Check out this excellent article</a>
 ```
 
-<div class="alert alert-info"><strong>Note</strong>: Use of a tracking domain requires modification of your DNS records to include a CNAME record.</div>
+<div class="alert alert-info"><strong>Note</strong>: Use of a tracking domain requires modification of your DNS records to include a CNAME record. For SparkPost, the CNAME needs to have the value `spgo.io`. For SparkPost EU, the CNAME needs to have the value `eu.spgo.io`.</div>
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost, in order to use HTTPS on tracking domains follow <a href="https://www.sparkpost.com/docs/tech-resources/enabling-https-engagement-tracking-on-sparkpost/">this guide</a>.</div>
+<div class="alert alert-info"><strong>Note</strong>: For SparkPost and SparkPost EU, in order to use HTTPS on tracking domains follow <a href="https://www.sparkpost.com/docs/tech-resources/enabling-https-engagement-tracking-on-sparkpost/">this guide</a>.</div>
 
 ## Using Postman
 
