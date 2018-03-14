@@ -7,7 +7,7 @@ SparkPost presents a unified core API to all customers with a few noted exceptio
 * Features not available to SparkPost Enterprise customers are marked **Not available on SparkPost Enterprise**
 * Features available only to SparkPost Enterprise customers are marked **SparkPost Enterprise customers only**.
 
-In addition, SparkPost is available in multiple regions. "SparkPost" refers to the SparkPost service hosted in North America. "SparkPost EU" refers to the SparkPost serviced hosted in Western Europe. [SparkPost](https://app.sparkpost.com/) and [SparkPost EU](https://app.eu.sparkpost.com/) operate independently. An account created with SparkPost cannot be used with SparkPost EU, and vice-versa. Customers may use accounts in both regions.
+In addition, SparkPost is available in multiple regions. "SparkPost" refers to the SparkPost service hosted in North America. "SparkPost EU" refers to the SparkPost service hosted in Western Europe. [SparkPost](https://app.sparkpost.com/) and [SparkPost EU](https://app.eu.sparkpost.com/) operate independently. An account created with SparkPost cannot be used with SparkPost EU, and vice-versa. Customers may use accounts in both regions.
 
 ## API Endpoints
 
