@@ -2,7 +2,7 @@
 
 [Sign up](https://app.eu.sparkpost.com/sign-up?src=Dev-Website&sfdcid=70160000000pqBb) for a SparkPost account and visit our [Developer Hub](https://developers.sparkpost.com) for even more content.
 
-<div class="alert alert-info">SparkPost EU is now available in the EU region. You can now <a href="https://app.sparkpost.com/sign-up?src=Dev-Website&sfdcid=70160000000pqBb">Sign up</a> for a SparkPost EU account.</div>
+<div class="alert alert-info">SparkPost EU is now available in the EU region. You can now <a href="https://app.eu.sparkpost.com/sign-up?src=Dev-Website&sfdcid=70160000000pqBb">Sign up</a> for a SparkPost EU account.</div>
 
 # SparkPost API Documentation
 
