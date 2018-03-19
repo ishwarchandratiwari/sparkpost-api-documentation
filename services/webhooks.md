@@ -485,14 +485,16 @@ are currently in a failed state.
           "batch_id": "032d330540298f54f0e8bcc1373f3cfd",
           "ts": "2014-07-30T21:38:08.000Z",
           "attempts": 7,
-          "response_code": "200"
+          "response_code": "200",
+          "latency": 160
         },
         {
           "batch_id": "13c6764994a8f6b4e29906d5712ca7d",
           "ts": "2014-07-30T20:38:08.000Z",
           "attempts": 2,
           "failure_code": "400",
-          "response_code": "400"
+          "response_code": "400",
+          "latency": 210
         }
       ]
     }
