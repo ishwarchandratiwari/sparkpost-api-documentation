@@ -363,7 +363,7 @@ As described in "Webhooks Object Properties", a change to the `target` value ent
         {
           "name": "Renamed webhook",
           "events": [
-            "rejection",
+            "generation_rejection",
             "delay"
           ],
           "auth_type": "none",
