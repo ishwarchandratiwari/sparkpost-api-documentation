@@ -73,7 +73,6 @@ These are the valid request options for verifying a Sending Domain:
 |------------------------|:-:       |---------------------------------------|-------------|--------|
 |dkim_verify | boolean | Request verification of DKIM record | no | |
 |cname_verify | boolean | Request verification of CNAME record | no | CNAME verification is a pre-requisite for the domain to be used as a bounce domain.  See the [verify endpoint](#sending-domains-verify-post). |
-|spf_verify | boolean | Request verification of SPF record | no | <span class="label label-danger"><strong>Deprecated</strong></span> |
 |verification_mailbox_verify | boolean | Request an email with a verification link to be sent to a nominated mailbox on the sending domain. | no | The nominated mailbox is specified in the verification_mailbox field.  The mailbox can be any valid mailbox for the domain other than "postmaster" or "abuse".  Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
 |verification_mailbox | string | The nominated mailbox email address local part to be used when requesting email with a verification link be sent. | no | Required if "verification_mailbox_verify" = true. Not available in <span class="label label-warning"><strong>Enterprise</strong></span> |
 |postmaster_at_verify | boolean | Request an email with a verification link to be sent to the sending domain's postmaster@ mailbox. | no | |
@@ -88,10 +87,8 @@ These are the valid request options for verifying a Sending Domain:
 |------------------------|:-:       |---------------------------------------|
 |dkim_record | string | DNS DKIM record for the registered Sending Domain |
 |cname_record | string | DNS CNAME record for the registered Sending Domain |
-|spf_record | string | DNS SPF record for the registered Sending Domain |
 |dkim_error | string | Error message describing reason for DKIM verification failure |
 |cname_error | string | Error message describing reason for CNAME verification failure |
-|spf_error | string | Error message describing reason for SPF verification failure |
 
 ## Create [/sending-domains]
 
@@ -423,7 +420,7 @@ Delete an existing sending domain.
 ### Verify a Sending Domain [POST]
 
 The verify resource operates differently depending on the provided request fields:
-  * Including the fields `dkim_verify`, `cname_verify`, and/or `spf_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
+  * Including the fields `dkim_verify` or `cname_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
   * Including the fields `postmaster_at_verify` and/or `abuse_at_verify` in the request results in an email sent to the specified sending domain's postmaster@ and/or abuse@ mailbox where a verification link can be clicked.
   * Including the fields `verification_mailbox_verify` and `verification_mailbox` in the request results in an email sent to the specified mailbox where a verification link can be clicked.
   * For `postmaster_at_verify`, `abuse_at_verify` and `verification_mailbox_verify` ownership verification, if the request is made a 2nd time another email will be sent with a new verification link. If the link in the previously sent message is subsequently clicked it will not verify domain ownership. However, if the link in the most recent email is clicked it will verify domain ownership. 
@@ -441,15 +438,9 @@ For example, here is what a DKIM record might look like for domain *mail<span></
 |------------------------|:-:       |---------------------------------------|
 |scph1015._domainkey.mail.example.com | TXT | v=DKIM1; k=rsa; h=sha256; p=MIGfMA0GCSqGSIb3DQEBAQUAA5GNADCBiQKBgQCzMTqqPX9jry+nKZjqYhKt5CP4+vBoEpf24POjc5ubWJQnZmY0wdBXawskxC7mBekUlAjOcsbZIhnFt+2asb1XTyLcTjGyqMvVcoUou6olzfMnfB06W9awRahQrrs9E0LZ4hYKSBDTm3MvoJo004+dNpTSnTlGqMyOoBuiD6KX8QIDAQAB |
 
-**SPF** verification requires the following:
-<div class="alert alert-warning"><strong>Note</strong>: SPF sending domain verification is deprecated. You can use DKIM, CNAME, and/or email to verify your sending domain. We recommend using DKIM since it has authentication benefits.</div>
-  * A valid SPF record must be in the DNS for the sending domain being verified.
-  * The record must contain `v=spf1`.
-  * The record must contain `include:sparkpostmail.com`.
-  * The record must use either `~all` or `-all`.
-
 **CNAME** verification requires the following:
   * <strong>SparkPost</strong> A valid CNAME record in DNS with value `sparkpostmail.com`
+  * <strong>SparkPost EU</strong> A valid CNAME record in DNS with value `eu.sparkpostmail.com`
   * <span class="label label-warning"><strong>Enterprise</strong></span> A valid CNAME record in DNS with value `<public_tenant_id>.mail.e.sparkpost.com`
 
 An example CNAME record for a <strong>SparkPost</strong> customer with domain *mail<span></span>.example.com*:

@@ -8,14 +8,24 @@ Inbound domains are used in conjunction with Relay Webhooks.
 You can have multiple inbound domains but each domain must be globally unique.
 
 Before you can use your inbound domain (e.g. `inbounddomain.test.com`),
-you will need to add MX records to your DNS settings.
-The following DNS settings are for all plans **except SparkPost Enterprise:**
+you will need to add MX records to your DNS settings. The DNS settings required
+depend on whether you are a SparkPost, SparkPost EU or SparkPost Enterprise customer.
+
+The following DNS settings are for SparkPost:
 
 | Name                     | Type | Data                  | Priority |
 |--------------------------|------|-----------------------|----------|
 | `inbounddomain.test.com` | MX   | rx1.sparkpostmail.com | 10       |
 | `inbounddomain.test.com` | MX   | rx2.sparkpostmail.com | 10       |
 | `inbounddomain.test.com` | MX   | rx3.sparkpostmail.com | 10       |
+
+The following DNS settings are for SparkPost EU:
+
+| Name                     | Type | Data                     | Priority |
+|--------------------------|------|--------------------------|----------|
+| `inbounddomain.test.com` | MX   | rx1.eu.sparkpostmail.com | 10       |
+| `inbounddomain.test.com` | MX   | rx2.eu.sparkpostmail.com | 10       |
+| `inbounddomain.test.com` | MX   | rx3.eu.sparkpostmail.com | 10       |
 
 <div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a> customers</strong>, you will need to use MX records similar to your existing domains.  In many cases
 the MX records for existing domains point at <tt>inbound.<main-bounce-domain></tt>.

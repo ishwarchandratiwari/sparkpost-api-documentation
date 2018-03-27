@@ -86,7 +86,7 @@ To enable click and open tracking in SMTP messages, add the X-MSYS-API header as
 X-MSYS-API: { "options" : { "open_tracking" : true, "click_tracking" : true } }
 ```
 
-<div class="alert alert-info"><strong>SparkPost customers:</strong> the <tt>open_tracking</tt> and <tt>click_tracking</tt> variables may also be set account-wide in your <a href="https://app.sparkpost.com/account/smtp">SMTP relay account settings</a>.</div>
+<div class="alert alert-info"><strong>SparkPost customers:</strong> the <tt>open_tracking</tt> and <tt>click_tracking</tt> variables may also be set account-wide in your <a href="https://app.sparkpost.com/account/smtp">SMTP relay account settings</a> (<a href="https://app.eu.sparkpost.com/account/smtp">EU</a>).</div>
 
 ## The Sandbox Domain
 
