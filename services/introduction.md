@@ -44,6 +44,8 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 
 [![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
 
+In order to use most of the requests in the collection, you must define your SparkPost API key as a Postman variable called `API_KEY`. Additionally, if you are a SparkPost Enterprise or SparkPost EU customer, you must set the Postman variable `BASE_URL` to the appropriate host (e.g. `https://api.eu.sparkpost.com` for SparkPost EU). More information on setting up Postman environments and variables can be found [here](https://www.getpostman.com/docs/v6/postman/environments_and_globals/variables).
+
 <div class="alert alert-info"><strong>Note</strong>: SparkPost Enterprise customers will need to change the endpoint in the URL field for each call</div>
 
 ## Using cURL
