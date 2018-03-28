@@ -14,7 +14,7 @@ For details on how to get the best out of SparkPost Transmission, see [this supp
 
 If you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 ## The Sandbox Domain
 

@@ -42,7 +42,7 @@ SparkPost Enterprise customers should make sure to change the API endpoint domai
 
 If you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 In order to use most of the requests in the collection, you must define your SparkPost API key as a Postman variable called `API_KEY`. Additionally, if you are a SparkPost Enterprise or SparkPost EU customer, you must set the Postman variable `BASE_URL` to the appropriate host (e.g. `https://api.eu.sparkpost.com` for SparkPost EU). More information on setting up Postman environments and variables can be found [here](https://www.getpostman.com/docs/v6/postman/environments_and_globals/variables).
 
