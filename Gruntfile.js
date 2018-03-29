@@ -7,10 +7,11 @@ var matchdep = require('matchdep')
     , algoliaTools = require('./algoliaTools')
     , services = [
         'introduction.md',
+        'labs-introduction.md',
         'substitutions-reference.md',
         'smtp-api.md',
+        'ab-testing.md',
         'account.md',
-        'bounce-domains.md',
         'inbound-domains.md',
         'ip-pools.md',
         'metrics.md',
@@ -53,7 +54,7 @@ function htmlFile(md) {
 module.exports = function(grunt) {
     // Relative to staticTempDir (!)
     if (!grunt.option('output')) {
-      grunt.option('output', '../sparkpost.github.io/_api/');
+      grunt.option('output', '../developers.sparkpost.com/_api/');
     }
 
     if (!grunt.option('searchContentFile')) {
@@ -73,7 +74,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         aglio: {
             build: {
-                files: services.reduce(_md2html, {})
+                //Adds bounce-domains.md so that it will be built
+                files: services.concat(['bounce-domains.md']).reduce(_md2html, {})
             },
           options: {
             themeTemplate: 'templates/<%= grunt.option("aglioTemplate") %>/index.jade',
@@ -81,7 +83,8 @@ module.exports = function(grunt) {
             themeEmoji: false,
             locals: {
               _: require('lodash'),
-              baseURI: '/api/v1'
+              baseURI: '/api',
+              baseURIVersion: '/v1'
             }
           }
         },
@@ -130,7 +133,8 @@ module.exports = function(grunt) {
 
         copy: {
             fixup_nav: {
-                src: services.map(htmlFile),
+                //Adds bounce-domains.md so that it will have a navigation bar
+                src: services.concat(['bounce-domains.md']).map(htmlFile),
                 dest: './',
                 options: {
                     process: function(content, srcpath) {
@@ -309,7 +313,8 @@ module.exports = function(grunt) {
     ]);
 
     // runs api-blueprint-validator on individual blueprint files
-    grunt.registerTask('test', 'Validates individual blueprint files', services.map(function(s) {
+    //Adds bounce-domains.md so that it will be validated
+    grunt.registerTask('test', 'Validates individual blueprint files', services.concat(['bounce-domains.md']).map(function(s) {
         return 'shell:test:' + s;
     }));
 

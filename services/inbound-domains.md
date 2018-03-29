@@ -8,8 +8,10 @@ Inbound domains are used in conjunction with Relay Webhooks.
 You can have multiple inbound domains but each domain must be globally unique.
 
 Before you can use your inbound domain (e.g. `inbounddomain.test.com`),
-you will need to add MX records to your DNS settings.
-The following DNS settings are for all plans *except* SparkPost Enterprise:
+you will need to add MX records to your DNS settings. The DNS settings required
+depend on whether you are a SparkPost, SparkPost EU or SparkPost Enterprise customer.
+
+The following DNS settings are for SparkPost:
 
 | Name                     | Type | Data                  | Priority |
 |--------------------------|------|-----------------------|----------|
@@ -17,12 +19,19 @@ The following DNS settings are for all plans *except* SparkPost Enterprise:
 | `inbounddomain.test.com` | MX   | rx2.sparkpostmail.com | 10       |
 | `inbounddomain.test.com` | MX   | rx3.sparkpostmail.com | 10       |
 
-For SparkPost Enterprise, you will need to use MX records
-similar to your existing domains.  In many cases
-the MX records for existing domains point at `inbound.<main-bounce-domain>`.
+The following DNS settings are for SparkPost EU:
+
+| Name                     | Type | Data                     | Priority |
+|--------------------------|------|--------------------------|----------|
+| `inbounddomain.test.com` | MX   | rx1.eu.sparkpostmail.com | 10       |
+| `inbounddomain.test.com` | MX   | rx2.eu.sparkpostmail.com | 10       |
+| `inbounddomain.test.com` | MX   | rx3.eu.sparkpostmail.com | 10       |
+
+<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a> customers</strong>, you will need to use MX records similar to your existing domains.  In many cases
+the MX records for existing domains point at <tt>inbound.<main-bounce-domain></tt>.
 The following DNS settings assume that your existing domains point
-at `inbound.<main-bounce-domain>`.  Please check with your TAM
-if you are unsure of the setting in your own environment.
+at <tt>inbound.<main-bounce-domain></tt>.  Please check with your TAM
+if you are unsure of the setting in your own environment.</div>
 
 | Name                     | Type | Data                  | Priority |
 |--------------------------|------|-----------------------|----------|
@@ -39,7 +48,7 @@ if you are unsure of the setting in your own environment.
 
 If you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 ## Create and List [/inbound-domains]
 

@@ -11,7 +11,7 @@ By configuring a relay webhook for a specified inbound domain, those inbound mes
 
 If you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 ## Relay Webhooks Object Properties
 
@@ -20,7 +20,8 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | name      | string | User-friendly name                   | no       | example: `Inbound Customer Replies` |
 | target    | string | URL of the target to which to POST relay batches | yes | example: `https://webhooks.customer.example/replies` |
 | auth_token | string | Authentication token to present in the X-MessageSystems-Webhook-Token header of POST requests to target | no | Use this token in your target application to confirm that data is coming from the Relay Webhooks API. example: `5ebe2294ecd0e0f08eab7690d2a6ee69` |
-| match     | object | Restrict which inbound messages will be relayed to the target | yes | See Match Object Properties. example: `"match": { "protocol": "SMTP", "domain": "replies.customer.example" }` |
+| match     | object | Restrict which inbound messages will be relayed to the target | yes | See [Match Object Properties](#header-match-object-properties). example: `"match": { "protocol": "SMTP", "domain": "replies.customer.example" }` |
+| custom_headers | JSON | Object of custom HTTP headers to be used during POST requests to target | no | See [Custom HTTP Header Properties](#header-custom-http-headers-properties). example: `"custom_headers": { "x-api-key" : "abcd" }` |
 
 ## Match Object Properties
 
@@ -28,8 +29,31 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |-----------|--------|-----------------------------------------------------------------------|--------------|----------------------|
 | protocol  | string | Inbound messaging protocol associated with this webhook | no - defaults to "SMTP" |                      |
 | domain    | string | Inbound domain associated with this webhook             | yes, when protocol is "SMTP" | To create an inbound domain for your account, please use the Inbound Domains API. |
-| esme_address | string | ESME address binding associated with this webhook    | yes, when protocol is "SMPP" | **[SparkPost Enterprise API only](https://www.sparkpost.com/enterprise-email/)**: *Note*: Relay Webhooks for SMPP messages is available for SparkPost Enterprise customers.  Please speak with your account manager to create an ESME address. |
+| esme_address | string | ESME address binding associated with this webhook    | yes, when protocol is "SMPP" | <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> Please speak with your TAM to create an ESME address. |
 
+## Custom HTTP Headers Properties
+The custom headers JSON object allows you to add up to five custom headers to your relay webhook. The custom_headers object may only be up to 3,000 bytes in size, and must be formatted as an object with keys as strings or numbers. Headers already used by SparkPost will not be allowed, and SparkPost may also disallow some HTTP headers for security reasons.
+
+**Adding Custom Headers**
+
+When creating (POST) or updating (PUT) a Relay Webhook:
+```json
+{
+  "custom_headers": {
+    "header1": "value1",
+    "header2": "value2"
+  }
+}
+```
+
+**Removing Custom Headers**
+
+When updating (PUT) a Relay Webhook:
+```json
+{
+  "custom_headers": {}
+}
+```
 
 ## Field Definitions
 
@@ -39,7 +63,7 @@ The following fields will be included in the JSON object posted to the SMTP rela
 
 | Field     | Type   | Description                                                 | Notes
 |-----------|--------|-----------------------------------------------------------------------|--------------|
-| content   | object | Content that will be used to construct a relay message           | For a full description, see the Content Attributes. |
+| content   | object | Content that will be used to construct a relay message           | For a full description, see the [Content Attributes](#header-content-attributes). |
 | friendly_from | string | Email address used to compose the "From" header |
 | msg_from | string | [SMTP envelope](http://www.rfcreader.com/#rfc5321_line817) "MAIL FROM", matches "Return-Path" header address |
 | rcpt_to | string | [SMTP envelope](http://www.rfcreader.com/#rfc5321_line817) "RCPT TO" |
@@ -48,11 +72,12 @@ The following fields will be included in the JSON object posted to the SMTP rela
 
 **SMPP**
 
+<div class="alert alert-info">SMPP is available to <a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a> customers.</div>
 The following fields will be included in the JSON object posted to the SMPP relay webhooks target:
 
 | Field       | Type   | Description                                                           | Notes
 |-------------|--------|-----------------------------------------------------------------------|--------------|
-| text        | string | Contents of the first text/plain part of the message                  | For a full description, see the Content Attributes. |
+| text        | string | Contents of the first text/plain part of the message                  | For a full description, see the [Content Attributes](#header-content-attributes). |
 | to          | string | SMPP message recipient                                                |              |
 | from        | string | SMPP message sender                                                   |              |
 | date        | string | Date that Sparkpost recieved the SMPP message                         |              |
@@ -73,7 +98,7 @@ Content for an SMTP relay webhook is described in a JSON object with the followi
 | cc        | array of strings | "CC" header value (decoded from email), RFC2822 address list |
 | headers   | array of objects | Ordered array of email top-level headers | This array preserves ordering and allows for multiple occurrences of a header (e.g.: to support trace headers such as "Received"). |
 | email_rfc822 | string | Raw MIME content for an email | If the Raw MIME content contains at least one non UTF-8 encoded character, the entire "email_rfc822" JSON value will be base64 encoded and the "email_rfc822_is_base64" JSON boolean value will be set to true |
-| email_rfc822_is_base64 | boolean | Whether or not the "email_rfc822" value is base64 encoded |
+| email_rfc822_is_base64 | boolean | Whether the "email_rfc822" value is base64 encoded |
 
 ## Example Payloads
 
@@ -268,9 +293,58 @@ Create a relay webhook by providing a **relay webhooks object** as the POST requ
             }
           ```
 
++ Response 422 (application/json)
+
+  + Body
+
+          ```
+            {
+              "errors" : [
+                {
+                  "message": "Invalid custom header",
+                  "description": "Header '(header_name)' is reserved and cannot be used",
+                  "code": "10000"
+                }
+              ]
+            }
+          ```
+
++ Response 413 (application/json)
+
+  + Body
+
+          ```
+            {
+              "errors" : [
+                {
+                  "message": "custom_headers exceeds permitted size",
+                  "description": "custom_headers cannot be larger than 3000 bytes",
+                  "code": "10001"
+                }
+              ]
+            }
+          ```
+
+
++ Response 422 (application/json)
+
+  + Body
+
+          ```
+            {
+              "errors": [
+                {
+                  "message": "custom_headers exceeded maximum headers allowed",
+                  "description": "A maximum of 5 custom headers are permitted",
+                  "code": "10002"
+                }
+              ]
+            }
+          ```
+
 ### Create an SMPP Relay Webhook [POST]
 
-**[SparkPost Enterprise API only](https://www.sparkpost.com/enterprise-email/).**
+<div class="alert alert-info">SMPP relay webhooks are available to <strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> customers.</div>
 
 + Request (application/json)
 
@@ -315,7 +389,7 @@ Create a relay webhook by providing a **relay webhooks object** as the POST requ
               ]
             }
 
-    
+
 ### List all Relay Webhooks [GET]
 
 List all your relay webhooks.
@@ -576,6 +650,55 @@ Update a relay webhook by specifying the webhook ID in the URI path.
               ]
             }
         ```
+
++ Response 422 (application/json)
+
+  + Body
+
+          ```
+            {
+              "errors" : [
+                {
+                  "message": "Invalid custom header",
+                  "description": "Header '(header_name)' is reserved and cannot be used",
+                  "code": "10000"
+                }
+              ]
+            }
+          ```
+
++ Response 413 (application/json)
+
+  + Body
+
+          ```
+            {
+              "errors" : [
+                {
+                  "message": "custom_headers exceeds permitted size",
+                  "description": "custom_headers cannot be larger than 3000 bytes",
+                  "code": "10001"
+                }
+              ]
+            }
+          ```
+
+
++ Response 422 (application/json)
+
+  + Body
+
+          ```
+            {
+              "errors": [
+                {
+                  "message": "custom_headers exceeded maximum headers allowed",
+                  "description": "A maximum of 5 custom headers are permitted",
+                  "code": "10002"
+                }
+              ]
+            }
+          ```
 
 ### Delete a Relay Webhook [DELETE]
 

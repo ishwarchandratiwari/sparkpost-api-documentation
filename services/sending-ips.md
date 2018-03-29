@@ -3,13 +3,13 @@ description: Manage the sending IPs for your account and assign them to IP pools
 
 # Group Sending IPs
 
-**Note: This endpoint is available in SparkPost only**
+<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> customers: IPs are managed through your TAM, please contact them directly for assistance.</div>
 
 ## Using Postman
 
 If you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 #### Sending IP Properties
 
@@ -37,11 +37,11 @@ Gets all IP addresses.
     ```json
     {
         "results": [{
-          "external_ip": "123.456.789.123",
+          "external_ip": "123.45.67.89",
           "hostname": "mta472a.sparkpostmail.com",
           "ip_pool": "marketing"
         }, {
-          "external_ip": "123.456.789.124",
+          "external_ip": "123.45.67.80",
           "hostname": "mta474a.sparkpostmail.com",
           "ip_pool": "default"
         }]
@@ -63,7 +63,7 @@ Retrieves a specific sending IP.
 
 + Parameters
 
-  + external_ip (required, string, `123.456.789.012`) ... The external IP of the sending IP
+  + external_ip (required, string, `123.45.67.89`) ... The external IP of the sending IP
 
 
 + Response 200 (application/json)
@@ -71,7 +71,7 @@ Retrieves a specific sending IP.
     ```json
     {
         "results": {
-          "external_ip": "123.456.789.012",
+          "external_ip": "123.45.67.89",
           "hostname": "mta472a.sparkpostmail.com",
           "ip_pool": "cool_kids"
         }
@@ -121,7 +121,7 @@ Updates the IP Pool of a sending IP.
 
 + Parameters
 
-  + external_ip (required, string, `123.456.789.012`) ... The external IP of the sending IP to update
+  + external_ip (required, string, `123.45.67.89`) ... The external IP of the sending IP to update
 
 
 + Response 200 (application/json)

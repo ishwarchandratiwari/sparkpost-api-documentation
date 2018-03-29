@@ -11,15 +11,17 @@ Subaccounts are a way for service providers to provision and manage their custom
 
 The following APIs have subaccount support:
 
-* [Metrics](metrics.html) **(Note: Not available for Subaccount API keys)**
+* [Metrics](metrics.html) <span class="label label-info"><strong>Note</strong></span> Not available for Subaccount API keys
 * [Message Events](message-events.html)
 * [Sending Domains](sending-domains.html)
 * [Suppression List](suppression-list.html)
 * [SMTP API](smtp-api.html)
+* [Templates](templates.html)
 * [Transmissions](transmissions.html)
 * [Tracking Domains](tracking-domains.html)
+* [Webhooks](webhooks.html)
 
-**Please note that all subaccount-level transmissions must use _inline_ recipients and content. Recipient lists and stored templates do not support subaccounts.**
+<div class="alert alert-info"><strong>Note</strong>: all subaccount-level transmissions must use <tt>inline</tt> recipients. Stored recipient lists are not supported for subaccounts.</div>
 
 ### Terminology
 * Master Account - This refers to a Service Provider and their data
@@ -34,6 +36,7 @@ The following APIs have subaccount support:
 ### Managing master account data as a Service Provider
 * Setting `X-MSYS-SUBACCOUNT` to `0` will retrieve or manage Master Account data only
 * For POST/PUT/DELETE requests, omitting `X-MSYS-SUBACCOUNT` will result in the same behavior as setting `X-MSYS-SUBACCOUNT` to `0`
+    * When creating, updating, or deleting a webhook, `X-MSYS-SUBACCOUNT` must be set explicitly. Omitting the `X-MSYS-SUBACCOUNT` header will create a webhook for the entire account, while setting `X-MSYS-SUBACCOUNT` to `0` will create a webhook for the Master Account only.
 * For GET requests, omitting `X-MSYS-SUBACCOUNT` will result in Master Account and Subaccount data in the response
   * Subaccount data will have the key `subaccount_id` in the response object
 * Metrics and Message Events APIs do not use `X-MSYS-SUBACCOUNT`. Instead, setting the query parameter `subaccounts` to `0` will return only Master Account reporting data
@@ -77,24 +80,24 @@ Endpoint for retrieving a list of your subaccounts. This endpoint only returns i
           ]
         }
 
-### Create new subaccount [POST]
+### Create a new Subaccount [POST]
 
-Provisions a new subaccount and an initial subaccount API key. Subaccount API keys are only allowed very specific grants, which are limited to: `smtp/inject`, `sending_domains/manage`, `tracking_domains/view`, `tracking_domains/manage`, `message_events/view`, `suppression_lists/manage`, `transmissions/view`, and `transmissions/modify`.
+Provisions a new subaccount and an initial subaccount API key. Subaccount API keys are only allowed very specific grants, which are limited to: `smtp/inject`, `sending_domains/manage`, `tracking_domains/view`, `tracking_domains/manage`, `message_events/view`, `suppression_lists/manage`, `transmissions/view`, `transmissions/modify`, `webhooks/modify`, and `webhooks/view`.
 
-Subaccounts are allowed to send mail using the SMTP protocol or Transmissions API, retrieve sending statistics via the Message Events API, manage their Sending Domains, manage their Suppression List.
+Subaccounts are allowed to send mail using the SMTP protocol or Transmissions API, retrieve sending statistics via the Message Events API, manage their Sending Domains, manage their Suppression List, manage their Templates.
 
-**Note: Stored recipients lists and stored templates are currently not supported for subaccounts sending mail using the Transmissions API.**
+<div class="alert alert-info"><strong>Note</strong>: Stored recipients lists and stored templates are currently not supported for subaccounts sending mail using the Transmissions API.</div>
 
 #### Request Body Attributes
 
 | Field         | Required   | Type    | Description                                                               | Notes                                                                                                                                                         |
 | ------------  | ---------- | ------- | --------------------------------------------------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | name          | yes        | string  | User friendly identifier for a specific subaccount                        |                                                                                                                                                               |
-| key_label     | yes        | string  | User friendly identifier for the initial subaccount api key               |                                                                                                                                                               |
-| key_grants    | yes        | Array   | List of grants to give to the initial subaccount api key                  | Valid values are `smtp/inject`, `sending_domains/manage`, `tracking_domains/view`, `tracking_domains/manage`, `message_events/view`, `suppression_lists/manage`, `transmissions/view`, and `transmissions/modify` |
+| key_label     | no         | string  | User friendly identifier for the initial subaccount api key               | Required if `setup_api_key` is true.                                                                                                                                                              |
+| key_grants    | no         | Array   | List of grants to give to the initial subaccount api key                  | Required if `setup_api_key` is true. Valid values are `smtp/inject`, `sending_domains/manage`, `tracking_domains/view`, `tracking_domains/manage`, `message_events/view`, `suppression_lists/manage`, `transmissions/view`, `transmissions/modify`, `webhooks/view`, and `webhooks/modify` |
 | key_valid_ips | no         | Array   | List of IP's that the initial subaccount api key can be used from         | If the supplied `key_valid_ips` is an empty array, the api key is usable by any IP address                                                                    |
-| ip_pool       | no         | string  | The ID of the default IP Pool assigned to this subaccount's transmissions ( **Note:** SparkPost only ) | If the supplied `ip_pool` is an empty string or not present, no default `ip_pool` will be assigned                                                            |
-
+| ip_pool       | no         | string  | The ID of an IP Pool in which to restrict this subaccount's mail deliveries. | If the supplied `ip_pool` is an empty string or not present, this subaccount may use any of the account's IP Pools.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: please consult with your TAM on IP management. |
+| setup_api_key | no         | boolean | Whether or not to create an API key for the subaccount                    | An API key can be created a later time. Defaults to true. |
 
 + Request (application/json)
 
@@ -107,7 +110,7 @@ Subaccounts are allowed to send mail using the SMTP protocol or Transmissions AP
             {
               "name": "Sparkle Ponies",
               "key_label": "API Key for Sparkle Ponies Subaccount",
-              "key_grants": ["smtp/inject", "sending_domains/manage", "message_events/view", "suppression_lists/manage", "tracking_domains/view", "tracking_domains/manage"],
+              "key_grants": ["smtp/inject", "sending_domains/manage", "message_events/view", "suppression_lists/manage", "tracking_domains/view", "tracking_domains/manage", "webhooks/modify", "webhooks/view"],
               "key_valid_ips": [],
               "ip_pool": ""
             }
@@ -170,6 +173,27 @@ Subaccounts are allowed to send mail using the SMTP protocol or Transmissions AP
           ]
         }
 
+## Subaccounts Summary [/subaccounts/summary]
+
+### Retrieve Subaccounts Summary [GET]
+
+Retrieve the total number of subaccounts for an account.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Response 200 (application/json)
+
+        {
+          "results": {
+            "total": 46
+          }
+        }
+
 ## Subaccounts Entity [/subaccounts/{subaccount_id}]
 
 ### List specific subaccount [GET]
@@ -208,7 +232,7 @@ Update an existing subaccount's information. You can update the following inform
 | ------- | ---------- | ------ | -------------------------------------------------- | ----- |
 | name    | no         | string | User friendly identifier for a specific subaccount |       |
 | status  | no         | string | Status of the account                              | Value is one of `active`, `suspended`, or `terminated` |
-| ip_pool | no         | string | The ID of the default IP Pool assigned to this subaccount's transmissions | If the supplied `ip_pool` is an empty string, it will clear any currently specified `ip_pool` |
+| ip_pool       | no         | string  | The ID of an IP Pool in which to restrict this subaccount's mail deliveries. | If the supplied `ip_pool` is an empty string or not present, this subaccount may use any of the account's IP Pools.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a></strong> customers: please consult with your TAM on IP management. |
 
 + Request (application/json)
 

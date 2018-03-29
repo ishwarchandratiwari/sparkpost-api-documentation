@@ -4,22 +4,20 @@ description: Manage your suppression list - a list of recipient email addresses 
 # Group Suppression List
 <a name="suppression-list-api"></a>
 
-A suppression list - or exclusion list, as it is sometimes called - stores a recipient's opt-out preferences. It is a list of recipient email addresses to which you do NOT want to send email. The Suppression List API is used to manage your customer-specific exclusion list entries.  An entry indicates whether the recipient requested to receive one of the following:
+A suppression list - or exclusion list, as it is sometimes called - stores a recipient's opt-out preferences. It is a list of recipient email addresses to which you do NOT want to send email. The Suppression List API is used to manage your exclusion list entries.  An entry indicates whether the recipient opted out of receiving one of the following:
 
-* Transactional and non-transactional messages from a given customer
-* Transactional messages only from a given customer
-* Non-transactional messages only from a given customer
-* No messages from a given customer
+* Transactional messages
+* Non-transactional messages
 
 Transactional messages are single recipient messages that are used operationally, e.g. to reset a password or confirm a purchase; while non-transactional messages are used to run email campaigns where a list of recipients are targeted, e.g. advertising a sales event.
 
-In addition to the customer-specific exclusion list, Message Systems maintains a global suppression list across all customers.
+In addition to your suppression list, SparkPost maintains a global suppression list across all customers.
 
 ## Recipient Database Maintenance
 
-**When initially configuring your SparkPost account, we *strongly recommend* you import any suppression list you have from any previous service to avoid incorrectly sending mail to unsubscribed/invalid recipients.**
+<div class="alert alert-danger">When initially configuring your SparkPost account, we <strong>strongly recommend</strong> you import any suppression list you have from any previous service to avoid incorrectly sending mail to unsubscribed/invalid recipients.</div>
 
-**SparkPost supports bulk importing or manually adding up to 1,000,000 suppression list entries.**
+<div class="alert alert-info">SparkPost supports bulk importing or manually adding up to 1,000,000 suppression list entries total.</div>
 
 It is also good practice to maintain your own recipient database by unsubscribing or removing recipients based on the bounce, unsubscribe and spam complaint events provided by SparkPost. These events are available from [webhooks](webhooks), [message events](message-events) and your suppression list. A 24-hour time-windowed suppression list search [as outlined below](#suppression-list-search-get) is useful here.
 
@@ -27,28 +25,33 @@ It is also good practice to maintain your own recipient database by unsubscribin
 
 If you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 ## List Entry Attributes
 | Field         | Type     | Description                           | Required   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
-|transactional | boolean | Whether the recipient requested to not receive any transactional messages | At a minimum, transactional or non_transactional is required upon creation of the entry. | |
-|non_transactional | boolean | Whether the recipient requested to not receive any non-transactional messages | At a minimum, transactional or non_transactional is required upon creation of the entry. |  |
+| recipient | string | Email address to be suppressed | yes | |
+| type | string | Type of suppression record: `transactional` or `non_transactional` |  |
+|transactional | boolean | Whether the recipient requested to not receive any transactional messages | Not required if a valid `type` is passed | Available, but deprecated in favor of `type`|
+|non_transactional | boolean | Whether the recipient requested to not receive any non-transactional messages | Not required if a valid `type` is passed | Available, but deprecated in favor of `type` |
 |source | string | Source responsible for inserting the list entry. Valid values include: `Spam Complaint`, `List Unsubscribe`, `Bounce Rule`, `Unsubscribe Link`, `Manually Added`, `Compliance`| no - entries created by the user are marked as `Manually Added` | Field is read-only  |
-|description | string | Short explanation of the suppression | no | |
+| description | string | Short explanation of the suppression | no | |
 
 
 ## Bulk Insert/Update [/suppression-list/]
 
 ### Insert or Update List Entries [PUT]
 
-Bulk insert or update entries in the customer-specific exclusion list by providing a JSON object, with a "recipients" key containing an array of recipients to insert or update, as the PUT request body. Maximum size of the JSON object is 50mb. At a minimum, each recipient must have a valid "email" address and at least one of the following keys: "transactional" or "non_transactional". The optional "description" key can be used to include an explanation of what type of message should be suppressed.
+Bulk insert or update entries in the suppression list by providing a JSON object, with a `recipients` key containing an array of recipients to insert or update, as the PUT request body. Maximum size of the JSON object is 50mb. Maximum recipients at a time is 10,000. At a minimum, each recipient must have a valid email address and a suppression type: `transactional` or `non_transactional`. The optional `description` key can be used to include an explanation of what type of message should be suppressed.
 
-If the recipient entry was added to the list by Compliance, it cannot be updated.
+If the recipient was added to the list by Compliance, it cannot be updated.
 
-If an email address is duplicated in a single request, only the first instance will be processed.
+Please note that in the unlikely scenario where your receive a HTTP 5xx level error response while bulk loading, that some of your suppression entries may have been successfully inserted or updated. If this occurs, please re-submit your original request again for processing.
 
-*Note:* `email`, which is an alias of `recipient`, attribute is supported but deprecated.
+<div class="alert alert-warning"><strong>Deprecation Notice</strong>: The <tt>email</tt> attribute is deprecated. Use <tt>recipient</tt> instead.</div>
+
+<div class="alert alert-warning"><strong>Deprecation Notice</strong>: The attributes <tt>transactional</tt> and <tt>non_transactional</tt> are deprecated. Use <tt>type</tt> instead.</div>
+
 
 + Request (application/json)
 
@@ -62,12 +65,13 @@ If an email address is duplicated in a single request, only the first instance w
             "recipients": [
                 {
                     "recipient": "rcpt_1@example.com",
-                    "transactional": true,
+                    "type": "transactional",
                     "description": "User requested to not receive any transactional emails."
                 },
                 {
                     "recipient": "rcpt_2@example.com",
-                    "non_transactional": true
+                    "type": "non_transactional",
+                    "description": "User requested to not receive any non-transactional emails."
                 }
             ]
         }
@@ -78,10 +82,17 @@ If an email address is duplicated in a single request, only the first instance w
         {
             "errors": [
                 {
-                    "message": "transactional must be a boolean if present"
-                },
+                    "message": "PUT body contains 2 invalid or malformed recipient(s): rcpt_1@example.com, rcpt_2@example.com"
+                }
+            ]
+        }
+
++ Response 400 (application/json; charset=utf-8)
+
+        {
+            "errors": [
                 {
-                    "message": "Invalid email address: example.com"
+                    "message": "Type must be one of: \'transactional\', \'non_transactional\'"
                 }
             ]
         }
@@ -105,19 +116,25 @@ If an email address is duplicated in a single request, only the first instance w
                 }
         }
 
-
-## Search [/suppression-list{?to,from,types,sources,limit}]
+## Search [/suppression-list{?to,from,domain,cursor,limit,per_page,page,sources,types,description}]
 
 ### Search for List Entries [GET]
 
-Perform a filtered search for entries in your customer-specific exclusion list.
+Perform a filtered search for entries in your suppression list.
+
+<div class="alert alert-warning"><strong>Deprecation Notice</strong>: <tt>limit</tt> parameter is supported up to 10000, but deprecated. Please use <tt>per_page</tt> instead.</div>
 
 + Parameters
-    + to = `now` (optional, datetime, `2014-07-20T09:00:00-0400`) ... Datetime the entries were last updated, in the format of YYYY-MM-DDTHH:mm:ssZ
+    + to = `now` (optional, datetime, `2014-07-21T09:00:00-0400`) ... Datetime the entries were last updated, in the format of YYYY-MM-DDTHH:mm:ssZ
     + from (optional, datetime, `2014-07-20T09:00:00-0400`) ... Datetime the entries were last updated, in the format YYYY-MM-DDTHH:mm:ssZ
-    + types (optional, list) ... Types of entries to include in the search, i.e. entries with "transactional" and/or "non_transactional" keys set to true
-    + sources (optional, list) ... Sources of the entries to include in the search, i.e. entries that were added by this source
-    + limit (optional, int, `5`) ... Maximum number of results to return.  Must be between 1 and 100000. Default value is 100000.
+    + domain (optional, string, `yahoo.com`) ... Domain of entries to include in the search.
+    + cursor (optional, string, `initial`) ... The results cursor location to return, to start paging with cursor, use the value of 'initial'. When cursor is provided the `page` parameter is ignored.
+    + limit (optional, int, `5`) ... Maximum number of results to return per page.  Must be between 1 and 10,000.
+    + per_page (optional, int, `5`) ... Maximum number of results to return per page.  Must be between 1 and 10,000. Default value is 1000.
+    + page (optional, int, `5`) ... The results page number to return. Used with per_page for paging through results. The page parameter works up to 10,000 results. You must use the cursor parameter and start with cursor=initial to page result sets larger than 10,000
+    + sources (optional, list, `Bounce%20Rule,Manually%20Added`) ... Sources of the entries to include in the search, i.e. entries that were added by this source
+    + types (optional, list, `transactional`) ... Types of entries to include in the search, i.e. entries that are `transactional` or `non_transactional`
+    + description (optional, string, `Invalid%20Recipient`) ... Description of the entries to include in the search, i.e descriptions that include the text submitted.
 
 + Request
 
@@ -152,25 +169,36 @@ Perform a filtered search for entries in your customer-specific exclusion list.
             "results": [
                 {
                     "recipient": "test@example.com",
-                    "transactional": true,
-                    "non_transactional": true,
                     "source": "Bounce Rule",
-                    "description": "550: this email address does not exist #55",
+                    "type": "transactional",
                     "created": "2015-01-01T01:01:01+00:00",
-                    "updated": "2015-01-01T01:01:01+00:00"
+                    "updated": "2015-01-01T01:01:01+00:00",
+                    "transactional": true
+                },
+                {
+                    "recipient": "test@example.com",
+                    "description": "550: this email address does not exist #55",
+                    "source": "Bounce Rule",
+                    "type": "non_transactional",
+                    "created": "2015-01-01T01:01:01+00:00",
+                    "updated": "2015-01-01T01:01:01+00:00",
+                    "non_transactional": true
+                },
+                {
+                    "recipient": "test2@example.com",
+                    "description": "Recipient unsubscribed",
+                    "source": "Manually Added",
+                    "type": "transactional",
+                    "created": "2015-01-01T01:01:01+00:00",
+                    "updated": "2015-01-01T01:01:01+00:00",
+                    "transactional": true
                 }
-            ]
+            ],
+            "links": [],
+            "total_count": 3
         }
 
 + Response 200 (application/json; charset=utf-8)
-    <div class="alert alert-warning">
-      <strong>Coming Soon!</strong>
-      <p>Please note that this is an upcoming breaking change to this endpoint's response body. This new response style replaces the HTTP 200 response
-      described above. If a recipient is suppressed at both a transactional and non-transaction level, two objects will be returned in the response
-      body instead of one. Also, there will be a new key of "type", which will inform which suppression type (transactional or non-transactional)
-      the object is referencing.</p>
-    </div>
-
     + Body
 
             {
@@ -196,18 +224,32 @@ Perform a filtered search for entries in your customer-specific exclusion list.
                 ]
             }
 
-## Retrieve, Delete [/suppression-list/{recipient_email}]
+## Retrieve, Delete, Insert or Update [/suppression-list/{recipient_email}]
 
 ### Retrieve a Recipient Suppression Status [GET]
 
 Retrieve the suppression status for a specific recipient by specifying the recipient’s email address in the URI path.
 
-If the recipient is not in the customer-specific exclusion list, an HTTP status of 404 is returned. If the recipient is in the list, an HTTP status of 200 is returned with the full suppression status in the response body.
+This is a search endpoint so delays can occur when searching across multiple suppression lists.  See "Searching with Subaccounts" below.
 
-In addition to the list entry attributes, the response body also includes "created" and "updated" timestamps.
+If the recipient is not in the suppression list, an HTTP status of 404 is returned. If the recipient is in the list, an HTTP status of 200 is returned with the suppression records in the response body. Specifying the `type` query parameter allows for retrieving only the `transactional` or `non_transactional` record. If type is specified and the recipient isn't suppressed for that type, an HTTP status of 404 is returned.
+
+In addition to the list entry attributes, the response body also includes `created` and `updated` timestamps.
+
+##### Searching with Subaccounts:
+Please provide the X-MSYS-SUBACCOUNT header when performing a lookup on a specific suppression list.
+- Use a value of 0 to only search against the master account suppression list.
+- Use the subaccount's ID to perform a lookup on a specific subaccount suppression list.
+
+If the X-MSYS-SUBACCOUNT header is not provided, a search will be performed across the master account and all subaccount suppression lists. Searches across multiple lists can return out of date results, with a delay of up to 20 minutes. Searches against a specific list are not affected by this delay and return up-to-date information. If you do not take advantage of SparkPost's subaccounts feature, you do not need to provide the X-MSYS-SUBACCOUNT header in order to receive up-to-date results.
+
 
 + Parameters
   + recipient_email (required, string, `rcpt@example.com`) ... Recipient email address
+  + types (optional, list, `transactional`) ... Types of entries to include in the search, i.e. entries that are `transactional` or `non_transactional`
+  + cursor (optional, string, `initial`) ... The results cursor location to return, to start paging with cursor, use the value of 'initial'. When cursor is provided the `page` parameter is ignored. ( **Note:** Applicable to multi-list queries only)
+  + per_page (optional, int, `5`) ... Maximum number of results to return per page.  Must be between 1 and 10,000. Default value is 1000. ( **Note:** Applicable to multi-list queries only)
+  + page (optional, int, `5`) ... The results page number to return. Used with per_page for paging through results. The page parameter works up to 10,000 results. You must use the cursor parameter and start with cursor=initial to page result sets larger than 10,000 ( **Note:** Applicable to multi-list queries only)
 
 
 + Request
@@ -216,6 +258,7 @@ In addition to the list entry attributes, the response body also includes "creat
 
             Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
             Accept: application/json
+            X-MSYS-SUBACCOUNT: <subaccount-id> (optional)
 
 + Response 404 (application/json; charset=utf-8)
 
@@ -233,35 +276,10 @@ In addition to the list entry attributes, the response body also includes "creat
             "results" : [
               {
                 "recipient" : "rcpt_1@example.com",
-                "transactional" : true,
-                "non_transactional" : true,
-                "source" : "Manually Added",
-                "description" : "User requested to not receive any further emails.",
-                "created" : "2015-01-01T12:00:00+00:00",
-                "updated" : "2015-01-01T12:00:00+00:00"
-              }
-            ]
-        }
-
-+ Response 200 (application/json; charset=utf-8)
-    <div class="alert alert-warning">
-      <strong>Coming Soon!</strong>
-      <p>Please note that this is an upcoming breaking change to this endpoint's response body. This new response style replaces the HTTP 200 response
-      described above. If a recipient is suppressed at both a transactional and non-transaction level, two objects will be returned in the response
-      body instead of one. Also, there will be a new key of "type", which will inform which suppression type (transactional or non-transactional)
-      the object is referencing.</p>
-    </div>
-
-    + Body
-
-        {
-            "results" : [
-              {
-                "recipient" : "rcpt_1@example.com",
                 "non_transactional" : true,
                 "type": "non_transactional",
                 "source" : "Manually Added",
-                "description" : "User requested to not receive any further emails.",
+                "description" : "User requested to not receive any non-transactional emails.",
                 "created" : "2015-01-01T12:00:00+00:00",
                 "updated" : "2015-01-01T12:00:00+00:00"
               },
@@ -274,20 +292,48 @@ In addition to the list entry attributes, the response body also includes "creat
                 "created" : "2015-01-01T12:00:00+00:00",
                 "updated" : "2015-01-01T12:00:00+00:00"
               }
-            ]
+            ],
+            "links": [],
+            "total_count": 2
         }
 
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "results" : [
+              {
+                "recipient" : "shared_recip@example.com",
+                "non_transactional" : true,
+                "type": "non_transactional",
+                "source" : "Manually Added",
+                "description" : "User requested to not receive any non-transactional emails.",
+                "created" : "2015-01-01T12:00:00+00:00",
+                "updated" : "2015-01-01T12:00:00+00:00"
+              },
+              {
+                "recipient" : "shared_recip@example.com",
+                "non_transactional" : true,
+                "type": "non_transactional",
+                "source" : "Bounce Rule",
+                "description" : "550: 550 - Domain has been disabled. #7",
+                "created" : "2016-10-01T12:00:00+00:00",
+                "updated" : "2016-10-01T12:00:00+00:00",
+                "subaccount_id": "146"
+              },
+            ],
+            "links": [],
+            "total_count": 2
+        }
 
 
 ### Delete a List Entry [DELETE]
 
 Delete a recipient from the list by specifying the recipient's email address in the URI path.
 
-If the recipient is not in the customer-specific exclusion list, an HTTP status of 404 is returned. If the recipient is in the list, an HTTP status of 204 is returned indicating a successful deletion.
+If the recipient is not in the suppression list, an HTTP status of 404 is returned. If the recipient is in the list, an HTTP status of 204 is returned indicating a successful deletion. Suppression `type` can be specified in the request body. If a type isn't provided, the suppression will be deleted for both transactional and non-transactional.
 
 + Parameters
     + recipient_email (required, string, `rcpt@example.com`) ... Recipient email address
-
 
 + Request
 
@@ -320,14 +366,75 @@ If the recipient is not in the customer-specific exclusion list, an HTTP status 
 
 ### Insert or Update a List Entry [PUT]
 
-The PUT method on this endpoint has been removed in favor of the Bulk Insert/Update method.
+Insert or update a single entry in the suppression list by providing a JSON object. At a minimum, the JSON object should include a suppression type: `transactional` or `non_transactional`. The optional `description` key can be used to include an explanation of what type of message should be suppressed.
 
-+ Response 405 (application/json; charset=utf-8)
+If the recipient entry was added to the list by Compliance, it cannot be updated.
+
++ Parameters
+    + recipient_email (required, string, `rcpt@example.com`) ... Recipient email address
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+    + Body
+
+        ```
+        {
+          "type": "transactional",
+          "description" : "Unsubscribe from newsletter"
+        }
+        ```
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+              "results": {
+                "message": "Suppression list successfully updated"
+              }
+        }
++ Response 400 (application/json; charset=utf-8)
 
         {
             "errors": [
                 {
-                    "message": "Method Not Allowed"
+                    "message": "Must supply a suppression type"
                 }
             ]
+        }
++ Response 400 (application/json; charset=utf-8)
+
+        {
+            "errors": [
+                {
+                    "message": "Type must be one of: \'transactional\', \'non_transactional\'"
+                }
+            ]
+        }
+
+## List Summary [/suppression-list/summary]
+### Retrieve Suppression List Summary [GET]
+
+Retrieve the total number of suppressions for an account as well as a break down of entries by source.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Response 200 (application/json; charset=utf-8)
+
+        {
+            "results": {
+                "compliance": 1,
+                "manually_added": 1542,
+                "unsubscribe_link": 1,
+                "bounce_rule": 3891,
+                "list_unsubscribe": 1,
+                "spam_complaint": 1,
+                "total": 5437
+            }
         }

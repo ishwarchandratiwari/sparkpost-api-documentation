@@ -1,10 +1,12 @@
 <a href="https://www.sparkpost.com"><img src="https://www.sparkpost.com/sites/default/files/attachments/SparkPost_Logo_2-Color_Gray-Orange_RGB.svg" width="200px"/></a>
 
-[Sign up](https://app.sparkpost.com/sign-up?src=Dev-Website&sfdcid=70160000000pqBb) for a SparkPost account and visit our [Developer Hub](https://developers.sparkpost.com) for even more content.
+[Sign up](https://app.sparkpost.com/join?src=Dev-Website&sfdcid=70160000000pqBb) for a SparkPost account and visit our [Developer Hub](https://developers.sparkpost.com) for even more content.
+
+<div class="alert alert-info">SparkPost EU is now available in the EU region. You can now <a href="https://app.eu.sparkpost.com/join?src=Dev-Website&sfdcid=70160000000pqBb">Sign up</a> for a SparkPost EU account.</div>
 
 # SparkPost API Documentation
 
-[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)
+[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://app.getpostman.com/run-collection/5d9ae743a661a15d64bb)
 
 ## Prerequisites
 
@@ -53,21 +55,21 @@ You can use `grunt preview` to generate API docs under `static/` and start an au
 
 The API documentation lives at https://developers.sparkpost.com/api/. When a commit is made to the `master` branch of this repo, it triggers a Travis CI run that executes the code in `bin/copy-to-devhub.sh`. The automated workflow is as follows:
 
-* Clone the develop branch of the [SparkPost/sparkpost.github.io](https://github.com/SparkPost/sparkpost.github.io) repo
-* Generate the HTML files for the API docs into `sparkpost.gitub.io/_api`
-* Commit the changes, which triggers a Travis CI build for the `sparkpost.github.io` repo
+* Clone the develop branch of the [DevHub](https://github.com/SparkPost/developers.sparkpost.com) repo
+* Generate the HTML files for the API docs into `developers.sparkpost.com/_api`
+* Commit the changes, which triggers a Travis CI build for the `developers.sparkpost.com` repo
 
 The Travis CI projects can be viewed here:
 
 * [sparkpost-api-documentation](https://travis-ci.org/SparkPost/sparkpost-api-documentation)
-* [sparkpost.github.io](https://travis-ci.org/SparkPost/sparkpost.github.io)
+* [developers.sparkpost.com](https://travis-ci.org/SparkPost/developers.sparkpost.com)
 
 ### Contributing
-[Guidelines for adding issues](docs/ADDING_ISSUES.markdown)
+[Guidelines for adding issues](CONTRIBUTING.md#guidelines-for-adding-issues-to-sparkpost-api-documentation)
 
 [API Blueprint Specification](https://github.com/apiaryio/api-blueprint/blob/master/API%20Blueprint%20Specification.md)
 
-[Submitting pull requests](docs/CONTRIBUTING.markdown)
+[Submitting pull requests](CONTRIBUTING.md#contribution-steps)
 
 ## License
 

@@ -13,7 +13,7 @@
     "resourceGroups": [
       {
         "name": "Account",
-        "description": "## Using Postman\n\nIf you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:\n\n[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)\n\n",
+        "description": "## Using Postman\n\nIf you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:\n\n[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/5d9ae743a661a15d64bb)\n\n",
         "resources": [
           {
             "element": "resource",
@@ -108,7 +108,7 @@
         ],
         "elementId": "account",
         "elementLink": "#account",
-        "descriptionHtml": "<h2 id=\"header-using-postman\">Using Postman <a class=\"permalink\" href=\"#header-using-postman\" aria-hidden=\"true\">¶</a></h2>\n<p>If you use <a href=\"https://www.getpostman.com/\">Postman</a> you can click the following button to import the SparkPost API as a collection:</p>\n<p><a href=\"https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a\"><img src=\"https://s3.amazonaws.com/postman-static/run-button.png\" alt=\"Run in Postman\"></a></p>\n",
+        "descriptionHtml": "<h2 id=\"header-using-postman\">Using Postman <a class=\"permalink\" href=\"#header-using-postman\" aria-hidden=\"true\">¶</a></h2>\n<p>If you use <a href=\"https://www.getpostman.com/\">Postman</a> you can click the following button to import the SparkPost API as a collection:</p>\n<p><a href=\"https://www.getpostman.com/run-collection/5d9ae743a661a15d64bb\"><img src=\"https://s3.amazonaws.com/postman-static/run-button.png\" alt=\"Run in Postman\"></a></p>\n",
         "navItems": [
           [
             "Using Postman",
@@ -126,7 +126,7 @@
         "content": [
           {
             "element": "copy",
-            "content": "## Using Postman\n\nIf you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:\n\n[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/81ee1dd2790d7952b76a)\n\n"
+            "content": "## Using Postman\n\nIf you use [Postman](https://www.getpostman.com/) you can click the following button to import the SparkPost API as a collection:\n\n[![Run in Postman](https://s3.amazonaws.com/postman-static/run-button.png)](https://www.getpostman.com/run-collection/5d9ae743a661a15d64bb)\n\n"
           },
           {
             "element": "resource",
