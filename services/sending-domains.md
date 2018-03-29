@@ -41,7 +41,7 @@ The DKIM key configuration is described in a JSON object with the following fiel
 
 | Field         | Type     | Description                           | Required   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
-|signing_domain| string | Signing Domain Identifier (SDID) | no |This will be used in the `d=` field of the DKIM Signature. If `signing_domain` is not specified, or is set to the empty string (""), then the Sending Domain will be used as the signing domain.<br/>By default, SparkPost uses the Sending Domain as the signing domain. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span> |
+|signing_domain| string | Signing Domain Identifier (SDID) | no |This will be used in the `d=` field of the DKIM Signature. If `signing_domain` is not specified, or is set to the empty string (""), then the Sending Domain will be used as the signing domain.<br/>By default, SparkPost uses the Sending Domain as the signing domain.|
 |private | string | DKIM private key | yes | The private key will be used to create the DKIM Signature.|
 |public | string |DKIM public key  | yes | The public key will be retrieved from DNS of the sending domain.|
 |selector | string |DomainKey selector | yes | The DomainKey selector will be used to indicate the DKIM public key location.|
@@ -98,7 +98,7 @@ Create a sending domain by providing a **sending domain object** as the POST req
 
 We allow any given domain (including its subdomains) to only be used by a single customer account.  Please see our [support article](https://support.sparkpost.com/customer/en/portal/articles/1933318-creating-sending-domains) for additional reasons a domain might not be approved for sending.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.</div>
+To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.
 
 <div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be set to verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need to use the <tt>verify</tt> endpoint to verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please contact support <a href="mailto:support@sparkpostelite.com">support@sparkpostelite.com</a>, or your TAM.</div>
 
@@ -127,7 +127,7 @@ We allow any given domain (including its subdomains) to only be used by a single
             "dkim": {
               "public": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+W6scd3XWwvC/hPRksfDYFi3ztgyS9OSqnnjtNQeDdTSD1DRx/xFar2wjmzxp2+SnJ5pspaF77VZveN3P/HVmXZVghr3asoV9WBx/uW1nDIUxU35L4juXiTwsMAbgMyh3NqIKTNKyMDy4P8vpEhtH1iv/BrwMdBjHDVCycB8WnwIDAQAB",
               "selector": "scph0316",
-              "signing_domain": "",
+              "signing_domain": "example1.com",
               "headers": "from:to:subject:date"
             }
           }
@@ -182,7 +182,7 @@ We allow any given domain (including its subdomains) to only be used by a single
             "dkim": {
               "public": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+W6scd3XWwvC/hPRksfDYFi3ztgyS9OSqnnjtNQeDdTSD1DRx/xFar2wjmzxp2+SnJ5pspaF77VZveN3P/HVmXZVghr3asoV9WBx/uW1nDIUxU35L4juXiTwsMAbgMyh3NqIKTNKyMDy4P8vpEhtH1iv/BrwMdBjHDVCycB8WnwIDAQAB",
               "selector": "scph0316",
-              "signing_domain": "",
+              "signing_domain": "example1.com",
               "headers": "from:to:subject:date"
             }
           }
@@ -326,7 +326,8 @@ If a tracking domain is specified, it will replace any currently specified track
 
 If a DKIM object is provided in the update request, it must contain all relevant fields whether they are being changed or not.  The new DKIM object will completely overwrite the existing one.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: To remove the DKIM Signing Domain Identifier for a Sending Domain, use an empty string for the value of the <tt>dkim.signing_domain</tt> field.</div>
+To remove the DKIM Signing Domain Identifier for a Sending Domain, use an empty string for the value of the <tt>dkim.signing_domain</tt> field.
+
 
 + Parameters
     + domain (required, string, `example1.com`) ... Name of the domain
