@@ -27,7 +27,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |generate_dkim | boolean | Whether to generate a DKIM keypair on creation | no | Defaults to `true` |
 |dkim_key_length | number | Size, in bits, of the DKIM private key to be generated  | no | This option only applies if generate_dkim is 'true'. Private key size defaults to 1024.<br/><span class="label label-info"><strong>Note</strong></span> public keys for private keys longer than 1024 bits will be longer that 255 characters.  Because of this, the public key `TXT` record in DNS will need to contain multiple strings, see [RFC 7208, section 3.3](https://tools.ietf.org/html/rfc7208#section-3.3) for an example of how the SPF spec addresses this.|
 |shared_with_subaccounts | boolean | Whether this domain can be used by subaccounts | no | Defaults to `false`.  Only available to domains belonging to a master account.|
-|is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains belonging to a master account, with cname_status of "valid".<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
+|is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains with cname_status of "valid" or mx_status of "valid".  The master account as well as each subaccount may set a unique default bounce domain.<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
 |creation_time	| string | Datetime the domain was created | no | Read only. Format: YYYY-MM-DDTHH:MM:SS+-HH:MM|
 |delegated | boolean | Whether this domain was delegated to SparkPost by the customer | no | Defaults to `false`. Read only. Will not be present if false. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span>  |
 
@@ -98,7 +98,7 @@ Create a sending domain by providing a **sending domain object** as the POST req
 
 We allow any given domain (including its subdomains) to only be used by a single customer account.  Please see our [support article](https://support.sparkpost.com/customer/en/portal/articles/1933318-creating-sending-domains) for additional reasons a domain might not be approved for sending.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.</div>
+To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.
 
 <div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be set to verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need to use the <tt>verify</tt> endpoint to verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please contact support <a href="mailto:support@sparkpostelite.com">support@sparkpostelite.com</a>, or your TAM.</div>
 
@@ -326,7 +326,8 @@ If a tracking domain is specified, it will replace any currently specified track
 
 If a DKIM object is provided in the update request, it must contain all relevant fields whether they are being changed or not.  The new DKIM object will completely overwrite the existing one.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: To remove the DKIM Signing Domain Identifier for a Sending Domain, use an empty string for the value of the <tt>dkim.signing_domain</tt> field.</div>
+To remove the DKIM Signing Domain Identifier for a Sending Domain, use an empty string for the value of the <tt>dkim.signing_domain</tt> field.
+
 
 + Parameters
     + domain (required, string, `example1.com`) ... Name of the domain
