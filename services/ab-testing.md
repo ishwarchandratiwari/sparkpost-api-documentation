@@ -297,6 +297,8 @@ An A/B test is a method of comparing templates against a default template to see
 
 ### Get Stats for an A/B Test [GET]
 
+<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the winner based on a Bayesian algorithm approach.  If you need finer granualr detail you should use the message events API or webhooks</div>
+
 <div class="alert alert-info"><strong>Note</strong>: count_injected may be larger than the sum of count_success and count_failure - this is because there is some delay for allowing engagement events to be processed</div>
 
 + Parameters
@@ -321,18 +323,21 @@ An A/B test is a method of comparing templates against a default template to see
               "count_injected": 10000,
               "count_success": 7777,
               "count_failure": 1111
+              "confidence": .99,
 	    },
     	    {
               "template_id": "password_reset_variant1",
               "count_injected": 10000,
               "count_success": 5555,
-              "count_failure": 3333 
+              "count_failure": 3333,
+              "confidence": .001,
 	    },
     	    {
               "template_id": "password_reset_variant1",
               "count_injected": 10000,
               "count_success": 1111,
-              "count_failure": 7777
+              "count_failure": 7777,
+              "confidence": .001
 	    }
           ]
         }

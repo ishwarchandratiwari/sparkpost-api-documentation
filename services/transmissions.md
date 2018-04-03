@@ -267,7 +267,6 @@ Create a transmission using n A/B test by specifying the `ab_test_id` in the `co
             "headers": {
               "X-Customer-Campaign-ID": "christmas_campaign"
             },
-            "text": "Hi {{address.name}} \nSave big this Christmas in your area {{place}}! \nClick http://www.mysite.com and get huge discount\n Hurry, this offer is only to {{user_type}}\n {{sender}}",
             "html": "<p>Hi {{address.name}} \nSave big this Christmas in your area {{place}}! \nClick http://www.mysite.com and get huge discount\n</p><p>Hurry, this offer is only to {{user_type}}\n</p><p>{{sender}}</p>"
           }
         }
