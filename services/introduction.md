@@ -36,7 +36,7 @@ In addition, SparkPost is available in multiple regions. "SparkPost" refers to t
 * For examples of supplying the Authorization header, refer to the cURL example below or any of the individual API request examples.
 
 ## API examples
-SparkPost Enterprise customers should make sure to change the API endpoint domain in all the example calls to the domain for their specific environment.
+SparkPost Enterprise and SparkPost EU customers should make sure to change the API endpoint domain in all the example calls to the domain for their specific environment.
 
 ## Using Postman
 
@@ -47,8 +47,6 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 In order to use most of the requests in the collection, you must define your SparkPost API key as a Postman variable called `API_KEY`.
 
 Additionally, if you are a SparkPost Enterprise or SparkPost EU customer, you must set the Postman variable `BASE_URL` to the appropriate host (e.g. `https://api.eu.sparkpost.com` for SparkPost EU). More information on setting up Postman environments and variables can be found [here](https://www.getpostman.com/docs/v6/postman/environments_and_globals/variables).
-
-<div class="alert alert-info"><strong>Note</strong>: SparkPost Enterprise customers will need to change the endpoint in the URL field for each call</div>
 
 ## Using cURL
 If you are using cURL to call the API, you must include the resource URI in quotes when you pass in multiple query parameters separated by an `&`.
