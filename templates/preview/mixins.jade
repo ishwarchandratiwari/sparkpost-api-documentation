@@ -13,7 +13,7 @@ mixin Nav()
         each resourceGroup in self.api.resourceGroups || []
             .resource-group
                 .heading
-                    if (resourceGroup.name === 'A/B Testing')
+                    if (resourceGroup.name === 'Labs A/B Testing')
                         a(href=resourceGroup.elementLink, class='text-uppercase')!= resourceGroup.name + '&nbsp'
                         code(class='alert-info text-uppercase')!= 'Labs'
                     else

@@ -8,6 +8,8 @@ A transmission is a collection of messages belonging to the same campaign. It is
 
 SparkPost generates and sends the messages from your transmissions using a list of recipients and a message template. You can [store a recipient list](recipient-lists.html), or you can include recipients "inline" with your transmission request. Similarly, you can [store your message template](templates.html) or include it "inline" with your transmission request. SparkPost then sends a unique message to each recipient using the specified template. You may also choose to personalise your messages by including substitution variables in your transmissions. You can [learn about templates and substitution here](substitutions-reference.html).  Finally, you can enable engagement tracking in your transmissions to track message opens and clicks.
 
+The Transmissions API also supports A/B testing, which allows you to compare different variants of a template, and ultimately send the winning one (based on engagement data) when the test has completed.  See [A/B Testing](ab-testing.html) for more details.  A/B tests must be created using the A/B testing API, there is no inline support.
+
 For details on how to get the best out of SparkPost Transmission, see [this support article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
 
 ## Using Postman
@@ -153,6 +155,16 @@ The following recipients attribute is used when specifying a stored recipient li
 
 Use the `options.start_time` attribute to delay generation of messages.  The scheduled time cannot be greater than 31 days from the time of submission.  If the scheduled time does not pass validation, the transmission is not accepted.  Transmissions with a scheduled time in the past _are_ accepted and undergo immediate generation.
 
+### Using an A/B Test
+
+The following attributes are used when specifying an A/B in the transmission's `content` JSON object. Note that these attributes should not be present when not using an A/B test.
+
+| Field         | Type     | Description                           | Required   | Notes   |
+|------------------------|:-:       |---------------------------------------|-------------|--------|
+|ab_test_id|string| ID of the A/B test to use | yes |Specify this field when using an A/B test|
+
+<div class="alert alert-info"><strong>Note</strong>: When using substitution data with A/B tests, data for all possible templates must be provided</div>
+
 ## Create [/transmissions{?num_rcpt_errors}]
 
 ### Create a Transmission [POST]
@@ -186,6 +198,9 @@ Scheduling a transmission that specifies a stored template will use the LATEST v
 
 Once message generation has been initiated, all messages in the transmission will use the template selected at the start of the generation. If a template update is made during the generation of a transmission that uses that template, the template update will succeed but the transmission will continue to use the version that was selected at the start of the generation.
 
+#### Using an A/B Test
+
+Create a transmission using n A/B test by specifying the `ab_test_id` in the `content` attribute.
 
 + Parameters
   + num_rcpt_errors (optional, number, `3`) ... Maximum number of recipient errors that this call can return, otherwise all validation errors are returned.
@@ -878,6 +893,86 @@ Once message generation has been initiated, all messages in the transmission wil
             }
           }
         }
+
++ Response 200 (application/json)
+
+    + Body
+
+        {
+          "results": {
+            "total_rejected_recipients": 0,
+            "total_accepted_recipients": 2,
+            "id": "11668787493850529"
+          }
+        }
+
++ Request Create Transmission with A/B Test
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+
+  + Body
+
+            {
+              "options": {
+                "open_tracking": true,
+                "click_tracking": true
+              },
+
+              "campaign_id": "thanksgiving_campaign",
+
+              "content": {
+                "ab_test_id": "christmas_offer_test",
+              },
+
+              "metadata": {
+                "user_type": "students",
+                "age_group": "18-35"
+              },
+              "substitution_data": {
+                "status": "shopping",
+                "holiday": "Thanksgiving"
+              },
+
+              "recipients": [
+                {
+                  "address": {
+                    "email": "wilma@flintstone.com",
+                    "name": "Wilma Flintstone"
+                  },
+                  "tags": [
+                    "greeting",
+                    "prehistoric",
+                    "fred",
+                    "flintstone"
+                  ],
+                  "metadata": {
+                    "age": "24",
+                    "place": "Bedrock"
+                  },
+                  "substitution_data": {
+                    "first_name": "Wilma",
+                    "last_name": "Flintstone"
+                  }
+                },
+                {
+                  "address": {
+                    "email": "abc@flintstone.com"
+                  },
+                  "tags": [
+                    "greeting",
+                    "prehistoric",
+                    "fred",
+                    "flintstone"
+                  ],
+                  "metadata": {
+                    "age": "33",
+                    "place": "MD"
+                  }
+                }
+              ]
+            }
 
 + Response 200 (application/json)
 
