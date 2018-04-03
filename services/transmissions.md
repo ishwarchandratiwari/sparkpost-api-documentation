@@ -163,7 +163,10 @@ The following attributes are used when specifying an A/B in the transmission's `
 |------------------------|:-:       |---------------------------------------|-------------|--------|
 |ab_test_id|string| ID of the A/B test to use | yes |Specify this field when using an A/B test|
 
-<div class="alert alert-info"><strong>Note</strong>: When using substitution data with A/B tests, data for all possible templates must be provided</div>
+<div class="alert alert-info"><strong>Note</strong>: When using substitution data with A/B tests, data for all possible templates must be provided.  It is recommended best practice that all templates that make up an A/B test use the same substitution data fields</div>
+
+<div class="alert alert-info"><strong>Note</strong>: A/B Tests only support inline single recipient transmissions currently</div>
+
 
 ## Create [/transmissions{?num_rcpt_errors}]
 
@@ -919,19 +922,8 @@ Create a transmission using n A/B test by specifying the `ab_test_id` in the `co
                 "click_tracking": true
               },
 
-              "campaign_id": "thanksgiving_campaign",
-
               "content": {
-                "ab_test_id": "christmas_offer_test",
-              },
-
-              "metadata": {
-                "user_type": "students",
-                "age_group": "18-35"
-              },
-              "substitution_data": {
-                "status": "shopping",
-                "holiday": "Thanksgiving"
+                "ab_test_id": "password_reset",
               },
 
               "recipients": [
@@ -940,34 +932,9 @@ Create a transmission using n A/B test by specifying the `ab_test_id` in the `co
                     "email": "wilma@flintstone.com",
                     "name": "Wilma Flintstone"
                   },
-                  "tags": [
-                    "greeting",
-                    "prehistoric",
-                    "fred",
-                    "flintstone"
-                  ],
-                  "metadata": {
-                    "age": "24",
-                    "place": "Bedrock"
-                  },
                   "substitution_data": {
                     "first_name": "Wilma",
                     "last_name": "Flintstone"
-                  }
-                },
-                {
-                  "address": {
-                    "email": "abc@flintstone.com"
-                  },
-                  "tags": [
-                    "greeting",
-                    "prehistoric",
-                    "fred",
-                    "flintstone"
-                  ],
-                  "metadata": {
-                    "age": "33",
-                    "place": "MD"
                   }
                 }
               ]
@@ -980,7 +947,7 @@ Create a transmission using n A/B test by specifying the `ab_test_id` in the `co
         {
           "results": {
             "total_rejected_recipients": 0,
-            "total_accepted_recipients": 2,
+            "total_accepted_recipients": 1,
             "id": "11668787493850529"
           }
         }

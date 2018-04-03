@@ -5,7 +5,7 @@ description: A/B Testing of templates.
 
 <a name="ab-testing-api"></a>
 
-An A/B test is a method of comparing templates against a default template to see how their performance compares.  Users specify a default template and up to twenty template variants to compare, the comparision is based on the user selected metric.  Currently there are two supported modes of audience selection (which recipients receive the variant templates): a fixed number of recipients per variant can be specified, alternatively a percentage of recipients per variant can be specified.  There are two supported modes of behavior selection once the A/B test completes.  In learning mode once the test has completed subsequent transmissions will revert to using the default template.  In bayesian mode the best performing template as determined by a bayesian algorithm will be used in subsequent transmissions.
+An A/B test is a method of comparing templates against a default template to see how their performance compares.  Users specify a default template and up to twenty template variants to compare, the comparision is based on the user selected metric.  Currently there are two supported modes of audience selection (which recipients receive the variant templates): a fixed number of recipients per variant can be specified, alternatively a percentage of recipients per variant can be specified.  There are two supported modes of behavior selection once the A/B test completes.  In learning mode once the test has completed subsequent transmissions will revert to using the default template.  In Bayesian mode the best performing template as determined by a Bayesian algorithm will be used in subsequent transmissions.
 
 #### A/B Test Properties
 
@@ -17,11 +17,24 @@ An A/B test is a method of comparing templates against a default template to see
 | version | integer | The current version number of the template.  The version increments each time the A/B test is modified. |
 | default_template | string | The default template ID |
 | variants | object | Specifies which variants to test, as well as how messages are distributed to each variant.  See [Variants Properties](#header-variants-properties) |
-| behavior | string | `learning` or `bayesian` |
+| behavior | object | Species the behavior of the test.  See [Behavior Properties](#behavior-properties) |
 | metric | string | One of `count_unique_clicked`, `count_unique_rendered` |
 | count | integer | The number of transmissions to send as part of the test |
-| created_at | integer | Unix Timestamp of A/B Test Creation | |
-| updated_at | integer | Unix Timestamp of the last time the A/B test was updated |
+| created_at | string | ISO Date of A/B Test Creation | |
+| updated_at | string | ISO Date of the last time the A/B test was updated |
+
+### Behavior Properties
+| Property   | Type    | Description | Notes |
+|------------|---------|-------------|-------|
+| behavior_selection | string | Either `bayesian` or `learning` |
+| audience_selection | string | Either `percentage` or `count` |
+| start_time | string | ISO Date specifying when the test should begin |
+| end_time | string | (Optional) ISO Date specifying when the test should end |
+| sample_size | int | (Optional) Total number of messages to send as part of the test |
+| confidence | float | (Optional) Specify a confidence level at which point the test should end.  The test will run indefinitely until the Bayesian algorithm has determined a winner with the given confidence level |
+| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure.  Defaults to 8 hours |
+
+<div class="alert alert-info"><strong>Note</strong>: You can only specify one of end_time, sample_size or confidence.</div>
 
 ### Variants Properties
 | Property   | Type    | Description | Notes |
@@ -55,8 +68,12 @@ An A/B test is a method of comparing templates against a default template to see
             "id": "payment-confirmation",
             "default_template_id": "default_payment_confirmation_template",
             "metric": "count_unique_opened",
-            "behavior": "bayesian",
-            "count": 9999999,
+            "behavior": {
+              "start_time": "2018-04-03T22:08:33+00:00",
+              "behavior_selection": "bayesian",
+              "audience_selection": "percentage",
+              "confidence_level": 0.99
+            },
             "variants": {
               "audience_selection": "percentage",
               "templates": [
@@ -94,10 +111,13 @@ An A/B test is a method of comparing templates against a default template to see
             "id": "payment-confirmation",
             "default_template_id": "default_payment_confirmation_template",
             "metric": "count_unique_opened",
-            "behavior": "bayesian",
-            "count": 9999999,
-            "variants": {
+            "behavior": {
+              "start_time": "2018-04-03T22:08:33+00:00",
+              "behavior_selection": "bayesian",
               "audience_selection": "count",
+              "sample_size": 9999999
+            },
+            "variants": {
               "templates": [
                 {
                   "id": "payment_confirmation_variant1",
@@ -133,15 +153,18 @@ An A/B test is a method of comparing templates against a default template to see
      {
        "results": [
          {
-           "id": "payment-confirmation-test",
+           "id": "payment-confirmation",
            "version": 2,
            "status": "active",
            "default_template_id": "default_payment_confirmation_template",
            "metric": "count_unique_opened",
-           "behavior": "bayesian",
-           "count": 9999999,
+           "behavior": {
+             "start_time": "2018-04-03T22:08:33+00:00",
+             "behavior_selection": "bayesian",
+             "audience_selection": "count",
+             "confidence_level": 0.99
+           },
             "variants": {
-              "audience_selection": "percentage",
               "templates": [
                 {
                   "id": "payment_confirmation_variant1",
@@ -155,16 +178,19 @@ An A/B test is a method of comparing templates against a default template to see
             } 
          },
          {
-           "id": "password-reset-test",
+           "id": "password-reset",
            "version": 2,
            "status": "completed",
            "winner": "password_reset_variant2",
            "default_template_id": "default_password_reset_template",
            "metric": "count_unique_clicked",
-           "behavior": "bayesian",
-           "count": 9999999,
+           "behavior": {
+             "start_time": "2018-04-03T22:08:33+00:00",
+             "behavior_selection": "bayesian",
+             "audience_selection": "percentage",
+             "confidence_level": 0.99
+           },
            "variants": {
-              "audience_selection": "percentage",
               "templates": [
                 {
                   "id": "password_reset_variant1",
@@ -200,7 +226,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 + Parameters
 
-  + id (required, string, `payment-confirmation-test`) ... A/B Test ID
+  + id (required, string, `payment-confirmation`) ... A/B Test ID
 
 + Response 200 (application/json)
 
@@ -212,10 +238,13 @@ An A/B test is a method of comparing templates against a default template to see
          "status": "active",
          "default_template_id": "default_payment_confirmation_template",
          "metric": "count_unique_opened",
-         "behavior": "bayesian",
-         "count": 9999999,
+         "behavior": {
+           "start_time": "2018-04-03T22:08:33+00:00",
+           "behavior_selection": "bayesian",
+           "audience_selection": "count",
+           "confidence_level": 0.99
+         },
          "variants": {
-           "audience_selection": "percentage",
            "templates": [
              {
                "id": "password_reset_variant1",
@@ -266,7 +295,6 @@ An A/B test is a method of comparing templates against a default template to see
       {
         "count": 9999999,
          "variants": {
-           "audience_selection": "percentage",
            "templates": [
              {
                "id": "password_reset_variant1",
@@ -297,7 +325,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 ### Get Stats for an A/B Test [GET]
 
-<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the winner based on a Bayesian algorithm approach.  If you need finer granualr detail you should use the message events API or webhooks</div>
+<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the winner based on a Bayesian algorithm approach.  If you need finer granualar detail you should use the Message Events API or Event Webhooks</div>
 
 <div class="alert alert-info"><strong>Note</strong>: count_injected may be larger than the sum of count_success and count_failure - this is because there is some delay for allowing engagement events to be processed</div>
 
@@ -317,28 +345,28 @@ An A/B test is a method of comparing templates against a default template to see
       ```
       {
         "results": {
-	  "templates": [
-    	    {
+          "templates": [
+            {
               "template_id": "password_reset_default",
               "count_injected": 10000,
               "count_success": 7777,
               "count_failure": 1111
               "confidence": .99,
-	    },
-    	    {
+            },
+            {
               "template_id": "password_reset_variant1",
               "count_injected": 10000,
               "count_success": 5555,
               "count_failure": 3333,
               "confidence": .001,
-	    },
-    	    {
+            },
+            {
               "template_id": "password_reset_variant1",
               "count_injected": 10000,
               "count_success": 1111,
               "count_failure": 7777,
               "confidence": .001
-	    }
+            }
           ]
         }
       }
