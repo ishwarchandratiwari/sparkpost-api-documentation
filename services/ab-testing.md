@@ -1,4 +1,4 @@
-title: Labs A/B Testing
+title: A/B Testing
 description: A/B Testing of templates.
 
 # Group A/B Testing
