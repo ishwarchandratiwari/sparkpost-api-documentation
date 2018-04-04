@@ -40,7 +40,7 @@ Lists all IP Pools.
                 "results": [{
                     "id": "marketing_ip_pool",
                     "name": "Marketing IP Pool",
-                    "fbl_signing_domain": "fbl.signing.domain",
+                    "fbl_signing_domain": "sparkpostmail.com",
                     "ips": []
                 }, {
                     "id": "default",
@@ -75,7 +75,7 @@ Creates an IP Pool and returns a unique ID based on the name. This ID is used fo
 
             {
               "name" : "Marketing IP Pool",
-              "fbl_signing_domain" : "fbl.signing.domain"
+              "fbl_signing_domain" : "sparkpostmail.com"
             }
 
 + Response 200 (application/json)
@@ -110,7 +110,7 @@ Retrieves a specific IP Pool.
                 "results": {
                     "id": "marketing_ip_pool",
                     "name": "Marketing IP Pool",
-                    "fbl_signing_domain": "fbl.signing.domain",
+                    "fbl_signing_domain": "sparkpostmail.com",
                     "ips": [{
                         "external_ip": "54.244.54.135",
                         "hostname": "mta472a.sparkpostmail.com"
@@ -155,7 +155,7 @@ Updates an IP pool's name. To update sending IP pool assignments see [Sending IP
 
             {
                 "name": "Updated Marketing Pool",
-                "fbl_signing_domain": "fbl.signing.domain"
+                "fbl_signing_domain": "sparkpostmail.com"
             }
 
 + Parameters
@@ -169,7 +169,7 @@ Updates an IP pool's name. To update sending IP pool assignments see [Sending IP
     {
         "results": {
           "name": "Updated Marketing Pool",
-          "fbl_signing_domain": "fbl.signing.domain",
+          "fbl_signing_domain": "sparkpostmail.com",
           "id": "marketing"
         }
     }
