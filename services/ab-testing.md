@@ -91,7 +91,27 @@ An A/B test is a method of comparing templates against a default template to see
 + Response 200 (application/json)
     
     ```json
-        {}
+    {
+      "results": {
+        "id": "payment-confirmation"
+      }
+    }
+    ```
+
++ Response 400 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "missing parameter variants"}]
+    }
+    ```
+
++ Response 404 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "template payment_confirmation_variant1 does not exist"}]
+    }
     ```
 
 ## Create an A/B Test using a count for audience selection [POST]
@@ -131,11 +151,23 @@ An A/B test is a method of comparing templates against a default template to see
     ```
 
 + Response 200 (application/json)
-    
-    ```json
-        {}
+
+     ```json
+    {
+      "results": {
+        "id": "payment-confirmation"
+      }
+    }
     ```
 
+ + Response 404 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "A/B test payment-confirmation does not exist"}]
+    }
+    ```
+  
 ## List All A/B Tests [GET]
 
 + Request
@@ -212,6 +244,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 + Parameters
 
+  + id (required, string, `password-reset`) ... A/B Test ID
   + version (optional, integer) ... If passed return information about the specific version of the A/B test.
                                                 If not specified, return information about the latest version.
 
@@ -222,16 +255,12 @@ An A/B test is a method of comparing templates against a default template to see
             Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
             Accept: application/json
 
-+ Parameters
-
-  + id (required, string, `payment-confirmation`) ... A/B Test ID
-
 + Response 200 (application/json)
 
      ```json
      {
      "results": {
-         "id": "payment-confirmation-test",
+         "id": "password-reset",
          "version": 2,
          "status": "active",
          "default_template_id": "default_payment_confirmation_template",
@@ -258,9 +287,21 @@ An A/B test is a method of comparing templates against a default template to see
      }
     ```
 
+ + Response 404 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset does not exist"}]
+    }
+    ```
+
 ## Update an A/B Test [/api/v1/ab-test/{id}]
 
 ### Update an A/B Test [PUT]
+
++ Parameters
+
+  + id (required, string, `password-reset`) ... A/B Test ID
 
 <div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test.  This effectively causes the test to restart.</div>
 
@@ -278,9 +319,22 @@ An A/B test is a method of comparing templates against a default template to see
       ```
 
 + Response 200 (application/json)
-      ```
-      {}
-      ```
+    
+    ```json
+    {
+      "results": {
+        "version": 2
+      }
+    }
+    ```
+
++ Response 404 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset does not exist"}]
+    }
+    ```
 
 + Request Modify an A/B test properties
 
@@ -307,21 +361,46 @@ An A/B test is a method of comparing templates against a default template to see
       }
       ```
 
+
 + Response 200 (application/json)
-      ```
-      {}
-      ```
+    ```json
+    {
+      "results": {
+        "version": 2
+      }
+    }
+    ```
 
 ## Delete an A/B Test [DELETE]
 
++ Request Delete an A/B test
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Parameters
+
+  + id (required, string, `password-reset`) ... A/B Test ID
+
 + Response 200 (application/json)
       ```
-      {}
+      { "results": {} }
       ```
+
++ Response 404 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset does not exist"}]
+    }
+    ```
 
 ## A/B Tests Stat Resource [/api/v1/ab-test/{id}/stats?version=1]
 
 ### Get Stats for an A/B Test [GET]
+
 
 <div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the winner based on a Bayesian algorithm approach.  If you need finer granualar detail you should use the Message Events API or Event Webhooks</div>
 
@@ -329,6 +408,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 + Parameters
 
+  + id (required, string, `password-reset`) ... A/B Test ID
   + version (optional, integer) ... If passed return information about the specific version of the A/B test.
                                                 If not specified, return information about the latest version.
 
@@ -369,4 +449,12 @@ An A/B test is a method of comparing templates against a default template to see
         }
       }
       ```
+
++ Response 404 (application/json)
+    
+    ```json
+    {
+      "errors": [{"message": "A/B test password_reset does not exist"}]
+    }
+    ```
 
