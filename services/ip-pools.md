@@ -138,10 +138,10 @@ Updates an IP pool's name. To update sending IP pool assignments see [Sending IP
 
 #### Request Body Attributes
 
-| Field              | Type       | Description                                | Required      |
-|--------------------|------------|--------------------------------------------|---------------|
-| name               | string     | Name of the IP Pool                        | yes           |
-| fbl_signing_domain | string     | FBL Signing Domain for the pool            | no            |
+| Field              | Type       | Description                     | Required | Notes                                                                                   |
+|--------------------|------------|---------------------------------|----------|-----------------------------------------------------------------------------------------|
+| name               | string     | Name of the IP Pool             | yes      |                                                                                         |
+| fbl_signing_domain | string     | FBL Signing Domain for the pool | no       | To unassign a custom FBL signing domain, provide an empty string for this field's value |
 
 
 + Request
