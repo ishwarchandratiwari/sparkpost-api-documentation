@@ -192,7 +192,7 @@ Once message generation has been initiated, all messages in the transmission wil
 
 #### Using an A/B Test
 
-Create a transmission using n A/B test by specifying the `ab_test_id` in the `content` attribute.
+Create a transmission using an A/B test by specifying the `ab_test_id` in the `content` attribute.
 
 + Parameters
   + num_rcpt_errors (optional, number, `3`) ... Maximum number of recipient errors that this call can return, otherwise all validation errors are returned.

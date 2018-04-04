@@ -11,27 +11,27 @@ An A/B test is a method of comparing templates against a default template to see
 
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
-| id | string | The identifier for this A/B test |
-| status | string | The current state of the test.  Possible values: `active`, `cancelled`, `finalizing`, `complete` |
-| winner | string | The winner of the A/B test (only present if the state is `complete`) |
-| version | integer | The current version number of the test.  The version increments each time the A/B test is modified. |
-| default_template | string | The default template ID |
-| variants | object | Specifies which variants to test, as well as how messages are distributed to each variant.  See [Variants Properties](#header-variants-properties) |
-| behavior | object | Species the behavior of the test.  See [Behavior Properties](#behavior-properties) |
-| metric | string | One of `count_unique_clicked`, `count_unique_rendered` |
+| id | string | The identifier for this A/B test | |
+| status | string | The current state of the test.  Possible values: `active`, `cancelled`, `finalizing`, `complete` | |
+| winner | string | The winner of the A/B test (only present if the state is `complete`) | |
+| version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
+| default_template | string | The default template ID | |
+| variants | object | Specifies which variants to test, as well as how messages are distributed to each variant.  See [Variants Properties](#header-variants-properties) | |
+| behavior | object | Species the behavior of the test.  See [Behavior Properties](#behavior-properties) | |
+| metric | string | One of `count_unique_clicked`, `count_unique_rendered` | |
 | created_at | string | ISO Date of A/B Test Creation | |
-| updated_at | string | ISO Date of the last time the A/B test was updated |
+| updated_at | string | ISO Date of the last time the A/B test was updated | | |
 
 ### Behavior Properties
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
-| behavior_selection | string | Either `bayesian` or `learning` |
-| audience_selection | string | Either `percentage` or `count` |
-| start_time | string | ISO Date specifying when the test should begin |
-| end_time | string | (Optional) ISO Date specifying when the test should end |
-| sample_size | int | (Optional) Total number of messages to send as part of the test |
-| confidence | float | (Optional) Specify a confidence level at which point the test should end.  The test will run indefinitely until the Bayesian algorithm has determined a winner with the given confidence level |
-| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure.  Defaults to 8 hours |
+| behavior_selection | string | Either `bayesian` or `learning` | |
+| audience_selection | string | Either `percentage` or `count` | |
+| start_time | string | ISO Date specifying when the test should begin | |
+| end_time | string | (Optional) ISO Date specifying when the test should end | |
+| sample_size | int | (Optional) Total number of messages to send as part of the test | |
+| confidence | float | (Optional) Specify a confidence level at which point the test should end.  The test will run indefinitely until the Bayesian algorithm has determined a winner with the given confidence level | |
+| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure.  Defaults to 8 hours | | |
 
 <div class="alert alert-info"><strong>Note</strong>: You can only specify one of end_time, sample_size or confidence.</div>
 
@@ -43,7 +43,7 @@ An A/B test is a method of comparing templates against a default template to see
 ### Variant Template Properties
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
-| template_id | string | The template id |
+| template_id | string | The template id | |
 | count | integer | The number of injections to send using this template | Only valid when the `audience_selection` is `count` |
 | percentage | integer | The percent of injections to send using this template | Only valid when the `audience_selection` is `percentage` |
 
@@ -245,8 +245,7 @@ An A/B test is a method of comparing templates against a default template to see
 + Parameters
 
   + id (required, string, `password-reset`) ... A/B Test ID
-  + version (optional, integer) ... If passed return information about the specific version of the A/B test.
-                                                If not specified, return information about the latest version.
+  + version (optional, integer) ... If passed return information about the specific version of the A/B test. If not specified, return information about the latest version.
 
 + Request
 
@@ -409,8 +408,7 @@ An A/B test is a method of comparing templates against a default template to see
 + Parameters
 
   + id (required, string, `password-reset`) ... A/B Test ID
-  + version (optional, integer) ... If passed return information about the specific version of the A/B test.
-                                                If not specified, return information about the latest version.
+  + version (optional, integer) ... If passed return information about the specific version of the A/B test.  If not specified, return information about the latest version.
 
 + Request Get Stats for an A/B Test
 
