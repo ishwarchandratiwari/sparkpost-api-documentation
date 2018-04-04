@@ -5,7 +5,7 @@ description: A/B Testing of templates.
 
 <a name="ab-testing-api"></a>
 
-An A/B test is a method of comparing templates against a default template to see how their performance compares.  Users specify a default template and up to twenty template variants to compare, the comparision is based on the user selected metric.  Currently there are two supported modes of audience selection (which recipients receive the variant templates): a fixed number of recipients per variant can be specified, alternatively a percentage of recipients per variant can be specified.  There are two supported modes of behavior selection once the A/B test completes.  In learning mode once the test has completed subsequent transmissions will revert to using the default template.  In Bayesian mode the best performing template as determined by a Bayesian algorithm will be used in subsequent transmissions.
+An A/B test is a method of comparing templates against a default template to see how their performance compares.  Users specify a default template and up to twenty template variants to compare, the comparision is based on the user selected metric.  Currently there are two supported modes of audience selection (which recipients receive the variant templates): a fixed number of recipients per variant can be specified, alternatively a percentage of recipients per variant can be specified.  There are two supported modes of behavior selection once the A/B test completes.  In Learning Mode once the test has completed subsequent transmissions will revert to using the default template.  In Bayesian mode the best performing template as determined by a Bayesian algorithm will be used in subsequent transmissions.
 
 #### A/B Test Properties
 
@@ -14,12 +14,11 @@ An A/B test is a method of comparing templates against a default template to see
 | id | string | The identifier for this A/B test |
 | status | string | The current state of the test.  Possible values: `active`, `cancelled`, `finalizing`, `complete` |
 | winner | string | The winner of the A/B test (only present if the state is `complete`) |
-| version | integer | The current version number of the template.  The version increments each time the A/B test is modified. |
+| version | integer | The current version number of the test.  The version increments each time the A/B test is modified. |
 | default_template | string | The default template ID |
 | variants | object | Specifies which variants to test, as well as how messages are distributed to each variant.  See [Variants Properties](#header-variants-properties) |
 | behavior | object | Species the behavior of the test.  See [Behavior Properties](#behavior-properties) |
 | metric | string | One of `count_unique_clicked`, `count_unique_rendered` |
-| count | integer | The number of transmissions to send as part of the test |
 | created_at | string | ISO Date of A/B Test Creation | |
 | updated_at | string | ISO Date of the last time the A/B test was updated |
 
@@ -39,7 +38,6 @@ An A/B test is a method of comparing templates against a default template to see
 ### Variants Properties
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
-| audience_selection | string | Either `percentage` or `count` |
 | templates | array | The list of variant templates | See [Variant Template Properties](#header-variant-template-properties) |
 
 ### Variant Template Properties

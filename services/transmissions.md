@@ -8,7 +8,7 @@ A transmission is a collection of messages belonging to the same campaign. It is
 
 SparkPost generates and sends the messages from your transmissions using a list of recipients and a message template. You can [store a recipient list](recipient-lists.html), or you can include recipients "inline" with your transmission request. Similarly, you can [store your message template](templates.html) or include it "inline" with your transmission request. SparkPost then sends a unique message to each recipient using the specified template. You may also choose to personalise your messages by including substitution variables in your transmissions. You can [learn about templates and substitution here](substitutions-reference.html).  Finally, you can enable engagement tracking in your transmissions to track message opens and clicks.
 
-The Transmissions API also supports A/B testing, which allows you to compare different variants of a template, and ultimately send the winning one (based on engagement data) when the test has completed.  See [A/B Testing](ab-testing.html) for more details.  A/B tests must be created using the A/B testing API, there is no inline support.
+The Transmissions API also supports A/B testing, which allows you to compare different variants of a template, and ultimately send the winning one (based on engagement data) when the test has completed.  See [A/B Testing](ab-testing.html) for more details.
 
 For details on how to get the best out of SparkPost Transmission, see [this support article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
 
@@ -146,7 +146,7 @@ Use the `options.start_time` attribute to delay generation of messages.  The sch
 
 ### Using an A/B Test
 
-The following attributes are used when specifying an A/B in the transmission's `content` JSON object. Note that these attributes should not be present when not using an A/B test.
+The following attributes are used when specifying an A/B test in the transmission's `content` JSON object.
 
 | Field         | Type     | Description                           | Required   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
