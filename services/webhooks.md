@@ -501,11 +501,11 @@ are currently in a failed state.
     ```
 
 
-## Batch Status [/webhooks/{id}/batches{?page,per_page,status_code,to,from,batch_ids,attempts,attempts_comparator,latency,latency_comparator,timezone}]
+## Batch Status [/webhooks/{id}/batches{?page,per_page,status_code,to,from,batch_ids,attempts,attempts_comparator,latency,latency_comparator}]
 
 ### Retrieve Status Information (Querying and Paging) [GET]
 
-Retrieve status information regarding batches that have been generated for the given webhook by specifying its id in the URI path and any filterable parameters.
+Retrieve status information regarding batches that have been attempted for the given webhook by specifying its id in the URI path and any filterable parameters.
 
 + Parameters
   + id (required, uuid, `12affc24-f183-11e3-9234-3c15c2c818c2`) ... UUID identifying a webhook
@@ -514,8 +514,8 @@ Retrieve status information regarding batches that have been generated for the g
           + `success`
           + `fail`
           + `400`
-  + to = `now` (optional, datetime, `2014-07-20T09:00`) ... Datetime in format of YYYY-MM-DDTHH:MM
-  + from (optional, datetime, `2014-07-11T08:00`) ... Datetime in format of YYYY-MM-DDTHH:MM
+  + to = `now` (optional, datetime, `2014-07-20T09:00:00-0400`) ... Datetime in format of YYYY-MM-DDTHH:mm:ssZ
+  + from (optional, datetime, `2014-07-11T09:00:00-0400`) ... Datetime in format of YYYY-MM-DDTHH:mm:ssZ
   + batch_ids (optional, list, `db4f4a72-c392-40ef-ae25-fa471a316f5c,db4f4a72-c392-40ef-ae25-fa471a316f5e`)
   + page = `1` (optional, number, `1`) ... The results page number to return. Used with per_page for paging through results.
   + per_page = `1000` (optional, number, `1000`) ... Number of results to return per page. Must be between 1 and 1,000 (inclusive).
@@ -533,7 +533,6 @@ Retrieve status information regarding batches that have been generated for the g
           + `gte`
           + `lt`
           + `lte`
-  + timezone =`UTC` (optional, string, `America/New_York`) ... Standard timezone identification string, defaults to `UTC`
 
 + Request
 
@@ -551,33 +550,33 @@ Retrieve status information regarding batches that have been generated for the g
           "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5e",
           "ts": "2014-07-16T22:44:08.000Z",
           "attempts": 7,
-          "failure_code": "ENOTFOUND"
           "response_code": "ENOTFOUND",
-          "latency": 505
+          "latency": 505,
+          "batch_size": 95
         },
         {
           "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5c",
           "ts": "2014-07-16T21:38:08.000Z",
           "attempts": 7,
-          "failure_code": "400"
           "response_code": "400",
-          "latency": 860
+          "latency": 860,
+          "batch_size": 88
         },
         {
           "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5c",
           "ts": "2014-07-17T20:38:08.000Z",
           "attempts": 8,
-          "failure_code": "400",
           "response_code": "400",
-          "latency": 500
+          "latency": 500,
+          "batch_size": 88
         },
         {
           "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5c",
           "ts": "2014-07-18T20:38:08.000Z",
           "attempts": 9,
-          "failure_code": "ESOCKETTIMEDOUT",
           "response_code": "ESOCKETTIMEDOUT",
-          "latency": 1200
+          "latency": 1200,
+          "batch_size": 88
         }
       ],
       "links": [],
