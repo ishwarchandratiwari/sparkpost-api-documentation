@@ -499,3 +499,91 @@ are currently in a failed state.
       ]
     }
     ```
+
+
+## Batch Status [/webhooks/{id}/batches{?page,per_page,status_code,to,from,batch_ids,attempts,attempts_comparator,latency,latency_comparator,timezone}]
+
+### Retrieve Status Information (Querying and Paging) [GET]
+
+Retrieve status information regarding batches that have been generated
+for the given webhook by specifying its id in the URI path. Status information includes the successes of batches
+that previously failed to reach the webhook's target URL and batches that
+are currently in a failed state.
+
++ Parameters
+  + id (required, uuid, `12affc24-f183-11e3-9234-3c15c2c818c2`) ... UUID identifying a webhook
+  + status_code (optional, string `fail`) ... The status code response of the post request. Valid values are `success` for all success, `fail` for all failures, or the string of the status code such as `400`, `500`, or `ESOCKETTIMEDOUT`.
+      + Values
+          + `success`
+          + `fail`
+          + `400`
+  + to = `now` (optional, datetime, `2014-07-20T09:00`) ... Datetime in format of YYYY-MM-DDTHH:MM
+  + from (optional, datetime, `2014-07-11T08:00`) ... Datetime in format of YYYY-MM-DDTHH:MM
+  + batch_ids (optional, list, `db4f4a72-c392-40ef-ae25-fa471a316f5c,db4f4a72-c392-40ef-ae25-fa471a316f5e`)
+  + page = `1` (optional, number, `1`) ... The results page number to return. Used with per_page for paging through results.
+  + per_page = `1000` (optional, number, `1000`) ... Number of results to return per page. Must be between 1 and 1,000 (inclusive).
+  + attempts (optional, number, `6`) ... The delivery attempt number. Use this in conjunction with `attempts_comparator` to get all batches with attempts greater than (>) `gt`, greater than or equal to (>=) `gte`, less than (<) `lt`, or less than or equal to (<=) `lte`.
+  + attempts_comparator (optional, string, `gt`)
+      + Values
+          + `gt`
+          + `gte`
+          + `lt`
+          + `lte`
+  + latency (optional, number, `500`) ... Duration (ms) of the entire batch posting HTTP round-trip. Use this in conjunction with `latency_comparator` to get all batches with latency greater than (>) `gt`, greater than or equal to (>=) `gte`, less than (<) `lt`, or less than or equal to (<=) `lte`.
+  + latency_comparator (optional, string, `gte`)
+      + Values
+          + `gt`
+          + `gte`
+          + `lt`
+          + `lte`
+  + timezone =`UTC` (optional, string, `America/New_York`) ... Standard timezone identification string, defaults to `UTC`
+
++ Request
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    ```js
+    {
+      "results": [
+        {
+          "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5e",
+          "ts": "2014-07-16T22:44:08.000Z",
+          "attempts": 7,
+          "failure_code": "ENOTFOUND"
+          "response_code": "ENOTFOUND",
+          "latency": 505
+        },
+        {
+          "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5c",
+          "ts": "2014-07-16T21:38:08.000Z",
+          "attempts": 7,
+          "failure_code": "400"
+          "response_code": "400",
+          "latency": 860
+        },
+        {
+          "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5c",
+          "ts": "2014-07-17T20:38:08.000Z",
+          "attempts": 8,
+          "failure_code": "400",
+          "response_code": "400",
+          "latency": 500
+        },
+        {
+          "batch_id": "db4f4a72-c392-40ef-ae25-fa471a316f5c",
+          "ts": "2014-07-18T20:38:08.000Z",
+          "attempts": 9,
+          "failure_code": "ESOCKETTIMEDOUT",
+          "response_code": "ESOCKETTIMEDOUT",
+          "latency": 1200
+        }
+      ],
+      "links": [],
+      "total_count": 4
+    }
+    ```
