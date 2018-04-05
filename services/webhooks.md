@@ -505,10 +505,7 @@ are currently in a failed state.
 
 ### Retrieve Status Information (Querying and Paging) [GET]
 
-Retrieve status information regarding batches that have been generated
-for the given webhook by specifying its id in the URI path. Status information includes the successes of batches
-that previously failed to reach the webhook's target URL and batches that
-are currently in a failed state.
+Retrieve status information regarding batches that have been generated for the given webhook by specifying its id in the URI path and any filterable parameters.
 
 + Parameters
   + id (required, uuid, `12affc24-f183-11e3-9234-3c15c2c818c2`) ... UUID identifying a webhook
