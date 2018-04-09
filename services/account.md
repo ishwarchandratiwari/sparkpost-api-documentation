@@ -162,7 +162,7 @@ Update your SparkPost account information and account-level options.
 | transactional_unsub         | boolean | Set to `true` to include `List-Unsubscribe` header for all transactional messages by default |
 | transactional_default       | boolean | Set to `true` to send messages as transactional by default |
 | initial_open_pixel_tracking | boolean | Set to `false` to exclude the initial open tracking pixel from top of emails |
-| click_tracking              | boolean | Set to `false` to turn off click tracking (overrides smtp_tracking_default and rest_tracking_default |
+| click_tracking              | boolean | Set to `false` to turn off click tracking (overrides smtp_tracking_default and rest_tracking_default) |
 
 + Request
 
