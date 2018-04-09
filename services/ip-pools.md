@@ -133,7 +133,7 @@ Retrieves a specific IP Pool.
 
 Updates an IP pool's name. To update sending IP pool assignments see [Sending IPs](sending-ips.html).
 
-To remove a signing domain, the value passed in should be an empty string.
+To remove a signing domain, the value passed in should be the empty string.
 
 #### Request Body Attributes
 
