@@ -47,6 +47,8 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | transactional_unsub         | boolean | Set to `true` to include `List-Unsubscribe` header for all transactional messages by default |
 | transactional_default       | boolean | Set to `true` to send messages as transactional by default |
 | initial_open_pixel_tracking | boolean | Account-level default for Initial Open tracking |
+| click_tracking              | boolean | Set to `false` to turn off click tracking (overrides smtp_tracking_default and rest_tracking_default) |
+
 
 ### Usage Properties
 
