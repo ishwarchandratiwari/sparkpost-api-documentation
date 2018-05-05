@@ -4,12 +4,49 @@ description: Use the X-MSYS-API header to customize options for messages sent vi
 # Group SMTP API
 <a name="smtp-api"></a>
 
-The SparkPost SMTP API offers an SMTP relay service with extended features available through the `X-MSYS-API` custom header. See [SMTP Relay Endpoints](index.html#header-smtp-relay-endpoints) for the SMTP client configuration needed to use SparkPost as an SMTP relay.
+The SparkPost SMTP API offers an SMTP relay service with extended features available through the `X-MSYS-API` custom header.
 
-For details on how to get the best out of SMTP delivery through SparkPost, see [this support article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
+For details on how to get the best out of SMTP delivery through SparkPost, see [this article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
+
+## Client Configuration
+<a name="smtp-relay-endpoints"></a>
+
+To use SparkPost as an SMTP relay you need to point your SMTP client or local MTA to the following endpoint:
+
+|                |                                                                          | Notes |
+|----------------|--------------------------------------------------------------------------|-------|
+| Host           | `smtp.sparkpostmail.com`<br>`smtp.eu.sparkpostmail.com` for SparkPost EU | |
+| Port           | `587` or `2525`                                                          | Port 2525 is provided as an alternate port for cases where port 587<br>is blocked (such as a Google Compute Engine environment). |
+| Encryption     | `STARTTLS`                                                               | |
+| Authentication | `AUTH LOGIN`                                                             | |
+| User           | `SMTP_Injection`                                                         | |
+| Password       | An API key with "Send via SMTP" permission                               | You can create and manage your API Keys from the [app](https://app.sparkpost.com/account/api-keys) ([EU](https://app.eu.sparkpost.com/account/api-keys)). |
+
+<div class="alert alert-info"><strong>Note</strong>: Enterprise accounts should contact their Technical Account Manager for SMTP details.</div>
+
+## SMTP Security
+
+<div class="alert alert-danger"><strong>Note</strong>: Disabling TLS will cause all data sent through SparkPost to be sent over the public internet unencrypted.</div>
+SparkPost strongly recommends using TLS with SMTP to protect your message content, recipient information and API keys in transmission. This includes API keys and any details such as recipient email addresses and message content.
+
+If TLS is not supported by your application, SparkPost recommends using API keys with _only_ the `Send via SMTP` privilege enabled.
+It is also good practice to regularly cycle your API keys to limit exposure of keys sent in the clear.
+API keys should be treated like passwords. As stated in our <a href="https://www.sparkpost.com/policies/tou/">Terms of Use</a>,
+you "are solely responsible for all use of [your account]."
+That includes use of your account with API key compromised on an unsecured connection.</div>
+
+## Subaccounts
+
+To inject mail to an SMTP relay endpoint on behalf of a subaccount, modify your SMTP injection username to include the subaccount ID. For example, use:
+
+`SMTP_Injection:X-MSYS-SUBACCOUNT=123`
+
+to send as a subaccount that has an id of 123. The master account's API key is still used as the password when sending on behalf of a Subaccount.
+When sending on behalf of a subaccount, a sending domain assigned to the subaccount must be used.
+
 
 ## Using The X-MSYS-API Custom Header
-You can use the `X-MSYS-API` header in your SMTP messages to specify a campaign id, metadata, tags, IP pool, CC, BCC, and archive recipient lists and disable open and/or click tracking. 
+You can use the `X-MSYS-API` header in your SMTP messages to specify a campaign id, metadata, tags, IP pool, CC, BCC, and archive recipient lists and disable open and/or click tracking.
 
 <div class="alert alert-info"><strong>Note</strong>: To use this option you should be familiar with how to encode options as JSON strings, as the value of the header field is a JSON object that specifies the relevant options</div>
 
