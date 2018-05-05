@@ -1,26 +1,52 @@
 title: Tracking Domains
-description: Manage tracking domains, which are used to wrap links in engagement tracking to report opens and clicks in your messages.
+description: Manage tracking domains, which are used to wrap links in engagement tracking to report opens and clicks in your emails.
 
 # Group Tracking Domains
 <a name="tracking-domains-api"></a>
 
-Tracking domains are used in engagement tracking to report opens and clicks in your messages. When open and click tracking is enabled, you can set up a tracking domain which wraps the tracking pixel and all links in your messages.
+Tracking domains are used in engagement tracking to report email opens and link clicks.
+They wrap the open pixel and all links in your emails.
+When clicked, these links report the event to SparkPost, then quickly forward to the intended destination.
+By default, the tracking domain on your account is `spgo.io` (`eu.spgo.io` for EU accounts). This API allows you to set up and manage custom tracking domains.
+You can also set one up from <a href="https://app.sparkpost.com/account/tracking-domains/create" target="_blank">your account</a>.
 
-As an example, for SparkPost.com, the tracking domain is spgo.io. Your message contains a link to http://www.some-website.com/some-article. That link gets wrapped and the resulting HTML would look something like this:
+As an example, say your email contains this link:
 
-```html
-<a href="http://spgo.io/e/nInKCLCf9wnO2brop7RTsg...">Check out this excellent article</a>
+```HTML
+<a href="https://www.heml.io">Build responsive emails</a>
 ```
 
-With a tracking domain you can replace the domain part of the link. So if your tracking domain was example.domain.com, your HTML would look like this:
+In order to track clicks on that link, we wrap it. The resulting HTML would look something like this:
 
-```html
-<a href="http://example.domain.com/e/nInKCLCf9wnO2brop7RTsg...">Check out this excellent article</a>
+```HTML
+<a href="http://spgo.io/e/nInKCLCf9wnO2brop7RTsg...">Build responsive emails</a>
 ```
 
-<div class="alert alert-info"><strong>Note</strong>: Use of a tracking domain requires modification of your DNS records to include a CNAME record. For SparkPost, the CNAME needs to have the value `spgo.io`. For SparkPost EU, the CNAME needs to have the value `eu.spgo.io`.</div>
+With a custom tracking domain you can replace the domain part of the link. So if your tracking domain was `click.heml.io`, your HTML would look like this:
 
-<div class="alert alert-info"><strong>Note</strong>: For SparkPost and SparkPost EU, in order to use HTTPS on tracking domains follow <a href="https://www.sparkpost.com/docs/tech-resources/enabling-https-engagement-tracking-on-sparkpost/">this guide</a>.</div>
+```HTML
+<a href="http://click.heml.io/e/nInKCLCf9wnO2brop7RTsg...">Build responsive emails</a>
+```
+
+### Association to Sending Domains and Defaults
+In order for a tracking domain to be used, it must be associated to a [sending domain](/api/sending-domains) or set as a default.
+Once that is done, templates and transmissions that have open or click tracking on will automatically use the domain to wrap links.
+If a tracking domain is set as default, it will automatically be used with sending domains that aren't associated with a different tracking domain.
+Default tracking domains do not override associated tracking domains. You can set a default for each subaccount as well.
+SparkPost picks the first tracking domain it can find to use in this order: 1. Associated tracking domain. 2. Subaccount default. 3. Account default.
+
+### DNS
+Tracking domains need to be verified via DNS. You'll need to add a CNAME record with the value of `spgo.io` (`eu.spgo.io` for EU accounts) to the domain's DNS settings before it can be used or set as the default.
+For more information and Enterprise settings <a target="_blank" href="https://www.sparkpost.com/docs/tech-resources/enabling-multiple-custom-tracking-domains/">go here</a>.
+
+### Security
+Tracking domains use HTTP by default. Using HTTPS requires the set up and management of SSL Certificates,
+for more information see <a target="_blank" href="https://www.sparkpost.com/docs/tech-resources/enabling-https-engagement-tracking-on-sparkpost/">this guide</a>.
+
+### Subaccounts
+Tracking domains can only be assigned to subaccounts on creation. They cannot be re-assigned at a later point.
+If assigned and verified, a tracking domain can also be set as the default for that subaccount.
+In order to be associated to a subaccount's sending domain, a tracking domain has to be assigned to the same subaccount.
 
 ## Using Postman
 
@@ -30,42 +56,36 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 
 ## Tracking Domains Attributes
 
-| Field   | Type   | Description | Required | Notes |
-|------------|--------|-------------|----------|-------|
-| domain | string | Name of the tracking domain | yes | Example: `example.domain.com` |
-| port | integer | Determines the port to be used when constructing the tracking URL | no | Read only. |
-| secure | boolean | Should the tracking URL should use https? | no | If `false` (the default), http will be used.<br/><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"></span></a>  |
-| default | boolean | Should the default tracking domain be used when not explicitly set | no | There can only be one default domain. Defaults to `false`. |
-| status | JSON object| JSON object containing status details, including whether this domain's ownership has been verified  | no | Read only. For a full description, see the [Status Attributes](#header-status-attributes).|
-
-### Port/Secure Attributes
-
-Upon creation of a tracking domain, the values for port and secure are set according to the following table:
-
-| secure (input) | port (value) | secure (value) |
-|--------|--------|--------|
-| not provided | 80 | false |
-| false | 80 | false |
-| true | 443 | true |
+| Field         | Type    | Default | Description |
+|---------------|---------|---------|-------------|
+| domain        | string  |         | Name of the tracking domain. Example: `example.domain.com` |
+| port          | integer |         | The port used when constructing the tracking URL. `80` if secure is `false`, `443` if secure is `true` |
+| secure        | boolean | `false` | Whether the tracking URL should use HTTPS. HTTP will be used if `false`. |
+| default       | boolean | `false` | Whether the tracking domain should be used when not explicitly associated with a sending domain. Only one default domain per account and subaccount can be set. A domain has to be verified to be set as the default. |
+| status        | object  |         | Contains status details like verification and DNS. For a full description, see the [Status Attributes](#header-status-attributes). |
+| subaccount_id | integer |         | ID of the subaccount the tracking domain is assigned to. Not returned unless set and can only be set on creation. |
 
 ### Status Attributes
 
-Detailed status for this tracking domain is described in a JSON object with the following fields:
+The detailed status of a tracking domain is described in a JSON object with the following *read only* fields:
 
-| Field         | Type     | Description                           | Default   | Notes   |
-|------------------------|:-:       |---------------------------------------|-------------|--------|
-| verified | boolean | Whether domain has been verified | false | Read only. This field will return `true` if cname_status is `valid`.|
-| cname_status | string | Verification status of CNAME configuration | unverified | Read only. Valid values are `unverified`, `pending`, `invalid` or `valid`.|
-| compliance_status | string | Compliance status | | Read only. Valid values are `pending`, `valid`, or `blocked`.|
-
+| Field             | Type    | Default      | Description |
+|-------------------|---------|--------------|-------------|
+| verified          | boolean | `false`      | Whether the domain's ownership has been verified. `true` if cname_status is `valid`. |
+| cname_status      | string  | `unverified` | Verification status of CNAME record configuration. Possible values: `unverified`, `pending`, `invalid` or `valid`. |
+| compliance_status | string  | `pending`    | Status of the domain's compliance review. Possible values: `pending`, `valid`, or `blocked`. |
 
 ## Create and List [/tracking-domains]
 
 ### Create a Tracking Domain [POST]
 
-Create a tracking domain. A tracking domain cannot be set as the default until it is verified.
+#### Request Body Attributes
 
-<div class="alert alert-info"><strong>Note</strong>: The value for <tt>port</tt> is not configurable. <tt>port</tt> will be 80 for Non-Secure and 443 for Secure.</div>
+| Field         | Type    | Required | Default | Description |
+|---------------|---------|----------|---------|-------------|
+| domain        | string  | yes      |         | Name of the tracking domain. Example: `example.domain.com` |
+| secure        | boolean | no       | `false` | Whether the tracking URL should use HTTPS. HTTP will be used if `false`. |
+| subaccount_id | integer | no       |         | ID of the subaccount the tracking domain should be assigned to. |
 
 + Request (application/json)
 
@@ -76,12 +96,29 @@ Create a tracking domain. A tracking domain cannot be set as the default until i
   + Body
 
             {
-              "domain": "example.domain.com",
-              "secure": false,
-              "default": false
+              "domain": "example.domain.com"
             }
 
-+ Response 200
++ Response 200 (application/json)
+
+  + Body
+
+            {
+              "results": {
+                "domain": "example.domain.com"
+              }
+            }
+
++ Request (application/json)
+
+  + Body
+
+            {
+              "domain": "example.domain.com",
+              "secure": true
+            }
+
++ Response 200 (application/json)
 
   + Body
 
@@ -204,11 +241,9 @@ Create a tracking domain. A tracking domain cannot be set as the default until i
               ]
             }
 
+### List All Tracking Domains [GET]
 
-### List all Tracking Domains [GET]
-
-Retrieve a list of all tracking domains.
-
+Returns an array with all tracking domains. Each item in the array is a full tracking domain object.
 
 + Request
 
@@ -243,7 +278,8 @@ Retrieve a list of all tracking domains.
                     "verified": true,
                     "cname_status": "valid",
                     "compliance_status": "valid"
-                  }
+                  },
+                  "subaccount_id": 215
                 }
               ]
             }
@@ -257,7 +293,6 @@ Retrieve an existing tracking domain.
 
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
-
 
 + Request
 
@@ -301,11 +336,16 @@ Retrieve an existing tracking domain.
 
 ### Update a Tracking Domain [PUT]
 
-Update the attributes of an existing tracking domain.  A tracking domain cannot be
-set as the default until it is verified.  If a tracking domain is set to the default,
-and there is already a default domain, the default is changed.
+Update the attributes of an existing tracking domain. The master account and each subaccount can only have one default tracking domain.
+Setting a new default automatically unsets the current relevant default, if it exists.
 
-<div class="alert alert-info"><strong>Note</strong>: <tt>port</tt> is not configurable.</div>
+#### Request Body Attributes
+
+| Field   | Type    | Required | Description |
+|---------|---------|----------|-------------|
+| secure  | boolean | no       | Whether the tracking URL should use HTTPS. HTTP will be used if `false`. |
+| default | boolean | no       | Whether the tracking domain should be used when not explicitly associated with a sending domain. A domain has to be verified to be set as the default. |
+
 
 + Parameters
   + domain (required, string, `example.domain.com`) ... domain name
@@ -412,7 +452,7 @@ Initiate a check against the configured redirect for the specified tracking doma
             Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
 
 
-+ Response 200 (application/json; charset=utf-8)
++ Response 200 (application/json)
 
         {
             "results": {
