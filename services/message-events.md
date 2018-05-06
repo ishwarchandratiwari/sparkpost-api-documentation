@@ -86,7 +86,7 @@ Perform a filtered search for message event data. The response is sorted by desc
     + template_ids (optional, list, `templ-1234`) ... delimited list of template ID's to search.
     + timezone =`UTC` (optional, string, `America/New_York`) ... Standard timezone identification string.
     + to: `2014-07-20T09:00` (datetime, optional) - Datetime in format of YYYY-MM-DDTHH:MM.
-        + Default: `now`
+        + Default: `1 minute ago`
     + transmission_ids (optional, list, `65832150921904138`) ... delimited list of transmission ID's to search (i.e. id generated during creation of a transmission).
 
 + Request
