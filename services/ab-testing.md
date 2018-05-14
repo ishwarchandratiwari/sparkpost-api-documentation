@@ -13,7 +13,7 @@ An A/B test is a method of comparing templates against a default template to see
 |------------|---------|-------------|-------|
 | id | string | The identifier for this A/B test | |
 | name | string | A human readable name for this A/B test | |
-| status | string | The current state of the test.  Possible values: `active`, `cancelled`, `finalizing`, `complete` | |
+| status | string | The current state of the test.  Possible values: `inactive`, `running`, `finished` | |
 | winner | string | The winner of the A/B test (only present if the state is `complete`) | |
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
@@ -164,7 +164,7 @@ An A/B test is a method of comparing templates against a default template to see
           "id": "payment-confirmation",
           "name": "Payment Confirmation",
           "version": 2,
-          "status": "active",
+          "status": "running",
           "metric": "count_unique_opened",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
@@ -188,7 +188,7 @@ An A/B test is a method of comparing templates against a default template to see
           "id": "password-reset",
           "name": "Password Reset",
           "version": 2,
-          "status": "completed",
+          "status": "finished",
           "winner": "password_reset_variant2",
           "metric": "count_unique_clicked",
           "start_time": "2018-04-03T22:08:33+00:00",
@@ -237,7 +237,7 @@ An A/B test is a method of comparing templates against a default template to see
         "id": "password-reset",
         "name": "Password Reset",
         "version": 2,
-        "status": "active",
+        "status": "inactive",
         "metric": "count_unique_opened",
         "start_time": "2018-04-03T22:08:33+00:00",
         "test_mode": "bayesian",
@@ -288,7 +288,7 @@ An A/B test is a method of comparing templates against a default template to see
     + Body
       ```json
       {
-        "status": "cancelled"
+        "status": "finished"
       }
       ```
 
