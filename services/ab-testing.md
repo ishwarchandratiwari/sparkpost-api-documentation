@@ -35,7 +35,7 @@ An A/B test is a method of comparing templates against a default template to see
 | sample_size | integer | The number of injections to send using this template | Required if A/B test has `total_sample_size` defined |
 | percent | integer | The percent of injections to send using this template | Required if A/B test does not have `total_sample_size` defined |
 
-<div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The `end_time` has passed, messages equal to the `total_sample_size` have been sent, or the `confidence_level` (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified `confidence_level` for a template will cause it to become the "winner". If a test ends and the `confidence_level` has not been reached, the default template will be considered the "winner". </div>
+<div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The end_time has passed, messages equal to the total_sample_size have been sent, or the confidence_level (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified confidence_level for a template will cause it to become the "winner". If a test ends and the confidence_level has not been reached, the default template will be considered the "winner". </div>
 
 ## A/B Tests [/api/v1/ab-test]
 
