@@ -32,10 +32,10 @@ An A/B test is a method of comparing templates against a default template to see
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
 | template_id | string | The template id | |
-| sample_size | integer | The number of injections to send using this template | Required if A/B test has total_sample_size defined |
-| percent | integer | The percent of injections to send using this template | Required if A/B test does not have total_sample_size defined |
+| sample_size | integer | The number of injections to send using this template | Required if A/B test has `total_sample_size` defined |
+| percent | integer | The percent of injections to send using this template | Required if A/B test does not have `total_sample_size` defined |
 
-<div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The end_time has passed, messages equal to the total_sample_size have been sent, or the confidence_level (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified confidence_level for a template will cause it to become the "winner". If a test ends and the confidence_level has not been reached, the default template will be considered the "winner". </div>
+<div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The `end_time` has passed, messages equal to the `total_sample_size` have been sent, or the `confidence_level` (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified `confidence_level` for a template will cause it to become the "winner". If a test ends and the `confidence_level` has not been reached, the default template will be considered the "winner". </div>
 
 ## A/B Tests [/api/v1/ab-test]
 
@@ -391,7 +391,7 @@ An A/B test is a method of comparing templates against a default template to see
 ### Get Stats for an A/B Test [GET]
 
 
-<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the "winner" based on a Bayesian algorithm approach.  If you need finer granualar detail you should use the Message Events API or Event Webhooks</div>
+<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the "winner" based on a Bayesian algorithm approach.  If you need finer granular detail you should use the Message Events API or Event Webhooks</div>
 
 <div class="alert alert-info"><strong>Note</strong>: count_injected may be larger than the sum of count_success and count_failure - this is because there is some delay for allowing engagement events to be processed</div>
 
