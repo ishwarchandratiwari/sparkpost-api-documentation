@@ -13,8 +13,8 @@ An A/B test is a method of comparing templates against a default template to see
 |------------|---------|-------------|-------|
 | id | string | The identifier for this A/B test | |
 | name | string | A human readable name for this A/B test | |
-| status | string | The current state of the test.  Possible values: `inactive`, `running`, `finished` | |
-| winner | string | The winner of the A/B test (only present if the state is `complete`) | |
+| status | string | The current state of the test.  Possible values: `scheduled`, `running`, `completed`, `cancelled` | GET only |
+| final_template | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
@@ -24,9 +24,9 @@ An A/B test is a method of comparing templates against a default template to see
 | end_time | string | (Optional) ISO Date specifying when the test should end | |
 | total_sample_size | int | (Optional) Total number of messages to send as part of the test | |
 | confidence_level | float | (Optional) Specify a confidence level at which point the test should end | Defaults to 0.95 |
-| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure.  Defaults to 24 hours | | |
-| created_at | string | ISO Date of A/B Test Creation | |
-| updated_at | string | ISO Date of the last time the A/B test was updated | | |
+| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure. | Defaults to 24 hours |
+| created_at | string | ISO Date of A/B Test Creation | GET only |
+| updated_at | string | ISO Date of the last time the A/B test was updated | GET only |
 
 ### Template Properties
 | Property   | Type    | Description | Notes |
@@ -188,8 +188,8 @@ An A/B test is a method of comparing templates against a default template to see
           "id": "password-reset",
           "name": "Password Reset",
           "version": 2,
-          "status": "finished",
-          "winner": "password_reset_variant2",
+          "status": "completed",
+          "final_template": "password_reset_variant2",
           "metric": "count_unique_clicked",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
@@ -237,7 +237,7 @@ An A/B test is a method of comparing templates against a default template to see
         "id": "password-reset",
         "name": "Password Reset",
         "version": 2,
-        "status": "inactive",
+        "status": "scheduled",
         "metric": "count_unique_opened",
         "start_time": "2018-04-03T22:08:33+00:00",
         "test_mode": "bayesian",
@@ -279,38 +279,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 <div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test.  This effectively causes the test to restart.</div>
 
-+ Request Cancel an A/B test
-
-    + Headers
-
-            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
-            Accept: application/json
-    + Body
-      ```json
-      {
-        "status": "finished"
-      }
-      ```
-
-+ Response 200 (application/json)
-
-    ```json
-    {
-      "results": {
-        "version": 2
-      }
-    }
-    ```
-
-+ Response 404 (application/json)
-
-    ```json
-    {
-      "errors": [{"message": "A/B test password-reset does not exist"}]
-    }
-    ```
-
-+ Request Modify an A/B test properties
++ Modify an A/B test properties
 
     + Headers
 
@@ -373,12 +342,48 @@ An A/B test is a method of comparing templates against a default template to see
     }
     ```
 
+
+## Cancel an A/B Test [/api/v1/ab-test/{id}/cancel]
+
+### Cancel an A/B Test [POST]
+
++ Parameters
+
+  + id (required, string, `password-reset`) ... A/B Test ID
+
++ Request Cancel an A/B test
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
+
++ Response 200 (application/json)
+
+    ```json
+    {
+      "results": {
+        "version": 2
+      }
+    }
+    ```
+
++ Response 404 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset does not exist"}]
+    }
+    ```
+
+
 ## A/B Tests Stat Resource [/api/v1/ab-test/{id}/stats?version=1]
 
 ### Get Stats for an A/B Test [GET]
 
 
-<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the winner based on a Bayesian algorithm approach.  If you need finer granualar detail you should use the Message Events API or Event Webhooks</div>
+<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the "winner" based on a Bayesian algorithm approach.  If you need finer granualar detail you should use the Message Events API or Event Webhooks</div>
 
 <div class="alert alert-info"><strong>Note</strong>: count_injected may be larger than the sum of count_success and count_failure - this is because there is some delay for allowing engagement events to be processed</div>
 
