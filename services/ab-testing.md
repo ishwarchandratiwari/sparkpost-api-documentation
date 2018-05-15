@@ -277,7 +277,7 @@ An A/B test is a method of comparing templates against a default template to see
 
   + id (required, string, `password-reset`) ... A/B Test ID
 
-<div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test.  This effectively causes the test to restart.</div>
+<div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test.  This effectively causes the test to restart. Tests in `running` state must be cancelled before updating.</div>
 
 + Modify an A/B test properties
 
@@ -313,6 +313,14 @@ An A/B test is a method of comparing templates against a default template to see
       "results": {
         "version": 2
       }
+    }
+    ```
+
++ Response 409 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset is running"}]
     }
     ```
 
