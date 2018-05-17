@@ -1,7 +1,7 @@
-title: Sparkpost Labs
+title: SparkPost Labs
 description: Documentation for the capabilities of SparkPost Labs.
 
-# Group Sparkpost Labs
+# Group SparkPost Labs
 
 We love to experiment with new ideas at SparkPost!
 With SparkPost Labs, our engineers share new API and App functionality and other helpful tools. Here are some helpful tips to keep in mind when you try out anything marked as “Labs”:
