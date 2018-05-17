@@ -13,4 +13,4 @@ With SparkPost Labs, our engineers share new API and App functionality and other
 ## Available Labs Features
 
 * [A/B Testing API](/api/ab-testing.html)
-* [Smart Send](/api/api/transmissions.html#header-options-attributes)
+* [Smart Send](/api/transmissions.html#header-options-attributes)
