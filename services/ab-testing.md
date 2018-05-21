@@ -19,6 +19,7 @@ An A/B test is a method of comparing templates against a default template to see
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
 | metric | string | One of `count_unique_clicked`, `count_unique_rendered` | |
+| audience_selection | string | Determines how to distribute messages for templates. Each template will receive either a percent of the total of all messages or a set number of messages determined by the template's sample_size. Options are `percent`, `sample_size` | |
 | test_mode | string | Either `bayesian` or `learning` | |
 | start_time | string | ISO Date specifying when the test should begin | |
 | end_time | string | (Optional) ISO Date specifying when the test should end | |
@@ -54,6 +55,7 @@ An A/B test is a method of comparing templates against a default template to see
           "id": "payment-confirmation",
           "name": "Payment Confirmation",
           "metric": "count_unique_opened",
+          "audience_selection": "percent",
           "start_time": "2018-04-03T22:08:33Z",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
@@ -93,7 +95,7 @@ An A/B test is a method of comparing templates against a default template to see
     ```
 
 
-## Create an A/B Test using a count for distribution [POST]
+## Create an A/B Test using sample_size for distribution [POST]
 
 + Request
 
@@ -108,6 +110,7 @@ An A/B test is a method of comparing templates against a default template to see
           "id": "payment-confirmation",
           "name": "Payment Confirmation",
           "metric": "count_unique_opened",
+          "audience_selection": "sample_size",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "learning",
           "total_sample_size": 60000,
@@ -166,6 +169,7 @@ An A/B test is a method of comparing templates against a default template to see
           "version": 2,
           "status": "running",
           "metric": "count_unique_opened",
+          "audience_selection": "percent",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
@@ -191,6 +195,7 @@ An A/B test is a method of comparing templates against a default template to see
           "status": "completed",
           "final_template": "password_reset_variant2",
           "metric": "count_unique_clicked",
+          "audience_selection": "percent",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
@@ -239,6 +244,7 @@ An A/B test is a method of comparing templates against a default template to see
         "version": 2,
         "status": "scheduled",
         "metric": "count_unique_opened",
+        "audience_selection": "sample_size",
         "start_time": "2018-04-03T22:08:33+00:00",
         "test_mode": "bayesian",
         "confidence_level": 0.99,
