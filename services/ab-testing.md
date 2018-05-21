@@ -378,7 +378,7 @@ An A/B test is a method of comparing templates against a default template to see
     ```json
     {
       "results": {
-        "version": 2
+        "status": "cancelled"
       }
     }
     ```
