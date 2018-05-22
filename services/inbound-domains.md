@@ -65,7 +65,7 @@ Create an inbound domain by providing an **inbound domains object** as the POST 
   + Body
 
             {
-              "domain": "inbounddomain.test.com"
+              "domain": "inbounddomain.example.com"
             }
 
 + Response 200
