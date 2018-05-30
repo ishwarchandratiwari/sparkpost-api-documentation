@@ -137,7 +137,7 @@ The detailed status of a tracking domain is described in a JSON object with the 
                 {
                   "code" : "7000",
                   "message" : "restricted domain",
-                  "description" : "Please contact us at support@sparkpost.com to get this domain authorized for your account."
+                  "description" : "Please contact SparkPost support to get this domain authorized for your account."
                 }
               ]
             }
