@@ -100,7 +100,8 @@ We allow any given domain (including its subdomains) to only be used by a single
 
 To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be set to verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need to use the <tt>verify</tt> endpoint to verify Sending Domains.</div>
+<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need separately verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please ask your TAM or contact Support through the app.
+</div>
 
 + Request Create New Sending Domain with Auto-Generated DKIM Keypair (application/json)
 

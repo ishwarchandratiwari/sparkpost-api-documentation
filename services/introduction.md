@@ -124,6 +124,10 @@ process will be more efficient than polling message events and will avoid rate l
 
 **Sandbox Domain Limits:** The sandbox sending domain (`sparkpostbox.com`) is limited to 5 emails for the lifetime of your account.
 
+If your account has been suspended due to concern about a possible violation of our [Messaging Policy](https://www.sparkpost.com/policies), please reply to the email you should have received from compliance@sparkpost.com.
+
+If you have not received this email, you can still contact the Compliance team directly [through the app](https://app.sparkpost.com/?supportTicket=true&issueId=account_suspension) [[EU]](https://app.eu.sparkpost.com/?supportTicket=true&issueId=account_suspension).
+
 ## Errors
 <a name="header-errors"></a>
 
@@ -156,5 +160,5 @@ When you make an API call you may receive an error message in response. Either t
 | 415  | Unsupported Media Type | The request is not in a supported format.                                      | Check that your Content-Type header is a supported type and that your request adheres to the documentation.                                          |
 | 422  | Unprocessable Entity   | The request was syntactically correct but failed due to semantic errors.       | Make sure that your request includes all of the required fields and your data is valid.                                                              |
 | 429  | Exceed Sending Limit   | You sent too many requests in a given time period.                             | Check that you are with in the limits of your SparkPost plan. If you are using the sandbox domain you'll need to add a sending domain to continue.   |
-| 500  | Internal Server Error  | Something went wrong on our end.                                               | Try the request again later. |
+| 500  | Internal Server Error  | Something went wrong on our end.                                               | Try the request again later. If the error does not resolve, check [our status page](https://status.sparkpost.com/) for service updates. You can also contact Support [from the app](https://app.sparkpost.com/?supportTicket=true) [[EU](https://app.eu.sparkpost.com/?supportTicket=true)] if your issue persists. |
 | 503  | Service Unavailable    | We are experiencing higher than normal levels of traffic.                      | Try the request again later. |
