@@ -151,6 +151,8 @@ An A/B test is a method of comparing templates against a default template to see
 
 ## List All A/B Tests [GET]
 
+<div class="alert alert-info"><strong>Note</strong>: If called by the master account all A/B tests are returned, with the subaccount_id property included to indicate subaccount tests.  If called by a subaccount only the subaccount's A/B tests are returned.</div>
+
 + Request
 
     + Headers
@@ -173,6 +175,7 @@ An A/B test is a method of comparing templates against a default template to see
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
+          "engagement_timeout": 24,
           "default_template": {
             "template_id": "default_payment_confirmation_template",
             "percent": 60
@@ -186,7 +189,9 @@ An A/B test is a method of comparing templates against a default template to see
               "template_id": "payment_confirmation_variant2",
               "percent": 30
             }
-          ]
+          ],
+          "created_at": "2018-04-02T22:08:33+00:00",
+          "updated_at": "2018-04-02T22:08:33+00:00"
         },
         {
           "id": "password-reset",
@@ -199,6 +204,8 @@ An A/B test is a method of comparing templates against a default template to see
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
+          "engagement_timeout": 24,
+          "subaccount_id": 101,
           "default_template": {
             "template_id": "default_password_reset_template",
             "percent": 70
@@ -212,7 +219,9 @@ An A/B test is a method of comparing templates against a default template to see
               "template_id": "password_reset_variant2",
               "percent": 15
             }
-          ]
+          ],
+          "created_at": "2018-04-02T22:08:33+00:00",
+          "updated_at": "2018-04-02T22:08:33+00:00"
         }
       ]
     }
@@ -249,6 +258,7 @@ An A/B test is a method of comparing templates against a default template to see
         "test_mode": "bayesian",
         "confidence_level": 0.99,
         "total_sample_size": 60000,
+        "engagement_timeout": 24,
         "default_template": {
           "template_id": "default_password_reset_template",
           "sample_size": 20000
@@ -262,7 +272,9 @@ An A/B test is a method of comparing templates against a default template to see
             "template_id": "password_reset_variant2",
             "sample_size": 20000
           }
-         ]
+         ],
+          "created_at": "2018-04-02T22:08:33+00:00",
+          "updated_at": "2018-04-02T22:08:33+00:00"
        }
      }
     ```
