@@ -14,7 +14,7 @@ An A/B test is a method of comparing templates against a default template to see
 | id | string | The identifier for this A/B test | |
 | name | string | A human readable name for this A/B test | |
 | status | string | The current state of the test.  Possible values: `scheduled`, `running`, `completed`, `cancelled` | GET only |
-| final_template | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
+| winning_template_id | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
@@ -151,8 +151,6 @@ An A/B test is a method of comparing templates against a default template to see
 
 ## List All A/B Tests [GET]
 
-<div class="alert alert-info"><strong>Note</strong>: If called by the master account all A/B tests are returned, with the subaccount_id property included to indicate subaccount tests.  If called by a subaccount only the subaccount's A/B tests are returned.</div>
-
 + Request
 
     + Headers
@@ -198,14 +196,13 @@ An A/B test is a method of comparing templates against a default template to see
           "name": "Password Reset",
           "version": 2,
           "status": "completed",
-          "final_template": "password_reset_variant2",
+          "winning_template_id": "password_reset_variant2",
           "metric": "count_unique_clicked",
           "audience_selection": "percent",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
           "engagement_timeout": 24,
-          "subaccount_id": 101,
           "default_template": {
             "template_id": "default_password_reset_template",
             "percent": 70
