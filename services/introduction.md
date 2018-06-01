@@ -124,6 +124,8 @@ process will be more efficient than polling message events and will avoid rate l
 
 **Sandbox Domain Limits:** The sandbox sending domain (`sparkpostbox.com`) is limited to 5 emails for the lifetime of your account.
 
+## Account Suspension
+
 If your account has been suspended due to concern about a possible violation of our [Messaging Policy](https://www.sparkpost.com/policies), please reply to the email you should have received from compliance@sparkpost.com.
 
 If you have not received this email, you can still contact the Compliance team directly [through the app](https://app.sparkpost.com/?supportTicket=true&issueId=account_suspension) [[EU]](https://app.eu.sparkpost.com/?supportTicket=true&issueId=account_suspension).
