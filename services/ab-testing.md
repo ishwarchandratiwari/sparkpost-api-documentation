@@ -16,7 +16,7 @@ An A/B test is a method of comparing templates against a default template to see
 | status | string | The current state of the test.  Possible values: `scheduled`, `running`, `completed`, `cancelled` | GET only |
 | winning_template_id | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
-| default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
+| default_template_id | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
 | metric | string | One of `count_unique_clicked`, `count_unique_rendered` | |
 | audience_selection | string | Determines how to distribute messages for templates. Each template will receive either a percent of the total of all messages or a set number of messages determined by the template's sample_size. Options are `percent`, `sample_size` | |
@@ -59,7 +59,7 @@ An A/B test is a method of comparing templates against a default template to see
           "start_time": "2018-04-03T22:08:33Z",
           "test_mode": "bayesian",
           "confidence_level": 0.99,
-          "default_template": {
+          "default_template_id": {
             "template_id": "default_payment_confirmation_template",
             "percent": 50
           },
@@ -114,7 +114,7 @@ An A/B test is a method of comparing templates against a default template to see
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "learning",
           "total_sample_size": 60000,
-          "default_template": {
+          "default_template_id": {
             "template_id": "default_payment_confirmation_template",
             "sample_size": 40000
           },
@@ -174,7 +174,7 @@ An A/B test is a method of comparing templates against a default template to see
           "test_mode": "bayesian",
           "confidence_level": 0.99,
           "engagement_timeout": 24,
-          "default_template": {
+          "default_template_id": {
             "template_id": "default_payment_confirmation_template",
             "percent": 60
           },
@@ -203,7 +203,7 @@ An A/B test is a method of comparing templates against a default template to see
           "test_mode": "bayesian",
           "confidence_level": 0.99,
           "engagement_timeout": 24,
-          "default_template": {
+          "default_template_id": {
             "template_id": "default_password_reset_template",
             "percent": 70
           },
@@ -256,7 +256,7 @@ An A/B test is a method of comparing templates against a default template to see
         "confidence_level": 0.99,
         "total_sample_size": 60000,
         "engagement_timeout": 24,
-        "default_template": {
+        "default_template_id": {
           "template_id": "default_password_reset_template",
           "sample_size": 20000
         },
@@ -304,7 +304,7 @@ An A/B test is a method of comparing templates against a default template to see
       ```json
       {
         "total_sample_size": 100000,
-        "default_template": {
+        "default_template_id": {
           "template_id": "default_password_reset_template",
           "sample_size": 70000
         },
