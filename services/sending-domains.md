@@ -100,7 +100,8 @@ We allow any given domain (including its subdomains) to only be used by a single
 
 To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be set to verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need to use the <tt>verify</tt> endpoint to verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please contact support <a href="mailto:support@sparkpostelite.com">support@sparkpostelite.com</a>, or your TAM.</div>
+<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need separately verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please ask your TAM or contact Support through the app.
+</div>
 
 + Request Create New Sending Domain with Auto-Generated DKIM Keypair (application/json)
 
@@ -424,7 +425,7 @@ The verify resource operates differently depending on the provided request field
   * Including the fields `dkim_verify` or `cname_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
   * Including the fields `postmaster_at_verify` and/or `abuse_at_verify` in the request results in an email sent to the specified sending domain's postmaster@ and/or abuse@ mailbox where a verification link can be clicked.
   * Including the fields `verification_mailbox_verify` and `verification_mailbox` in the request results in an email sent to the specified mailbox where a verification link can be clicked.
-  * For `postmaster_at_verify`, `abuse_at_verify` and `verification_mailbox_verify` ownership verification, if the request is made a 2nd time another email will be sent with a new verification link. If the link in the previously sent message is subsequently clicked it will not verify domain ownership. However, if the link in the most recent email is clicked it will verify domain ownership. 
+  * For `postmaster_at_verify`, `abuse_at_verify` and `verification_mailbox_verify` ownership verification, if the request is made a 2nd time another email will be sent with a new verification link. If the link in the previously sent message is subsequently clicked it will not verify domain ownership. However, if the link in the most recent email is clicked it will verify domain ownership.
   * Including the fields `verification_mailbox_token` and/or `postmaster_at_token` and/or `abuse_at_token` in the request initiates a check of the provided token(s) against the stored token(s) for the specified sending domain.
 
 **DKIM** public key verification requires the following:
