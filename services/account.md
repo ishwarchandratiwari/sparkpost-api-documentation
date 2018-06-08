@@ -13,20 +13,22 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 
 ## Account Properties
 
-| Property             | Type   | Description |
-|----------------------|--------|-------------|
-| company_name         | string | Account holder company name |
-| country_code         | string | Account holder 2-letter country code |
-| anniversary_date     | string | ISO date of billing anniversary |
-| created              | string | ISO date account was created |
-| updated              | string | ISO date account details were last updated |
-| status               | string | Account status. Possible values: `active`, `suspended`, `terminated` |
-| service_level        | string | Account service level. Possible values: `priority`, `standard`, `premium`, `enterprise`, `regulated` |
-| subscription         | object | Current subscription details. See [Subscription Properties](#header-subscription-properties) |
-| pending_subscription | object | Pending subscription details representing an upgrade or downgrade. |
-| options              | object | Account-level tracking settings. See [Options Properties](#header-options-properties) |
-| usage                | object | Account quota usage details. Specify 'include=usage' in query string to include usage info. See [Usage Properties](#header-usage-properties) |
-| support              | object | Support entitlement details. See [Support Properties](#header-support-properties) |
+| Property               | Type   | Description |
+|------------------------|--------|-------------|
+| company_name           | string | Account holder company name |
+| country_code           | string | Account holder 2-letter country code |
+| anniversary_date       | string | ISO date of billing anniversary |
+| created                | string | ISO date account was created |
+| updated                | string | ISO date account details were last updated |
+| status                 | string | Account status. Possible values: `active`, `suspended`, `terminated` |
+| status_updated         | string | ISO date status was last updated |
+| status_reason_category | string | Category for some account statuses, e.g. 'NONPAYMENT'. Empty string by default |
+| service_level          | string | Account service level. Possible values: `priority`, `standard`, `premium`, `enterprise`, `regulated` |
+| subscription           | object | Current subscription details. See [Subscription Properties](#header-subscription-properties) |
+| pending_subscription   | object | Pending subscription details representing an upgrade or downgrade. |
+| options                | object | Account-level tracking settings. See [Options Properties](#header-options-properties) |
+| usage                  | object | Account quota usage details. Specify 'include=usage' in query string to include usage info. See [Usage Properties](#header-usage-properties) |
+| support                | object | Support entitlement details. See [Support Properties](#header-support-properties) |
 
 ### Subscription Properties
 
@@ -47,6 +49,8 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | transactional_unsub         | boolean | Set to `true` to include `List-Unsubscribe` header for all transactional messages by default |
 | transactional_default       | boolean | Set to `true` to send messages as transactional by default |
 | initial_open_pixel_tracking | boolean | Account-level default for Initial Open tracking |
+| click_tracking              | boolean | Set to `false` to turn off click tracking (overrides smtp_tracking_default and rest_tracking_default) |
+
 
 ### Usage Properties
 
@@ -73,12 +77,9 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | online   | boolean | Whether account is entitled to online support |
 
 
-## Retrieve [/account{?include}]
+## Get Account [/account{?include}]
 
 ### Retrieve account information [GET]
-
-Get your SparkPost account information, including subscription status and quota usage.
-Usage details are not returned by default, specify 'include=usage' in the query string to include usage info.
 
 + Request
 
@@ -89,7 +90,7 @@ Usage details are not returned by default, specify 'include=usage' in the query 
 
 + Parameters
 
-  + include (optional, `usage`, string) ... Additional parts of account details to include. The only valid value is currently `usage`.
+  + include (optional, string, `usage`) ... Additional parts of account details to include. The only valid value is currently `usage`.
 
 
 + Response 200 (application/json)
@@ -102,7 +103,8 @@ Usage details are not returned by default, specify 'include=usage' in the query 
                 "created": "2017-01-11T08:00:00.000Z",
                 "updated": "2017-02-11T08:00:00.000Z",
                 "status": "active",
-                "status_reason_code": "",
+                "status_updated": "2018-12-21T13:21:41.442Z",
+                "status_reason_category": "",
                 "subscription": {
                     "code": "150K-0817",
                     "name": "150K",
@@ -162,6 +164,7 @@ Update your SparkPost account information and account-level options.
 | transactional_unsub         | boolean | Set to `true` to include `List-Unsubscribe` header for all transactional messages by default |
 | transactional_default       | boolean | Set to `true` to send messages as transactional by default |
 | initial_open_pixel_tracking | boolean | Set to `false` to exclude the initial open tracking pixel from top of emails |
+| click_tracking              | boolean | Set to `false` to turn off click tracking (overrides smtp_tracking_default and rest_tracking_default) |
 
 + Request
 

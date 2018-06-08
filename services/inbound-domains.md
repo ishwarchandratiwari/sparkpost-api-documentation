@@ -65,7 +65,7 @@ Create an inbound domain by providing an **inbound domains object** as the POST 
   + Body
 
             {
-              "domain": "inbounddomain.test.com"
+              "domain": "inbounddomain.example.com"
             }
 
 + Response 200
@@ -78,7 +78,7 @@ Create an inbound domain by providing an **inbound domains object** as the POST 
               "errors" : [
                 {
                   "message" : "Restricted domain",
-                  "description" : "Please contact us at support@sparkpost.com to get this domain authorized for your account.",
+                  "description" : "Please contact SparkPost support to get this domain authorized for your account.",
                   "code" : "7000"
                 }
               ]

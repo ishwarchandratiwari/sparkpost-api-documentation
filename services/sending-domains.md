@@ -27,7 +27,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 |generate_dkim | boolean | Whether to generate a DKIM keypair on creation | no | Defaults to `true` |
 |dkim_key_length | number | Size, in bits, of the DKIM private key to be generated  | no | This option only applies if generate_dkim is 'true'. Private key size defaults to 1024.<br/><span class="label label-info"><strong>Note</strong></span> public keys for private keys longer than 1024 bits will be longer that 255 characters.  Because of this, the public key `TXT` record in DNS will need to contain multiple strings, see [RFC 7208, section 3.3](https://tools.ietf.org/html/rfc7208#section-3.3) for an example of how the SPF spec addresses this.|
 |shared_with_subaccounts | boolean | Whether this domain can be used by subaccounts | no | Defaults to `false`.  Only available to domains belonging to a master account.|
-|is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains belonging to a master account, with cname_status of "valid".<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
+|is_default_bounce_domain | boolean | Whether this domain should be used as the bounce domain when no other valid bounce domain has been specified in the transmission or SMTP injection | no | Defaults to `false`.  Only available to domains with cname_status of "valid" or mx_status of "valid".  The master account as well as each subaccount may set a unique default bounce domain.<br><br>Not available in <span class="label label-warning"><strong>Enterprise</strong></span>|
 |creation_time	| string | Datetime the domain was created | no | Read only. Format: YYYY-MM-DDTHH:MM:SS+-HH:MM|
 |delegated | boolean | Whether this domain was delegated to SparkPost by the customer | no | Defaults to `false`. Read only. Will not be present if false. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span>  |
 
@@ -41,7 +41,7 @@ The DKIM key configuration is described in a JSON object with the following fiel
 
 | Field         | Type     | Description                           | Required   | Notes   |
 |------------------------|:-:       |---------------------------------------|-------------|--------|
-|signing_domain| string | Signing Domain Identifier (SDID) | no |This will be used in the `d=` field of the DKIM Signature. If `signing_domain` is not specified, or is set to the empty string (""), then the Sending Domain will be used as the signing domain.<br/>By default, SparkPost uses the Sending Domain as the signing domain. <br><br>Only available in <span class="label label-warning"><strong>Enterprise</strong></span> |
+|signing_domain| string | Signing Domain Identifier (SDID) | no |This will be used in the `d=` field of the DKIM Signature. If `signing_domain` is not specified, or is set to the empty string (""), then the Sending Domain will be used as the signing domain.<br/>By default, SparkPost uses the Sending Domain as the signing domain. <br><br>Only writable in <span class="label label-warning"><strong>Enterprise</strong></span> |
 |private | string | DKIM private key | yes | The private key will be used to create the DKIM Signature.|
 |public | string |DKIM public key  | yes | The public key will be retrieved from DNS of the sending domain.|
 |selector | string |DomainKey selector | yes | The DomainKey selector will be used to indicate the DKIM public key location.|
@@ -98,9 +98,10 @@ Create a sending domain by providing a **sending domain object** as the POST req
 
 We allow any given domain (including its subdomains) to only be used by a single customer account.  Please see our [support article](https://support.sparkpost.com/customer/en/portal/articles/1933318-creating-sending-domains) for additional reasons a domain might not be approved for sending.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.</div>
+To use a DKIM Signing Domain Identifier different to the Sending Domain, set the <tt>dkim.signing_domain</tt> field.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be set to verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need to use the <tt>verify</tt> endpoint to verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please contact support <a href="mailto:support@sparkpostelite.com">support@sparkpostelite.com</a>, or your TAM.</div>
+<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: In some configurations, Sending Domains will be verified automatically when they are created, and can be used to send messages immediately. In that case, there is no need separately verify Sending Domains. To find out if this applies to your SparkPost Enterprise service, please ask your TAM or contact Support through the app.
+</div>
 
 + Request Create New Sending Domain with Auto-Generated DKIM Keypair (application/json)
 
@@ -127,7 +128,7 @@ We allow any given domain (including its subdomains) to only be used by a single
             "dkim": {
               "public": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+W6scd3XWwvC/hPRksfDYFi3ztgyS9OSqnnjtNQeDdTSD1DRx/xFar2wjmzxp2+SnJ5pspaF77VZveN3P/HVmXZVghr3asoV9WBx/uW1nDIUxU35L4juXiTwsMAbgMyh3NqIKTNKyMDy4P8vpEhtH1iv/BrwMdBjHDVCycB8WnwIDAQAB",
               "selector": "scph0316",
-              "signing_domain": "",
+              "signing_domain": "example1.com",
               "headers": "from:to:subject:date"
             }
           }
@@ -182,7 +183,7 @@ We allow any given domain (including its subdomains) to only be used by a single
             "dkim": {
               "public": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+W6scd3XWwvC/hPRksfDYFi3ztgyS9OSqnnjtNQeDdTSD1DRx/xFar2wjmzxp2+SnJ5pspaF77VZveN3P/HVmXZVghr3asoV9WBx/uW1nDIUxU35L4juXiTwsMAbgMyh3NqIKTNKyMDy4P8vpEhtH1iv/BrwMdBjHDVCycB8WnwIDAQAB",
               "selector": "scph0316",
-              "signing_domain": "",
+              "signing_domain": "example1.com",
               "headers": "from:to:subject:date"
             }
           }
@@ -326,7 +327,8 @@ If a tracking domain is specified, it will replace any currently specified track
 
 If a DKIM object is provided in the update request, it must contain all relevant fields whether they are being changed or not.  The new DKIM object will completely overwrite the existing one.
 
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts: To remove the DKIM Signing Domain Identifier for a Sending Domain, use an empty string for the value of the <tt>dkim.signing_domain</tt> field.</div>
+To remove the DKIM Signing Domain Identifier for a Sending Domain, use an empty string for the value of the <tt>dkim.signing_domain</tt> field.
+
 
 + Parameters
     + domain (required, string, `example1.com`) ... Name of the domain
@@ -423,7 +425,7 @@ The verify resource operates differently depending on the provided request field
   * Including the fields `dkim_verify` or `cname_verify` in the request initiates a check against the associated DNS record type for the specified sending domain.
   * Including the fields `postmaster_at_verify` and/or `abuse_at_verify` in the request results in an email sent to the specified sending domain's postmaster@ and/or abuse@ mailbox where a verification link can be clicked.
   * Including the fields `verification_mailbox_verify` and `verification_mailbox` in the request results in an email sent to the specified mailbox where a verification link can be clicked.
-  * For `postmaster_at_verify`, `abuse_at_verify` and `verification_mailbox_verify` ownership verification, if the request is made a 2nd time another email will be sent with a new verification link. If the link in the previously sent message is subsequently clicked it will not verify domain ownership. However, if the link in the most recent email is clicked it will verify domain ownership. 
+  * For `postmaster_at_verify`, `abuse_at_verify` and `verification_mailbox_verify` ownership verification, if the request is made a 2nd time another email will be sent with a new verification link. If the link in the previously sent message is subsequently clicked it will not verify domain ownership. However, if the link in the most recent email is clicked it will verify domain ownership.
   * Including the fields `verification_mailbox_token` and/or `postmaster_at_token` and/or `abuse_at_token` in the request initiates a check of the provided token(s) against the stored token(s) for the specified sending domain.
 
 **DKIM** public key verification requires the following:

@@ -53,6 +53,7 @@ The sandbox domain `sparkpostbox.com` is available to allow each account to send
 |transactional|boolean|Whether message is [transactional](https://www.sparkpost.com/resources/infographics/email-difference-transactional-vs-commercial-emails/) for unsubscribe and suppression purposes<br/><span class="label label-info"><strong>Note</strong></span> no `List-Unsubscribe` header is included in transactional messages. | no | If not specified, the setting at template level is used, or defaults to false. |
 |sandbox|boolean|Whether to use the sandbox sending domain | no |Defaults to false. <span class="label label-primary"><strong>SparkPost</strong></span> accounts may use the sandbox |
 |skip_suppression|boolean| Whether to ignore customer suppression rules, for this transmission only. | no | <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> Defaults to false. |
+|smart_send|boolean| Whether to enable Smart Send, which will suppress unengaged recipients. Limited to this transmission.  <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> accounts, contact your TAM for support details. | no | Defaults to false. |
 | ip_pool | string | The ID of a dedicated IP pool associated with your account. If this field is not provided, the account's default dedicated IP pool is used (if there are IPs assigned to it). | no | <span class="label label-primary"><strong>SparkPost</strong></span> accounts may use IP pools. For more information on dedicated IPs, see the [Support Center](https://www.sparkpost.com/docs/deliverability/dedicated-ip-pools).<br><br><a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> accounts, contact your TAM for support details.
 |inline_css|boolean|Whether to perform CSS inlining in HTML content<br/><span class="label label-info"><strong>Note</strong></span> only rules in `head > style` elements will be inlined | no - Defaults to false |  |
 
@@ -895,7 +896,7 @@ Once message generation has been initiated, all messages in the transmission wil
 ### Retrieve a Scheduled Transmission [GET]
 **Not available in SparkPost EU.**
 
-Retrieve the details about a scheduled transmission by specifying its ID in the URI path. 
+Retrieve the details about a scheduled transmission by specifying its ID in the URI path.
 
 The response for a transmission using an inline template will include `"template_id":"inline"`.  Inline templates cannot be specifically queried.
 
@@ -1068,7 +1069,7 @@ Delete all transmissions of a campaign by specifying Campaign ID in the URI path
 ### List All Scheduled Transmissions [GET]
 **Not available in SparkPost EU.**
 
-List an array of live transmission summary objects.  A transmission summary object contains `id`, `state`, `template_id`, `campaign_id` and `description` fields. 
+List an array of live transmission summary objects.  A transmission summary object contains `id`, `state`, `template_id`, `campaign_id` and `description` fields.
 
 By default, the list includes transmissions for all campaigns and templates.  Use the `template_id` parameter to filter by template and `campaign_id` to filter by campaign. The summary for transmissions using an inline template will include `"template_id": "inline"`.  Transmissions using inline templates cannot be filtered with `template_id`.
 
