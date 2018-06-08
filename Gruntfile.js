@@ -296,6 +296,8 @@ module.exports = function(grunt) {
       .catch(function(err) {
         grunt.fail.fatal(err);
       });
+    } else {
+      grunt.log.writeln('In PR: not updating SearchIndex');
     }
 
   });
