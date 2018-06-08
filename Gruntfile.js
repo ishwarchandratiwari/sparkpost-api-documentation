@@ -10,7 +10,6 @@ var matchdep = require('matchdep')
     'labs-introduction.md',
     'substitutions-reference.md',
     'smtp-api.md',
-    'ab-testing.md',
     'account.md',
     'inbound-domains.md',
     'ip-pools.md',
