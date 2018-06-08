@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# get docs revision
-DOCS_REVISION=`git rev-parse --short HEAD`
-
 # check out the dev hub code
 [ -d devhub ] && rm -rf devhub
 if env | grep -q ^TRAVIS=; then
@@ -27,13 +24,16 @@ if env | grep -q ^TRAVIS=; then
   # no need to proceed if this is a PR build
   if [[ $TRAVIS_PULL_REQUEST -gt 0 ]]; then
     echo "Pull request detected. Not proceeding with deploy."
-    exit 255
+    exit 0
   fi
 
   # Configure git
   git config --global user.name ${GIT_NAME} || exit 255
   git config --global user.email ${GIT_EMAIL} || exit 255
   git config --global push.default simple || exit 255
+
+  # get docs revision
+  DOCS_REVISION=`git rev-parse --short HEAD`
 
   # commit the code
   git add --all . || exit 255

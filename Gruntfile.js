@@ -285,13 +285,21 @@ module.exports = function(grunt) {
       return null;
     }
 
-    var done = this.async();
-    algoliaTools.updateSearchIndex(opts.searchContentFile,
-      opts.algoliaAppID, opts.algoliaAPIKey, opts.algoliaIndexName, grunt.log.writeln)
-    .then(done)
-    .catch(function(err) {
-      grunt.fail.fatal(err);
-    });
+    var onPR = grunt.option('TRAVIS_PULL_REQUEST');
+
+    // only push to Algolia if not on PR
+    if (onPR === 'False') {
+      var done = this.async();
+      algoliaTools.updateSearchIndex(opts.searchContentFile,
+        opts.algoliaAppID, opts.algoliaAPIKey, opts.algoliaIndexName, grunt.log.writeln)
+      .then(done)
+      .catch(function(err) {
+        grunt.fail.fatal(err);
+      });
+    } else {
+      grunt.log.writeln('In PR: not updating Algolia search index');
+    }
+
   });
 
   // Internal: grunt genStaticPreview: build preview HTML under static/
