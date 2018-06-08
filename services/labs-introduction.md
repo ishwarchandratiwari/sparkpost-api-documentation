@@ -12,5 +12,4 @@ We love to experiment with new ideas at SparkPost. With Labs, we release new and
 
 ## Available Labs Features
 
-* [A/B Testing API](/api/ab-testing.html)
 * [Smart Send](/api/transmissions.html#header-options-attributes)
