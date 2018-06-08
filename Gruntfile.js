@@ -297,7 +297,7 @@ module.exports = function(grunt) {
         grunt.fail.fatal(err);
       });
     } else {
-      grunt.log.writeln('In PR: not updating SearchIndex');
+      grunt.log.writeln('In PR: not updating Algolia search index');
     }
 
   });
