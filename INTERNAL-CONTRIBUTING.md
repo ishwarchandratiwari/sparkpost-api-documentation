@@ -70,7 +70,6 @@ services = [
     'labs-introduction.md',
     'substitutions-reference.md',
     'smtp-api.md',
-    'ab-testing.md',
     'account.md',
     ...
 ]
