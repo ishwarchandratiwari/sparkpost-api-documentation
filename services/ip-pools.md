@@ -39,7 +39,8 @@ Lists all IP Pools.
                 "results": [{
                     "id": "marketing_ip_pool",
                     "name": "Marketing IP Pool",
-                    "ips": []
+                    "ips": [],
+                    "signing_domain": "example.com"
                 }, {
                     "id": "default",
                     "name": "Default",
@@ -112,7 +113,8 @@ Retrieves a specific IP Pool.
                     }, {
                         "external_ip": "54.244.54.137",
                         "hostname": "mta474a.sparkpostmail.com"
-                    }]
+                    }],
+                    "signing_domain": "example.com"
                 }
             }
 
