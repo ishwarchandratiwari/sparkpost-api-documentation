@@ -3,7 +3,7 @@ description: Documentation for sending via SMTP or HTTP with the SparkPost API.
 # SparkPost API
 
 Welcome to the SparkPost API Reference. If you're new to SparkPost, create a free [developer account](https://app.sparkpost.com/join) ([EU](https://app.eu.sparkpost.com/join))
-and follow [this guide](https://https://www.sparkpost.com/docs/getting-started/getting-started-sparkpost/) to get started.
+and follow [this guide](https://www.sparkpost.com/docs/getting-started/getting-started-sparkpost/) to get started.
 
 ## Endpoints
 <a name="header-endpoints"></a>
