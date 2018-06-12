@@ -18,6 +18,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | external_ip | string | Public-facing IP address of this sending IP | |
 | hostname | string | Reverse DNS hostname associated with this IP | |
 | ip_pool | string | IP pool this sending IP is held in | |
+| customer_provided | boolean | `true` if this sending IP is customer owned | |
 
 ## Sending IPs [/sending-ips]
 
@@ -39,11 +40,13 @@ Gets all IP addresses.
         "results": [{
           "external_ip": "123.45.67.89",
           "hostname": "mta472a.sparkpostmail.com",
-          "ip_pool": "marketing"
+          "ip_pool": "marketing",
+          "customer_provided": false
         }, {
           "external_ip": "123.45.67.80",
           "hostname": "mta474a.sparkpostmail.com",
-          "ip_pool": "default"
+          "ip_pool": "default",
+          "customer_provided": false
         }]
     }
     ```
@@ -73,7 +76,8 @@ Retrieves a specific sending IP.
         "results": {
           "external_ip": "123.45.67.89",
           "hostname": "mta472a.sparkpostmail.com",
-          "ip_pool": "cool_kids"
+          "ip_pool": "cool_kids",
+          "customer_provided": false
         }
     }
 
