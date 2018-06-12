@@ -18,7 +18,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | external_ip | string | Public-facing IP address of this sending IP | |
 | hostname | string | Reverse DNS hostname associated with this IP | |
 | ip_pool | string | IP pool this sending IP is held in | |
-| customer_provided | boolean | `true` if this sending IP is customer owned | |
+| customer_provided | boolean | `true` if this sending IP was provided by the customer | |
 
 ## Sending IPs [/sending-ips]
 
