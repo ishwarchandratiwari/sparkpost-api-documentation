@@ -19,6 +19,7 @@ var matchdep = require('matchdep')
     'relay-webhooks.md',
     'sending-domains.md',
     'sending-ips.md',
+    'snippets.md',
     'subaccounts.md',
     'suppression-list.md',
     'templates.md',
