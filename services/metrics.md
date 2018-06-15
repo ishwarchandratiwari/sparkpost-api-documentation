@@ -55,6 +55,7 @@ Definitions for terms found in Metrics API
 |`count_spam_complaint` | Number of spam complaints received from an ISP|
 |`total_delivery_time_first` | Total time taken to deliver messages on first attempt (milliseconds)|
 |`total_delivery_time_subsequent` | Total time taken to delivery messages on subsequent attempts (milliseconds) |
+|`count_unsubscribe` | Total number of unsubscribes as a result of clicked links and the ISP list unsubscribe feature |
 
 <div class="alert alert-info"><strong>Note</strong>: For a given request, average first attempt delivery latency can be calculated as <tt>total_delivery_time_first / count_delivered</tt>. A similar calculation holds for <tt>total_delivery_time_subsequent</tt>.</div>
 
