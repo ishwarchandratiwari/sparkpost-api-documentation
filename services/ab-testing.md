@@ -18,7 +18,7 @@ An A/B test is a method of comparing templates against a default template to see
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
-| metric | string | One of `count_unique_clicked`, `count_unique_rendered` | |
+| metric | string | One of `count_unique_clicked`, `count_unique_confirmed_opened` | |
 | audience_selection | string | Determines how to distribute messages for templates. Each template will receive either a percent of the total of all messages or a set number of messages determined by the template's sample_size. Options are `percent`, `sample_size` | |
 | test_mode | string | Either `bayesian` or `learning` | |
 | start_time | string | ISO Date specifying when the test should begin | |
@@ -54,7 +54,7 @@ An A/B test is a method of comparing templates against a default template to see
         {
           "id": "payment-confirmation",
           "name": "Payment Confirmation",
-          "metric": "count_unique_opened",
+          "metric": "count_unique_confirmed_opened",
           "audience_selection": "percent",
           "start_time": "2018-04-03T22:08:33Z",
           "test_mode": "bayesian",
@@ -109,7 +109,7 @@ An A/B test is a method of comparing templates against a default template to see
         {
           "id": "payment-confirmation",
           "name": "Payment Confirmation",
-          "metric": "count_unique_opened",
+          "metric": "count_unique_confirmed_opened",
           "audience_selection": "sample_size",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "learning",
@@ -168,7 +168,7 @@ An A/B test is a method of comparing templates against a default template to see
           "name": "Payment Confirmation",
           "version": 2,
           "status": "running",
-          "metric": "count_unique_opened",
+          "metric": "count_unique_confirmed_opened",
           "audience_selection": "percent",
           "start_time": "2018-04-03T22:08:33+00:00",
           "test_mode": "bayesian",
@@ -249,7 +249,7 @@ An A/B test is a method of comparing templates against a default template to see
         "name": "Password Reset",
         "version": 2,
         "status": "scheduled",
-        "metric": "count_unique_opened",
+        "metric": "count_unique_confirmed_opened",
         "audience_selection": "sample_size",
         "start_time": "2018-04-03T22:08:33+00:00",
         "test_mode": "bayesian",
@@ -397,66 +397,5 @@ An A/B test is a method of comparing templates against a default template to see
     ```json
     {
       "errors": [{"message": "A/B test password-reset does not exist"}]
-    }
-    ```
-
-
-## A/B Tests Stat Resource [/api/v1/ab-test/{id}/stats?version=1]
-
-### Get Stats for an A/B Test [GET]
-
-
-<div class="alert alert-info"><strong>Note</strong>: This only provides very high level summary statistics - the success and failure counts, as well as the confidence level of particular templates being the "winner" based on a Bayesian algorithm approach.  If you need finer granular detail you should use the Message Events API or Event Webhooks</div>
-
-<div class="alert alert-info"><strong>Note</strong>: count_injected may be larger than the sum of count_success and count_failure - this is because there is some delay for allowing engagement events to be processed</div>
-
-+ Parameters
-
-  + id (required, string, `password-reset`) ... A/B Test ID
-  + version (optional, integer) ... If passed return information about the specific version of the A/B test.  If not specified, return information about the latest version.
-
-+ Request Get Stats for an A/B Test
-
-    + Headers
-
-            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
-            Accept: application/json
-
-+ Response 200 (application/json)
-      ```
-      {
-        "results": {
-          "templates": [
-            {
-              "template_id": "password_reset_default",
-              "count_injected": 10000,
-              "count_success": 7777,
-              "count_failure": 1111
-              "confidence_level": .99,
-            },
-            {
-              "template_id": "password_reset_variant1",
-              "count_injected": 10000,
-              "count_success": 5555,
-              "count_failure": 3333,
-              "confidence_level": .001,
-            },
-            {
-              "template_id": "password_reset_variant1",
-              "count_injected": 10000,
-              "count_success": 1111,
-              "count_failure": 7777,
-              "confidence_level": .001
-            }
-          ]
-        }
-      }
-      ```
-
-+ Response 404 (application/json)
-
-    ```json
-    {
-      "errors": [{"message": "A/B test password_reset does not exist"}]
     }
     ```
