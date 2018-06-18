@@ -777,7 +777,7 @@ Two snippets are created:
 
 transmission injected with content.text:
 ```
-The following banner depends on the "banner_type" substitution_data value
+The following banner depends on the "banner_id" substitution_data value
 {{ render_snippet( banner_id ) }}
 ```
 
@@ -796,10 +796,10 @@ And Recipient 2 has substitution_data:
 ```
 
 Other notes on snippet usage:
-* snippets themselves may contain substitution syntax, just like a regular template.  Though some restrictions apply: snippets cannot reference other snippets, nor can they call render_dynamic_content().
+* snippets themselves may contain substitution syntax, just like a regular template.  Though some restrictions apply: snippets cannot reference other snippets (`render_snippet`), nor can they utilize `render_dynamic_content`.
 * snippets may contain links (which will be click tracked if click_tracking is enabled).
 * If a `render_snippet` call references a snippet which does not exist, the email will be rejected.
-* Each of the HTML and plain text email parts may execute at most 30 calls to `render_snippet`.  If this limit is exceeded, the email will be rejected.
+* Each of the HTML and plain text email parts may utilize `render_snippet` at most 30 times.  If this limit is exceeded, the email will be rejected.
 
 ## Macros
 
