@@ -19,7 +19,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 | name | string | Pool name | |
 | signing_domain | string | DKIM verified signing domain | |
 | fbl_signing_domain  | string            | FBL Signing Domain for the pool | Used only for emails to domains that require DKIM for FBL    |
-| ips | array of objects | Sending IPs within the pool | Sending IP objects include fields `external_ip`, `hostname`, and `customer_provided` |
+| ips | array of objects | Sending IPs within the pool | Sending IP objects include fields `external_ip` & `hostname` |
 
 ## IP Pools [/ip-pools]
 
@@ -49,8 +49,7 @@ Lists all IP Pools.
                     "name": "Default",
                     "ips": [{
                         "external_ip": "54.244.54.135",
-                        "hostname": "mta472a.sparkpostmail.com",
-                        "customer_provided": false
+                        "hostname": "mta472a.sparkpostmail.com"
                     }]
                 }]
             }
@@ -117,12 +116,10 @@ Retrieves a specific IP Pool.
                     "fbl_signing_domain": "sparkpostmail.com",
                     "ips": [{
                         "external_ip": "54.244.54.135",
-                        "hostname": "mta472a.sparkpostmail.com",
-                        "customer_provided": false
+                        "hostname": "mta472a.sparkpostmail.com"
                     }, {
                         "external_ip": "54.244.54.137",
-                        "hostname": "mta474a.sparkpostmail.com",
-                        "customer_provided": false
+                        "hostname": "mta474a.sparkpostmail.com"
                     }],
                     "signing_domain": "example.com"
                 }
