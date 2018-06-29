@@ -13,7 +13,7 @@ An A/B test is a method of comparing templates against a default template to see
 |------------|---------|-------------|-------|
 | id | string | The identifier for this A/B test | |
 | name | string | A human readable name for this A/B test | |
-| status | string | The current state of the test.  Possible values: `scheduled`, `running`, `completed`, `cancelled` | GET only |
+| status | string | The current state of the test.  Possible values: `draft`, `scheduled`, `running`, `completed`, `cancelled` | GET only |
 | winning_template_id | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
@@ -22,7 +22,7 @@ An A/B test is a method of comparing templates against a default template to see
 | audience_selection | string | Determines how to distribute messages for templates. Each template will receive either a percent of the total of all messages or a set number of messages determined by the template's sample_size. Options are `percent`, `sample_size` | |
 | test_mode | string | Either `bayesian` or `learning` | |
 | start_time | string | ISO Date specifying when the test should begin | |
-| end_time | string | (Optional) ISO Date specifying when the test should end | |
+| end_time | string | (Optional) ISO Date specifying when the test should end | Defaults to (30 days from start_time - engagement timeout) |
 | total_sample_size | int | (Optional) Total number of messages to send as part of the test | |
 | confidence_level | float | (Optional) Specify a confidence level at which point the test should end | Defaults to 0.95 |
 | engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure. | Defaults to 24 hours |
