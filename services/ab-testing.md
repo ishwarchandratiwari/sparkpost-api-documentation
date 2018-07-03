@@ -40,9 +40,9 @@ An A/B test is a method of comparing templates against a default template to see
 
 ## A/B Tests [/api/v1/ab-test]
 
-## Create an A/B Test using a percentage for distribution [POST]
+## Create an A/B Test [POST]
 
-+ Request
++ Request A/B Test using a percentage for distribution
 
   + Headers
 
@@ -94,10 +94,7 @@ An A/B test is a method of comparing templates against a default template to see
     }
     ```
 
-
-## Create an A/B Test using sample_size for distribution [POST]
-
-+ Request
++ Request create a test using sample_size for distribution
 
   + Headers
 
@@ -276,7 +273,7 @@ An A/B test is a method of comparing templates against a default template to see
      }
     ```
 
- + Response 404 (application/json)
++ Response 404 (application/json)
 
     ```json
     {
@@ -288,13 +285,15 @@ An A/B test is a method of comparing templates against a default template to see
 
 ### Update an A/B Test [PUT]
 
+Modify an A/B test properties
+
+<div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test if its latest version is cancelled or completed.  This effectively causes the test to restart. Tests in `running` state must be cancelled before updating.</div>
+
 + Parameters
 
   + id (required, string, `password-reset`) ... A/B Test ID
 
-<div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test if its latest version is cancelled or completed.  This effectively causes the test to restart. Tests in `running` state must be cancelled before updating.</div>
-
-+ Modify an A/B test properties
++ Request
 
     + Headers
 
@@ -340,8 +339,7 @@ An A/B test is a method of comparing templates against a default template to see
     ```
 
 ## Delete an A/B Test [DELETE]
-
-+ Request Delete an A/B test
+Request Delete an A/B test
 
     + Headers
 
@@ -397,5 +395,196 @@ An A/B test is a method of comparing templates against a default template to see
     ```json
     {
       "errors": [{"message": "A/B test password-reset does not exist"}]
+    }
+    ```
+
+## A/B Test Drafts [/api/v1/ab-test/draft]
+A/B Test drafts allow a user to set a default template, and configure tests over several updates before setting a start time.
+
+<div class="alert alert-info"><strong>Note</strong>: Only the default_template object is required when creating a draft.</div>
+
+### Create an A/B Test draft [POST]
+
++ Request create a draft with only default_template
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
+  + Body
+    ```json
+        {
+          "id": "payment-confirmation",
+          "name": "Payment Confirmation",
+          "default_template": {
+            "template_id": "default_payment_confirmation_template",
+            "percent": 50
+          }
+        }
+    ```
+
++ Response 200 (application/json)
+
+    ```json
+    {
+      "results": {
+        "id": "payment-confirmation"
+      }
+    }
+    ```
+
++ Response 400 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "default_template must have a template_id"}]
+    }
+    ```
+
++ Request create draft with various properties
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
+  + Body
+    ```json
+        {
+          "id": "payment-confirmation",
+          "name": "Payment Confirmation",
+          "metric": "count_unique_confirmed_opened",
+          "audience_selection": "percent",
+          "start_time": "2018-04-03T22:08:33Z",
+          "test_mode": "bayesian",
+          "confidence_level": 0.99,
+          "default_template": {
+            "template_id": "default_payment_confirmation_template",
+            "percent": 50
+          },
+          "variants": [
+            {
+              "template_id": "payment_confirmation_variant1",
+              "percent": 25
+            },
+            {
+              "template_id": "payment_confirmation_variant2",
+              "percent": 25
+            }
+          ]
+        }
+    ```
+
++ Response 200 (application/json)
+
+    ```json
+    {
+      "results": {
+        "id": "payment-confirmation"
+      }
+    }
+    ```
+
++ Response 400 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "Variants must have a template_id"}]
+    }
+    ```
+
+## A/B Test Draft Resource [/api/v1/ab-test/draft/{id}]
+
+### Update an A/B Test Draft [PUT]
+
++ Parameters
+
+  + id (required, string, `payment-confirmation`) ... A/B Test ID
+
++ Request
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
+  + Body
+    ```json
+        {
+          "metric": "count_unique_confirmed_opened",
+          "audience_selection": "percent",
+          "test_mode": "bayesian",
+          "confidence_level": 0.99,
+          "variants": [
+            {
+              "template_id": "payment_confirmation_variant1",
+              "percent": 25
+            },
+            {
+              "template_id": "payment_confirmation_variant2",
+              "percent": 25
+            }
+          ]
+        }
+    ```
+
++ Response 200 (application/json)
+
+    ```json
+    {
+      "results": {
+        "id": "payment-confirmation"
+      }
+    }
+    ```
+
++ Response 400 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "Variants must have a template_id"}]
+    }
+    ```
+
+## Schedule an A/B Test Draft [/api/v1/ab-test/draft/{id}/schedule]
+
+### Schedule an A/B Test [POST]
+
++ Parameters
+
+  + id (required, string, `payment-confirmation`) ... A/B Test ID
+
++ Request
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
+  + Body
+    ```json
+        {
+          "start_time": "2018-04-03T22:08:33+00:00",
+          "end_time": "2018-04-15T22:08:33+00:00",
+          "engagement_timeout": 4
+        }
+    ```
+
++ Response 200 (application/json)
+
+    ```json
+    {
+      "results": {
+        "id": "payment-confirmation"
+      }
+    }
+    ```
+
++ Response 400 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "default_template must have a template_id"}]
     }
     ```
