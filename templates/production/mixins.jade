@@ -13,11 +13,7 @@ mixin Nav()
         each resourceGroup in self.api.resourceGroups || []
             .resource-group
                 .heading
-                    if (resourceGroup.name === 'A/B Testing')
-                        a(href=resourceGroup.elementLink, class='text-uppercase')!= resourceGroup.name + '&nbsp'
-                        code(class='alert-info text-uppercase')!= 'Labs'
-                    else
-                        a(href=resourceGroup.elementLink, class='text-uppercase')!= resourceGroup.name || 'Resource Group'
+                    a(href=resourceGroup.elementLink, class='text-uppercase')!= resourceGroup.name || 'Resource Group'
                 if resourceGroup.navItems.length || resourceGroup.resources.length
                     .collapse-content
                         ul(class="list-unstyled")
@@ -64,10 +60,10 @@ mixin Parameters(params)
                               | Example: #{param.example}
                         if param.values.length
                             .param-value-list
-                                | Values: 
+                                | Values:
                                 ui.list-inline
                                     each value,idx in param.values
-                                        li=self.urldec(value.value) 
+                                        li=self.urldec(value.value)
                                           if param.values.length > 1 && idx < param.values.length-1
                                           | ,
 
@@ -82,7 +78,7 @@ mixin Request(request, action)
             else
                 h4.panel-title Request
         .panel-body
-            p.uri 
+            p.uri
                 code
                     != action.method + '&nbsp;'
                     if action.colorizedUriTemplate.startsWith('/labs/')
@@ -127,7 +123,7 @@ mixin Headers(title, reqres)
     -     return true;
     - });
     if headers.length
-        h5!=title 
+        h5!=title
         .headers
             ul
                 each item in headers
