@@ -40,7 +40,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 <div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The end_time has passed, messages equal to the total_sample_size have been sent, or the confidence_level (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified confidence_level for a template will cause it to become the "winner". If a test ends and the confidence_level has not been reached, the default template will be considered the "winner". </div>
 
-## A/B Tests [/api/v1/ab-test]
+## A/B Tests [/ab-test]
 
 ## Create an A/B Test [POST]
 
@@ -223,7 +223,7 @@ An A/B test is a method of comparing templates against a default template to see
     }
   ```
 
-## A/B Tests Resource [/api/v1/ab-test/{id}{?version}]
+## A/B Tests Resource [/ab-test/{id}{?version}]
 
 ## Get an A/B Test [GET]
 
@@ -283,7 +283,7 @@ An A/B test is a method of comparing templates against a default template to see
     }
     ```
 
-## Update an A/B Test [/api/v1/ab-test/{id}]
+## Update an A/B Test [/ab-test/{id}]
 
 ### Update an A/B Test [PUT]
 
@@ -366,7 +366,7 @@ Request Delete an A/B test
     ```
 
 
-## Cancel an A/B Test [/api/v1/ab-test/{id}/cancel]
+## Cancel an A/B Test [/ab-test/{id}/cancel]
 
 ### Cancel an A/B Test [POST]
 
@@ -400,7 +400,7 @@ Request Delete an A/B test
     }
     ```
 
-## A/B Test Drafts [/api/v1/ab-test/draft]
+## A/B Test Drafts [/ab-test/draft]
 A/B Test drafts allow a user to set a default template, and configure tests over several updates before setting a start time.
 
 <div class="alert alert-info"><strong>Note</strong>: Only the default_template object is required when creating a draft.</div>
@@ -496,7 +496,7 @@ A/B Test drafts allow a user to set a default template, and configure tests over
     }
     ```
 
-## A/B Test Draft Resource [/api/v1/ab-test/draft/{id}]
+## A/B Test Draft Resource [/ab-test/draft/{id}]
 
 ### Update an A/B Test Draft [PUT]
 
@@ -549,7 +549,7 @@ A/B Test drafts allow a user to set a default template, and configure tests over
     }
     ```
 
-## Schedule an A/B Test Draft [/api/v1/ab-test/draft/{id}/schedule]
+## Schedule an A/B Test Draft [/ab-test/draft/{id}/schedule]
 
 ### Schedule an A/B Test [POST]
 
