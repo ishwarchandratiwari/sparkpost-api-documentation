@@ -54,7 +54,7 @@ List an example of the event data that will be included in a response from the M
 
 
 
-## Message Events [/message-events{?bounce_classes,campaign_ids,delimiter,events,friendly_froms,from,message_ids,page,per_page,reason,recipients,subaccounts,template_ids,timezone,to,transmission_ids}]
+## Message Events [/message-events{?bounce_classes,campaign_ids,delimiter,events,friendly_froms,from,message_ids,page,per_page,reason,recipients,subaccounts,template_ids,timezone,to,transmission_ids,ab_test_ids}]
 
 ### Search for Message Events [GET]
 
@@ -88,7 +88,7 @@ Perform a filtered search for message event data. The response is sorted by desc
     + to: `2014-07-20T09:00` (datetime, optional) - Datetime in format of YYYY-MM-DDTHH:MM.
         + Default: `now`
     + transmission_ids (optional, list, `65832150921904138`) ... delimited list of transmission ID's to search (i.e. id generated during creation of a transmission).
-
+    + ab_test_ids (optional, list, `ab-12341`) ... delimited list of A/B test ID's to search.
 + Request
 
   + Headers

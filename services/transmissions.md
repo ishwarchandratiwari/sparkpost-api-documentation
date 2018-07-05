@@ -8,6 +8,8 @@ A transmission is a collection of messages belonging to the same campaign. It is
 
 SparkPost generates and sends the messages from your transmissions using a list of recipients and a message template. You can [store a recipient list](recipient-lists.html), or you can include recipients "inline" with your transmission request. Similarly, you can [store your message template](templates.html) or include it "inline" with your transmission request. SparkPost then sends a unique message to each recipient using the specified template. You may also choose to personalise your messages by including substitution variables in your transmissions. You can [learn about templates and substitution here](substitutions-reference.html).  Finally, you can enable engagement tracking in your transmissions to track message opens and clicks.
 
+The Transmissions API also supports A/B testing, which allows you to compare different variants of a template, and ultimately send the winning one (based on engagement data) when the test has completed.  See [A/B Testing](ab-testing.html) for more details.
+
 For details on how to get the best out of SparkPost Transmission, see [this support article](https://www.sparkpost.com/docs/tech-resources/smtp-rest-api-performance/).
 
 ## Using Postman
@@ -68,23 +70,12 @@ The following attributes are used when specifying inline content in the transmis
 |------------------------|:-:       |---------------------------------------|-------------|--------|
 |html    |string  |HTML content for the email's text/html MIME part| yes, for email |Expected in the UTF-8 charset with no Content-Transfer-Encoding applied.  Substitution syntax is supported. |
 |text    |string  |Text content for the email's text/plain MIME part| yes, for email |Expected in the UTF-8 charset with no Content-Transfer-Encoding applied.  Substitution syntax is supported.|
-|push    |JSON object  |Content of push notifications| yes, for push | <a href="https://www.sparkpost.com/enterprise-email/"><span class="label label-warning"><strong>Enterprise</strong></span></a> See [Push Attributes](#header-push-attributes). |
 |subject |string  |Email subject line   | yes, for email |Expected in the UTF-8 charset without RFC2047 encoding.  Substitution syntax is supported. |
 |from |string or JSON  | Address `"from" : "deals@company.com"` or JSON object composed of the `name` and `email` fields `"from" : { "name" : "My Company", "email" : "deals@company.com" }` used to compose the email's `From` header| yes, for email | Substitution syntax is supported. |
 |reply_to |string  |Email address used to compose the email's "Reply-To" header | no | Substitution syntax is supported. |
 |headers| JSON | JSON dictionary containing headers other than `Subject`, `From`, `To`, and `Reply-To`  | no |See the [Header Notes](#header-header-notes). |
 |attachments| JSON | JSON array of attachments. | no | For a full description, see [Attachment Attributes](#header-attachment-attributes). |
 |inline_images| JSON | JSON array of inline images. | no | For a full description, see [Inline Image Attributes](#header-inline-image-attributes). |
-
-#### Push Attributes
-The following attributes control the contents of push notifications:
-
-<div class="alert alert-info"><strong><a href="https://www.sparkpost.com/enterprise-email/">SparkPost Enterprise</a></strong> accounts may send push notifications. Contact your TAM for setup assistance.</div>
-
-| Field         | Type     | Description                           | Required   | Notes   |
-|------------------------|:-:       |---------------------------------------|-------------|--------|
-|apns |JSON object |payload for APNs messages |At a minimum, apns or gcm is required | Used for any push notifications sent to apns devices (See [Multichannel Address attributes](recipient-lists.html#header-multichannel-address-attributes)). This payload is delivered as is. See Apple's [APNs documentation](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/TheNotificationPayload.html) for details |
-|gcm |JSON object | payload for GCM messages |At a minimum, apns or gcm is required| Used for any push notifications sent to gcm devices (See [Multichannel Address attributes](recipient-lists.html#header-multichannel-address-attributes)). This payload is delivered as is. See Google's [Notification Payload Support](https://developers.google.com/cloud-messaging/http-server-ref#notification-payload-support)
 
 #### Header Notes
 
@@ -153,6 +144,19 @@ The following recipients attribute is used when specifying a stored recipient li
 
 Use the `options.start_time` attribute to delay generation of messages.  The scheduled time cannot be greater than 31 days from the time of submission.  If the scheduled time does not pass validation, the transmission is not accepted.  Transmissions with a scheduled time in the past _are_ accepted and undergo immediate generation.
 
+### Using an A/B Test
+
+The following attributes are used when specifying an A/B test in the transmission's `content` JSON object.
+
+| Field         | Type     | Description                           | Required   | Notes   |
+|------------------------|:-:       |---------------------------------------|-------------|--------|
+|ab_test_id|string| ID of the A/B test to use | yes |Specify this field when using an A/B test|
+
+<div class="alert alert-info"><strong>Note</strong>: When using substitution data with A/B tests, data for all possible templates must be provided.  It is recommended best practice that all templates that make up an A/B test use the same substitution data fields</div>
+
+<div class="alert alert-info"><strong>Note</strong>: A/B Tests only support inline single recipient transmissions currently</div>
+
+
 ## Create [/transmissions{?num_rcpt_errors}]
 
 ### Create a Transmission [POST]
@@ -186,6 +190,9 @@ Scheduling a transmission that specifies a stored template will use the LATEST v
 
 Once message generation has been initiated, all messages in the transmission will use the template selected at the start of the generation. If a template update is made during the generation of a transmission that uses that template, the template update will succeed but the transmission will continue to use the version that was selected at the start of the generation.
 
+#### Using an A/B Test
+
+Create a transmission using an A/B test by specifying the `ab_test_id` in the `content` attribute.
 
 + Parameters
   + num_rcpt_errors (optional, number, `3`) ... Maximum number of recipient errors that this call can return, otherwise all validation errors are returned.
@@ -252,7 +259,6 @@ Once message generation has been initiated, all messages in the transmission wil
             "headers": {
               "X-Customer-Campaign-ID": "christmas_campaign"
             },
-            "text": "Hi {{address.name}} \nSave big this Christmas in your area {{place}}! \nClick http://www.mysite.com and get huge discount\n Hurry, this offer is only to {{user_type}}\n {{sender}}",
             "html": "<p>Hi {{address.name}} \nSave big this Christmas in your area {{place}}! \nClick http://www.mysite.com and get huge discount\n</p><p>Hurry, this offer is only to {{user_type}}\n</p><p>{{sender}}</p>"
           }
         }
@@ -887,6 +893,50 @@ Once message generation has been initiated, all messages in the transmission wil
           "results": {
             "total_rejected_recipients": 0,
             "total_accepted_recipients": 2,
+            "id": "11668787493850529"
+          }
+        }
+
++ Request Create Transmission with A/B Test
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+
+  + Body
+
+            {
+              "options": {
+                "open_tracking": true,
+                "click_tracking": true
+              },
+
+              "content": {
+                "ab_test_id": "password_reset",
+              },
+
+              "recipients": [
+                {
+                  "address": {
+                    "email": "wilma@flintstone.com",
+                    "name": "Wilma Flintstone"
+                  },
+                  "substitution_data": {
+                    "first_name": "Wilma",
+                    "last_name": "Flintstone"
+                  }
+                }
+              ]
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+        {
+          "results": {
+            "total_rejected_recipients": 0,
+            "total_accepted_recipients": 1,
             "id": "11668787493850529"
           }
         }
