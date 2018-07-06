@@ -910,11 +910,9 @@ Create a transmission using an A/B test by specifying the `ab_test_id` in the `c
                 "open_tracking": true,
                 "click_tracking": true
               },
-
               "content": {
                 "ab_test_id": "password_reset",
               },
-
               "recipients": [
                 {
                   "address": {
