@@ -27,7 +27,7 @@ An A/B test is a method of comparing templates against a default template to see
 | end_time | string | (Optional) ISO Date specifying when the test should end | Defaults to (30 days from start_time - engagement timeout) |
 | total_sample_size | int | (Optional) Total number of messages to send as part of the test | |
 | confidence_level | float | (Optional) Specify a confidence level at which point the test should end | Defaults to 0.95 |
-| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure. | Defaults to 24 hours |
+| engagement_timeout | int | (Optional) The amount of time, in hours, a test waits to collect results after the end_time to make a decision on winner and/or mark test as completed | Defaults to 24 hours |
 | created_at | string | ISO Date of A/B Test Creation | GET only |
 | updated_at | string | ISO Date of the last time the A/B test was updated | GET only |
 
@@ -339,32 +339,6 @@ Modify an A/B test properties
       "errors": [{"message": "A/B test password-reset is running"}]
     }
     ```
-
-## Delete an A/B Test [DELETE]
-Request Delete an A/B test
-
-    + Headers
-
-            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
-            Accept: application/json
-
-+ Parameters
-
-  + id (required, string, `password-reset`) ... A/B Test ID
-
-+ Response 200 (application/json)
-      ```
-      { "results": {} }
-      ```
-
-+ Response 404 (application/json)
-
-    ```json
-    {
-      "errors": [{"message": "A/B test password-reset does not exist"}]
-    }
-    ```
-
 
 ## Cancel an A/B Test [/ab-test/{id}/cancel]
 
