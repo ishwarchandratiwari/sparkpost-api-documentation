@@ -340,32 +340,6 @@ Modify an A/B test properties
     }
     ```
 
-## Delete an A/B Test [DELETE]
-Request Delete an A/B test
-
-    + Headers
-
-            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
-            Accept: application/json
-
-+ Parameters
-
-  + id (required, string, `password-reset`) ... A/B Test ID
-
-+ Response 200 (application/json)
-      ```
-      { "results": {} }
-      ```
-
-+ Response 404 (application/json)
-
-    ```json
-    {
-      "errors": [{"message": "A/B test password-reset does not exist"}]
-    }
-    ```
-
-
 ## Cancel an A/B Test [/ab-test/{id}/cancel]
 
 ### Cancel an A/B Test [POST]
