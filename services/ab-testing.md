@@ -27,7 +27,7 @@ An A/B test is a method of comparing templates against a default template to see
 | end_time | string | (Optional) ISO Date specifying when the test should end | Defaults to (30 days from start_time - engagement timeout) |
 | total_sample_size | int | (Optional) Total number of messages to send as part of the test | |
 | confidence_level | float | (Optional) Specify a confidence level at which point the test should end | Defaults to 0.95 |
-| engagement_timeout | int | (Optional) The amount of time, in hours, until the lack of an engagement event is counted as a failure. | Defaults to 24 hours |
+| engagement_timeout | int | (Optional) The amount of time, in hours, a test waits to collect results after the end_time to make a decision on winner and/or mark test as completed | Defaults to 24 hours |
 | created_at | string | ISO Date of A/B Test Creation | GET only |
 | updated_at | string | ISO Date of the last time the A/B test was updated | GET only |
 
