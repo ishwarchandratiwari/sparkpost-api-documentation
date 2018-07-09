@@ -15,6 +15,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 
 | Property               | Type   | Description |
 |------------------------|--------|-------------|
+| customer_id            | number | Account ID number |
 | company_name           | string | Account holder company name |
 | country_code           | string | Account holder 2-letter country code |
 | anniversary_date       | string | ISO date of billing anniversary |
@@ -97,6 +98,7 @@ If you use [Postman](https://www.getpostman.com/) you can click the following bu
 
         {
             "results" : {
+                "customer_id": 102938,
                 "company_name": "Example Inc",
                 "country_code": "US",
                 "anniversary_date": "2017-01-11T08:00:00.000Z",
