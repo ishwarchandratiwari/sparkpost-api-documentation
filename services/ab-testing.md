@@ -17,7 +17,7 @@ An A/B test is a method of comparing templates against a default template to see
 | name | string | A human readable name for this A/B test | |
 | status | string | The current state of the test.  Possible values: `draft`, `scheduled`, `running`, `completed`, `cancelled` | GET only |
 | winning_template_id | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
-| version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | |
+| version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | GET only |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
 | metric | string | One of `count_unique_clicked`, `count_unique_confirmed_opened` | |
