@@ -289,9 +289,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 Modify an A/B test properties
 
-<div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test if its latest version is cancelled or completed.  This effectively causes the test to restart. Tests in `running` state must be cancelled before updating.</div>
-
-<div class="alert alert-info"><strong>Note</strong>: Since updating a completed test effectively creates a new one, any existing winner will be removed on an update. If the previous test had a winner, the new test's default_template.template_id will default to that winner when a template_id is not passed in.</div>
+<div class="alert alert-info"><strong>Note</strong>: Updating an A/B test creates a new version of the test if its latest version is cancelled or completed.  This effectively causes the test to restart. Tests in `running` state must be cancelled before updating. The winning_template_id will be reset for the new version. If winning_template_id existed in the previous version, the template_id of the new version will default to that value, unless overridden by the update.</div>
 
 + Parameters
 
