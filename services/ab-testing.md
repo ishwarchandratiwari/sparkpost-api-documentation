@@ -472,6 +472,46 @@ A/B Test drafts allow a user to set a default template, and configure tests over
 
 ## A/B Test Draft Resource [/ab-test/draft/{id}]
 
+### Get an A/B Test Draft [GET]
+
++ Parameters
+
+  + id (required, string, `my-draft-test`) ... A/B Test ID
+
++ Request
+
+  + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    ```json
+    {
+      "results": {
+        "id": "my-draft-test",
+        "name": "my draft",
+        "version": 1,
+        "status": "draft",
+        "start_time": "2018-08-03T22:08:33.000Z",
+        "test_mode": "learning",
+        "default_template": {
+            "template_id": "my-test-temp",
+            "percent": 50
+        },
+        "variants": [
+            {
+                "template_id": "foo",
+                "percent": 50
+            }
+        ],
+        "created_at": "2018-07-10T21:55:34.960Z",
+        "updated_at": "2018-07-11T21:55:47.176Z"
+      }
+    }
+    ```
+
 ### Update an A/B Test Draft [PUT]
 
 + Parameters
