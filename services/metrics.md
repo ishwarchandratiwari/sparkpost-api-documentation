@@ -173,7 +173,7 @@ Provides links to all child URIs within the Metrics API.
     [Discoverability Links][]
 
 
-## Deliverability Metrics [/metrics/deliverability{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone}]
+## Deliverability Metrics [/metrics/deliverability{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone}]
 
 
 + Model
@@ -382,6 +382,18 @@ aggregate data, which can be used as "group by" qualifiers.
     + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
     + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
     + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+    + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+        + Values
+            + `1min`
+            + `5min`
+            + `15min`
+            + `hour`
+            + `12hr`
+            + `day`
+            + `week`
+            + `month`
+
     + metrics (required, list, `count_targeted,count_injected,count_rejected,count_sent`) ... delimited list of metrics for filtering
 
         + Values
@@ -431,7 +443,7 @@ aggregate data, which can be used as "group by" qualifiers.
 
 
 
-## Deliverability Metrics by Domain [/metrics/deliverability/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,order_by,limit}]
+## Deliverability Metrics by Domain [/metrics/deliverability/domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,order_by,limit}]
 
 + Model
 
@@ -620,6 +632,18 @@ Provides aggregate metrics grouped by domain over the time window specified.
   + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
   + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
   + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+  + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+      + Values
+          + `1min`
+          + `5min`
+          + `15min`
+          + `hour`
+          + `12hr`
+          + `day`
+          + `week`
+          + `month`
+
   + metrics (required, list) ... delimited list of metrics for filtering
 
         + Values
@@ -684,7 +708,7 @@ Provides aggregate metrics grouped by domain over the time window specified.
 ### Deliverability Metrics by Binding Group [GET]
 
 
-## Deliverability Metrics by Sending IP [/metrics/deliverability/sending-ip{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by Sending IP [/metrics/deliverability/sending-ip{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -874,6 +898,18 @@ Provides aggregate metrics grouped by sending IP over the time window specified.
   + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
   + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
   + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+  + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+      + Values
+          + `1min`
+          + `5min`
+          + `15min`
+          + `hour`
+          + `12hr`
+          + `day`
+          + `week`
+          + `month`
+
   + metrics (required, list, `count_targeted`) ... delimited list of metrics for filtering
       + Values
           + `count_injected`
@@ -920,7 +956,7 @@ Provides aggregate metrics grouped by sending IP over the time window specified.
 + Response 200
 
 
-## Deliverability Metrics by IP Pool [/metrics/deliverability/ip-pool{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by IP Pool [/metrics/deliverability/ip-pool{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -1109,6 +1145,18 @@ Provides aggregate metrics grouped by IP pool over the time window specified.
   + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
   + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
   + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+  + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+      + Values
+          + `1min`
+          + `5min`
+          + `15min`
+          + `hour`
+          + `12hr`
+          + `day`
+          + `week`
+          + `month`
+
   + metrics (required, list, `count_targeted`) ... delimited list of metrics for filtering
       + Values
           + `count_injected`
@@ -1157,7 +1205,7 @@ Provides aggregate metrics grouped by IP pool over the time window specified.
   [Deliverability Metrics by IP Pool][]
 
 
-## Deliverability Metrics by Sending Domain [/metrics/deliverability/sending-domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by Sending Domain [/metrics/deliverability/sending-domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -1360,6 +1408,18 @@ Provides aggregate metrics grouped by sending domain over the time window specif
   + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
   + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
   + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+  + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+      + Values
+          + `1min`
+          + `5min`
+          + `15min`
+          + `hour`
+          + `12hr`
+          + `day`
+          + `week`
+          + `month`
+
   + metrics (required, list, `count_targeted`) ... delimited list of metrics for filtering
       + Values
           + `count_injected`
@@ -1407,7 +1467,7 @@ Provides aggregate metrics grouped by sending domain over the time window specif
 
   [Deliverability Metrics by Sending Domain][]
 
-## Deliverability Metrics by Subaccount [/metrics/deliverability/subaccount{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by Subaccount [/metrics/deliverability/subaccount{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -1610,6 +1670,18 @@ Provides aggregate metrics grouped by subaccount over the time window specified.
   + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
   + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
   + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+  + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+      + Values
+          + `1min`
+          + `5min`
+          + `15min`
+          + `hour`
+          + `12hr`
+          + `day`
+          + `week`
+          + `month`
+
   + metrics (required, list, `count_targeted`) ... delimited list of metrics for filtering
       + Values
           + `count_injected`
@@ -1657,7 +1729,7 @@ Provides aggregate metrics grouped by subaccount over the time window specified.
 
   [Deliverability Metrics by Subaccount][]
 
-## Deliverability Metrics by Campaign [/metrics/deliverability/campaign{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by Campaign [/metrics/deliverability/campaign{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -1846,6 +1918,18 @@ Provides aggregate metrics grouped by campaign over the time window specified.
     + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
     + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
     + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+    + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+        + Values
+            + `1min`
+            + `5min`
+            + `15min`
+            + `hour`
+            + `12hr`
+            + `day`
+            + `week`
+            + `month`
+
     + metrics (required, list) ... delimited list of metrics for filtering
 
         + Values
@@ -1896,7 +1980,7 @@ Provides aggregate metrics grouped by campaign over the time window specified.
   [Deliverability Metrics by Campaign][]
 
 
-## Deliverability Metrics by Template [/metrics/deliverability/template{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by Template [/metrics/deliverability/template{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -2085,6 +2169,18 @@ Provides aggregate metrics grouped by template over the time window specified.
     + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
     + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
     + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+    + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+        + Values
+            + `1min`
+            + `5min`
+            + `15min`
+            + `hour`
+            + `12hr`
+            + `day`
+            + `week`
+            + `month`
+
     + metrics (required, list) ... delimited list of metrics for filtering
 
         + Values
@@ -2135,7 +2231,7 @@ Provides aggregate metrics grouped by template over the time window specified.
   [Deliverability Metrics by Template][]
 
 
-## Deliverability Metrics by Watched Domain [/metrics/deliverability/watched-domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,metrics,timezone,limit,order_by}]
+## Deliverability Metrics by Watched Domain [/metrics/deliverability/watched-domain{?from,to,delimiter,domains,campaigns,templates,sending_ips,ip_pools,sending_domains,subaccounts,precision,metrics,timezone,limit,order_by}]
 
 + Model
 
@@ -2324,8 +2420,20 @@ in the world.
     + templates (optional, list, `summer-sale`) ... delimited list of template IDs to include
     + sending_ips (optional, list, `123.456.789.123,123.456.789.124`) ... delimited list of sending IPs to include
     + ip_pools (optional, list, `Transaction`) ... delimited list of IP pools to include
-    + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
     + sending_domains (optional, list, `sales.sender.com,company.net`) ... delimited list of sending domains to include
+    + subaccounts (optional, list, `123,125,127`) ... delimited list of subaccount ids to include<br/><span class="label label-info"><strong>Note</strong></span> providing `?subaccounts=0` will filter out all subaccount data, and only return master account data
+    + precision (optional, string, `day`) ... Precision of timeseries data returned
+
+        + Values
+            + `1min`
+            + `5min`
+            + `15min`
+            + `hour`
+            + `12hr`
+            + `day`
+            + `week`
+            + `month`
+
     + metrics (required, list) ... delimited list of metrics for filtering
         + Values
             + `count_injected`
@@ -2601,11 +2709,11 @@ Provides deliverability metrics ordered by a precision of time.
 
 The following table describes the validation for the **precision** parameter:
 
-| Value of         | Valid for time window of    |
-|---------------|-------------|
-|1min, 5min |day |
-|hour |month |
-|day, month |_any_ |
+| Value of               | Valid for time window of |
+|------------------------|--------------------------|
+| 1min, 5min, 15min      | day                      |
+| hour                   | month                    |
+| 12hr, day, week, month | _any_                    |
 
 + Parameters
     + from (required, datetime, `2014-07-11T07:00`) ... Datetime in format of YYYY-MM-DDTHH:MM
