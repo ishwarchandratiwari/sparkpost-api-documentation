@@ -340,6 +340,48 @@ Modify an A/B test properties
     }
     ```
 
++ Request Revert a Bayesian Test Winner Selection
+
+<div class="alert alert-info"><strong>Note</strong>: This only applies to `test_type: bayesian` tests that are in the `completed` state. This will not increment the version, and will change the `status` to `override`.</div>
+
++ Request
+
+    + Headers
+
+            Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
+            Accept: application/json
+    + Body
+      ```json
+      {
+        "winning_template_override": "default_password_reset_template"
+      }
+      ```
+
++ Response 200 (application/json)
+    ```json
+    {
+      "results": {
+        "version": 2
+      }
+    }
+    ```
+
++ Response 409 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset is running"}]
+    }
+    ```
+
++ Response 409 (application/json)
+
+    ```json
+    {
+      "errors": [{"message": "A/B test password-reset is not a Bayesian test"}]
+    }
+    ```
+
 ## Cancel an A/B Test [/ab-test/{id}/cancel]
 
 ### Cancel an A/B Test [POST]
