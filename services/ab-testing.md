@@ -9,7 +9,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 #### A/B Test Properties
 
-<div class="alert alert-info"><strong>Note</strong>: A/B test drafts and Bayesian test mode are coming soon!</div>
+<div class="alert alert-info"><strong>Note</strong>: Bayesian test mode is coming soon!</div>
 
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
