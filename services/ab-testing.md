@@ -17,7 +17,7 @@ An A/B test is a method of comparing templates against a default template to see
 | name | string | A human readable name for this A/B test | |
 | status | string | The current state of the test.  Possible values: `draft`, `scheduled`, `running`, `completed`, `cancelled` | GET only |
 | winning_template_id | string | The "winner" of the A/B test (only present if the state is `completed`) | GET only |
-| winning_template_override | string | Template that should replace the `winning_template_id` for a `bayesian` mode test | Only present if set by user request |
+| winning_template_override | string | Template that should replace the `winning_template_id` | Only present if set by user request |
 | version | integer | The current version number of the test.  The version increments each time the A/B test is modified. | GET only |
 | default_template | object | Details for the default template. See [Template Properties](#header-template-properties) | |
 | variants | array | Specifies which variants to test, as well as how messages are distributed to each variant. See [Template Properties](#header-template-properties) | |
@@ -343,7 +343,7 @@ Modify an A/B test properties
 
 + Request Revert a Bayesian Test Winner Selection
 
-<div class="alert alert-info"><strong>Note</strong>: This only applies to `test_type: bayesian` tests that are in the `completed` state. This will not increment the version, and will change the `status` to `override`.</div>
+<div class="alert alert-info"><strong>Note</strong>: This only applies to tests that are in the `completed` or `cancelled` state. This will not increment the version, and will change the `status` to `override`.</div>
 
 + Request
 
@@ -372,14 +372,6 @@ Modify an A/B test properties
     ```json
     {
       "errors": [{"message": "A/B test password-reset is running"}]
-    }
-    ```
-
-+ Response 409 (application/json)
-
-    ```json
-    {
-      "errors": [{"message": "A/B test password-reset is not a Bayesian test"}]
     }
     ```
 
