@@ -735,7 +735,10 @@ For example, the /api/v1/snippets endpoint can be used to create a snippet calle
 }
 ```
 
-The *ourfooter* snippet can be imported into any content using the `render_snippet` macro call.
+The *ourfooter* snippet can be imported into either plain text or html email content
+using the `render_snippet` macro call.  The macro call will automatically use the appropriate
+content.html or content.text snippet value based on the type of content that the snippet
+is being inserted into.
 For example, if a transmission was injected with content.html of the form:
 ```
 <html>
@@ -798,8 +801,8 @@ And Recipient 2 has substitution_data:
 Other notes on snippet usage:
 * snippets themselves may contain substitution syntax, just like a regular template.  Though some restrictions apply: snippets cannot reference other snippets (`render_snippet`), nor can they utilize `render_dynamic_content`.
 * snippets may contain links (which will be click tracked if click_tracking is enabled).
-* If a `render_snippet` call references a snippet which does not exist, the email will be rejected.
-* Each of the HTML and plain text email parts may utilize `render_snippet` at most 30 times.  If this limit is exceeded, the email will be rejected.
+* If a `render_snippet` call references a snippet which does not exist, the transmission will be discarded with a generation failure event.
+* Each of the HTML and plain text email parts may utilize `render_snippet` at most 30 times.  If this limit is exceeded, the transmission will be discarded with a generation failure event.
 
 ## Macros
 
