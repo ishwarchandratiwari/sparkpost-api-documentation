@@ -442,18 +442,10 @@ A/B Test drafts allow a user to set a name and default template on create, and c
         "name": "my draft",
         "version": 1,
         "status": "draft",
-        "start_time": "2018-08-03T22:08:33.000Z",
-        "test_mode": "learning",
         "default_template": {
             "template_id": "my-test-temp",
             "percent": 50
         },
-        "variants": [
-            {
-                "template_id": "foo",
-                "percent": 50
-            }
-        ],
         "created_at": "2018-07-10T21:55:34.960Z",
         "updated_at": "2018-07-11T21:55:47.176Z"
       }
