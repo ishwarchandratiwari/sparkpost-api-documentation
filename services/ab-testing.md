@@ -9,7 +9,7 @@ An A/B test is a method of comparing templates against a default template to see
 
 #### A/B Test Properties
 
-<div class="alert alert-info"><strong>Note</strong>: A/B test drafts and Bayesian test mode are coming soon!</div>
+<div class="alert alert-info"><strong>Note</strong>: Bayesian test mode is coming soon!</div>
 
 | Property   | Type    | Description | Notes |
 |------------|---------|-------------|-------|
@@ -375,9 +375,9 @@ Modify an A/B test properties
     ```
 
 ## A/B Test Drafts [/ab-test/draft]
-A/B Test drafts allow a user to set a default template, and configure tests over several updates before setting a start time.
+A/B Test drafts allow a user to set a name and default template on create, and configure tests over several updates before setting a start time.
 
-<div class="alert alert-info"><strong>Note</strong>: Only the default_template object is required when creating a draft.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only the id, name and default_template are allowed when creating a draft.</div>
 
 ### Create an A/B Test draft [POST]
 
@@ -418,59 +418,39 @@ A/B Test drafts allow a user to set a default template, and configure tests over
     }
     ```
 
-+ Request create draft with various properties
+## A/B Test Draft Resource [/ab-test/draft/{id}]
+
+### Get an A/B Test Draft [GET]
+
++ Parameters
+
+  + id (required, string, `my-draft-test`) ... A/B Test ID
+
++ Request
 
   + Headers
 
             Authorization: 14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf
             Accept: application/json
 
-  + Body
-    ```json
-        {
-          "id": "payment-confirmation",
-          "name": "Payment Confirmation",
-          "metric": "count_unique_confirmed_opened",
-          "audience_selection": "percent",
-          "start_time": "2018-04-03T22:08:33Z",
-          "test_mode": "bayesian",
-          "confidence_level": 0.99,
-          "default_template": {
-            "template_id": "default_payment_confirmation_template",
-            "percent": 50
-          },
-          "variants": [
-            {
-              "template_id": "payment_confirmation_variant1",
-              "percent": 25
-            },
-            {
-              "template_id": "payment_confirmation_variant2",
-              "percent": 25
-            }
-          ]
-        }
-    ```
-
 + Response 200 (application/json)
 
     ```json
     {
       "results": {
-        "id": "payment-confirmation"
+        "id": "my-draft-test",
+        "name": "my draft",
+        "version": 1,
+        "status": "draft",
+        "default_template": {
+            "template_id": "my-test-temp",
+            "percent": 50
+        },
+        "created_at": "2018-07-10T21:55:34.960Z",
+        "updated_at": "2018-07-11T21:55:47.176Z"
       }
     }
     ```
-
-+ Response 400 (application/json)
-
-    ```json
-    {
-      "errors": [{"message": "Variants must have a template_id"}]
-    }
-    ```
-
-## A/B Test Draft Resource [/ab-test/draft/{id}]
 
 ### Update an A/B Test Draft [PUT]
 
