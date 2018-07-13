@@ -377,7 +377,7 @@ Modify an A/B test properties
 ## A/B Test Drafts [/ab-test/draft]
 A/B Test drafts allow a user to set a name and default template on create, and configure tests over several updates before setting a start time.
 
-<div class="alert alert-info"><strong>Note</strong>: Only the id, name and default_templated are allowed when creating a draft.</div>
+<div class="alert alert-info"><strong>Note</strong>: Only the id, name and default_template are allowed when creating a draft.</div>
 
 ### Create an A/B Test draft [POST]
 
