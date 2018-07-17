@@ -37,6 +37,8 @@ An A/B test is a method of comparing templates against a default template to see
 | template_id | string | The template id | |
 | sample_size | integer | The number of injections to send using this template | Required if A/B test has `total_sample_size` defined |
 | percent | integer | The percent of injections to send using this template | Required if A/B test does not have `total_sample_size` defined |
+| count_unique_clicked or count_unique_confirmed_opened | integer | The number of unique clicks or confirmed opens. | Read only. Based on `metric` type |
+| count_accepted | integer | Messages an ISP or other remote domain accepted (less Out-of-Band Bounces) | Read only. |
 
 <div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The end_time has passed, messages equal to the total_sample_size have been sent, or the confidence_level (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified confidence_level for a template will cause it to become the "winner". If a test ends and the confidence_level has not been reached, the default template will be considered the "winner". </div>
 
@@ -175,16 +177,22 @@ An A/B test is a method of comparing templates against a default template to see
           "engagement_timeout": 24,
           "default_template": {
             "template_id": "default_payment_confirmation_template",
-            "percent": 60
+            "percent": 60,
+            "count_unique_confirmed_opened": 1000,
+            "count_accepted": 100000
           },
           "variants": [
             {
               "template_id": "payment_confirmation_variant1",
-              "percent": 10
+              "percent": 10,
+              "count_unique_confirmed_opened": 489,
+              "count_accepted": 9000
             },
             {
               "template_id": "payment_confirmation_variant2",
-              "percent": 30
+              "percent": 30,
+              "count_unique_confirmed_opened": 320,
+              "count_accepted": 68933
             }
           ],
           "created_at": "2018-04-02T22:08:33+00:00",
@@ -204,16 +212,22 @@ An A/B test is a method of comparing templates against a default template to see
           "engagement_timeout": 24,
           "default_template": {
             "template_id": "default_password_reset_template",
-            "percent": 70
+            "percent": 70,
+            "count_unique_clicked": 8909,
+            "count_accepted": 3423230
           },
           "variants": [
             {
               "template_id": "password_reset_variant1",
-              "percent": 15
+              "percent": 15,
+              "count_unique_clicked": 398,
+              "count_accepted": 90302
             },
             {
               "template_id": "password_reset_variant2",
-              "percent": 15
+              "percent": 15,
+              "count_unique_clicked": 231,
+              "count_accepted": 73039
             }
           ],
           "created_at": "2018-04-02T22:08:33+00:00",
@@ -257,16 +271,22 @@ An A/B test is a method of comparing templates against a default template to see
         "engagement_timeout": 24,
         "default_template": {
           "template_id": "default_password_reset_template",
-          "sample_size": 20000
+          "sample_size": 20000,
+          "count_unique_confirmed_opened": 1398,
+          "count_accepted": 20321
         },
         "variants": [
           {
             "template_id": "password_reset_variant1",
-            "sample_size": 20000
+            "sample_size": 20000,
+            "count_unique_confirmed_opened": 343,
+            "count_accepted": 18908
           },
           {
             "template_id": "password_reset_variant2",
-            "sample_size": 20000
+            "sample_size": 20000,
+            "count_unique_confirmed_opened": 890,
+            "count_accepted": 22987
           }
          ],
           "created_at": "2018-04-02T22:08:33+00:00",
