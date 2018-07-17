@@ -2791,6 +2791,7 @@ Provides deliverability metrics, specific to bounce events, grouped by the bounc
             + `count_bounce`
             + `count_inband_bounce`
             + `count_outofband_bounce`
+            + `count_admin_bounce`
 
     + timezone =`UTC` (optional, string, `America/New_York`) ... Standard timezone identification string, defaults to `UTC`
     + limit=1000 (optional, int, `5`) ... Maximum number of results to return within range [1, 10000]
@@ -2924,6 +2925,7 @@ Provides deliverability metrics, specific to bounce events, grouped by the domai
             + `count_bounce`
             + `count_inband_bounce`
             + `count_outofband_bounce`
+            + `count_admin_bounce`
 
     + timezone =`UTC` (optional, string, `America/New_York`) ... Standard timezone identification string, defaults to `UTC`
     + limit=1000 (optional, int, `5`) ... Maximum number of results to return within range [1, 10000]
@@ -3044,6 +3046,7 @@ Provides deliverability metrics, specific to bounce events, grouped by the bounc
             + `count_bounce`
             + `count_inband_bounce`
             + `count_outofband_bounce`
+            + `count_admin_bounce`
 
     + limit (optional, int, `5`) ... Maximum number of results to return
 
