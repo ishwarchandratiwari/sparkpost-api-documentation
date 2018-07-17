@@ -8,6 +8,8 @@ The Message Events API allows searching for recent events, and supports various 
 
 You can get all event types or only specific ones, such as bounces, deliveries, or clicks. You can filter by date range, campaign, or just about any other field. Event data is retained for 10 days and is generally available within 1 minute. Of course, aggregate reporting data is available via our metrics endpoint or the UI reports for much longer.
 
+*Note:* The maximum URI length is 4096 characters so please keep your message events queries below that size.
+
 ## Data retention
 
 Message Events API data is retained for 10 days.
