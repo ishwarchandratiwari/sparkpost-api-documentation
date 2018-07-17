@@ -179,20 +179,23 @@ An A/B test is a method of comparing templates against a default template to see
             "template_id": "default_payment_confirmation_template",
             "percent": 60,
             "count_unique_confirmed_opened": 1000,
-            "count_accepted": 100000
+            "count_accepted": 100000,
+            "engagement_rate": 0.01
           },
           "variants": [
             {
               "template_id": "payment_confirmation_variant1",
               "percent": 10,
               "count_unique_confirmed_opened": 489,
-              "count_accepted": 9000
+              "count_accepted": 9000,
+              "engagement_rate": 0.054333
             },
             {
               "template_id": "payment_confirmation_variant2",
               "percent": 30,
               "count_unique_confirmed_opened": 320,
-              "count_accepted": 68933
+              "count_accepted": 68933,
+              "engagement_rate": 0.004642
             }
           ],
           "created_at": "2018-04-02T22:08:33+00:00",
@@ -214,20 +217,23 @@ An A/B test is a method of comparing templates against a default template to see
             "template_id": "default_password_reset_template",
             "percent": 70,
             "count_unique_clicked": 8909,
-            "count_accepted": 3423230
+            "count_accepted": 3423230,
+            "engagement_rate": 0.002602
           },
           "variants": [
             {
               "template_id": "password_reset_variant1",
               "percent": 15,
               "count_unique_clicked": 398,
-              "count_accepted": 90302
+              "count_accepted": 90302,
+              "engagement_rate": 0.004407
             },
             {
               "template_id": "password_reset_variant2",
               "percent": 15,
               "count_unique_clicked": 231,
-              "count_accepted": 73039
+              "count_accepted": 73039,
+              "engagement_rate": 0.003162
             }
           ],
           "created_at": "2018-04-02T22:08:33+00:00",
@@ -273,20 +279,23 @@ An A/B test is a method of comparing templates against a default template to see
           "template_id": "default_password_reset_template",
           "sample_size": 20000,
           "count_unique_confirmed_opened": 1398,
-          "count_accepted": 20321
+          "count_accepted": 20321,
+          "engagement_rate": 0.068795
         },
         "variants": [
           {
             "template_id": "password_reset_variant1",
             "sample_size": 20000,
             "count_unique_confirmed_opened": 343,
-            "count_accepted": 18908
+            "count_accepted": 18908,
+            "engagement_rate": 0.018140
           },
           {
             "template_id": "password_reset_variant2",
             "sample_size": 20000,
             "count_unique_confirmed_opened": 890,
-            "count_accepted": 22987
+            "count_accepted": 22987,
+            "engagement_rate": 0.038717
           }
          ],
           "created_at": "2018-04-02T22:08:33+00:00",
