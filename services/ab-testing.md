@@ -39,6 +39,7 @@ An A/B test is a method of comparing templates against a default template to see
 | percent | integer | The percent of injections to send using this template | Required if A/B test does not have `total_sample_size` defined |
 | count_unique_clicked or count_unique_confirmed_opened | integer | The number of unique clicks or confirmed opens. | Read only. Based on `metric` type |
 | count_accepted | integer | Messages an ISP or other remote domain accepted (less Out-of-Band Bounces) | Read only. |
+| engagement_rate | float | (`count_unique_clicked` or `count_unique_confirmed_opened`) / `count_accepted` | Between 0 and 1|
 
 <div class="alert alert-info"><strong>Note</strong>: Tests will run until one of the following criteria are met: The end_time has passed, messages equal to the total_sample_size have been sent, or the confidence_level (Bayesian mode only) has been reached. In Bayesian mode, reaching the specified confidence_level for a template will cause it to become the "winner". If a test ends and the confidence_level has not been reached, the default template will be considered the "winner". </div>
 
