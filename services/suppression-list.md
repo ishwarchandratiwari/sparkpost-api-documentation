@@ -116,7 +116,7 @@ Please note that in the unlikely scenario where your receive a HTTP 5xx level er
                 }
         }
 
-## Search [/suppression-list{?to,from,domain,cursor,limit,per_page,page,sources,types,description}]
+## Search [/suppression-list{?to,from,domain,cursor,limit,per_page,page,sources,types,description,sort}]
 
 ### Search for List Entries [GET]
 
@@ -135,6 +135,7 @@ Perform a filtered search for entries in your suppression list.
     + sources (optional, list, `Bounce%20Rule,Manually%20Added`) ... Sources of the entries to include in the search, i.e. entries that were added by this source
     + types (optional, list, `transactional`) ... Types of entries to include in the search, i.e. entries that are `transactional` or `non_transactional`
     + description (optional, string, `Invalid%20Recipient`) ... Description of the entries to include in the search, i.e descriptions that include the text submitted.
+    + sort (optional, string `desc`) ... Sort will return results sorted by the `updated` field in ascending (`asc`) or descending (`desc`) order. Default value is `desc`.
 
 + Request
 
